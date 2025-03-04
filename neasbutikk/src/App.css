@@ -1,11 +1,1 @@
 @import "tailwindcss";
-
-@layer components {
-  .navbar-icon {
-    @apply relative flex items-center justify-center bottom-8 left-60 w-6;
-  }
-
-  .navbar-tooltip {
-    @apply absolute w-auto p-2 m-2 min-w-max left-6 rounded-md shadow-md text-white bg-gray-900 text-xs font-bold transition-all duration-100 scale-0;
-  }
-}
