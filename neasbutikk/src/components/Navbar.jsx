@@ -2,24 +2,26 @@ import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   return (
-    <div className="bg-white text-black flex items-center fixed top-0 w-full shadow-lg h-16 px-4">
-      <img
-        src="/neas.svg"
-        alt="Logo"
-        className="h-auto w-30 hover:scale-90 transition-all duration-300 ease-in-out cursor-pointer"
-      />
-      <div className="flex flex-grow justify-center">
+    <div className="bg-white text-black flex items-center rounded-2xl fixed top-0 w-full shadow-lg h-25 px-6">
+      <a href="https://neas.no" target="_blank">
+        <img
+          src="/neas.svg"
+          alt="Logo"
+          className="h-auto w-25 hover:scale-120 transition-all duration-300 ease-in-out cursor-pointer"
+        />
+      </a>
+      <div className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-md">
         <SearchBar />
       </div>
-      <div className="flex items-center">
-        <div className="m-1">
+      <div className="flex items-center ml-auto">
+        <div className="mr-5">
           <BarIcon icon={<FaShoppingCart size={28} />} />
         </div>
-        <div className="m-1">
-          <NavbarButton text={"Bli kunde ->"} bg={"bg-green-500"}/>
+        <div className="mr-1">
+          <NavbarButton text={"Bli kunde ->"} bg={"bg-mossgreen"} textcolor={"text-pinegreen"}/>
         </div>
-        <div className="m-1">
-          <NavbarButton text={"Min side ->"} bg={"bg-green-900"} />
+        <div className="ml-3.5">
+          <NavbarButton text={"Min side ->"} bg={"bg-pinegreen"} textcolor={"text-white"} texthover={"hover:text-sunlightyellow"} />
         </div>
       </div>
     </div>
@@ -28,7 +30,7 @@ function Navbar() {
 
 function SearchBar() {
   return (
-    <form className="w-full max-w-md" action="#">
+    <form className="w-full max-w-md font-mabrylight" action="#">
       <div className="relative">
         <input
           type="search"
@@ -53,10 +55,10 @@ function BarIcon({ icon }) {
   );
 }
 
-function NavbarButton({text, bg}) {
+function NavbarButton({text, bg, textcolor, texthover}) {
   return (
     <div>
-      <button className={`hover:scale-90 transition-all duration-200 ease-in-out cursor-pointer rounded-full px-3 py-1 w-full text-base ${bg}`}>
+      <button className={`hover:scale-95 transition-all duration-200 ease-in-out cursor-pointer font-mabry text-xl rounded-full px-7 py-3 w-full ${bg} ${textcolor} ${texthover}`}>
         {text}
       </button>
     </div>

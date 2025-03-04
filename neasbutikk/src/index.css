@@ -1,1 +1,23 @@
+@font-face {
+  font-family: Mabry;
+  src: url("../src/assets/fonts/mabry-regular-pro.otf");
+}
+
+@font-face {
+  font-family: MabryLight;
+  src: url("../src/assets/fonts/mabry-light-pro.otf");
+}
+
 @import "tailwindcss";
+
+@theme {
+  --font-mabry: Mabry, "sans-serif";
+  --font-mabrylight: MabryLight, "sans-serif";
+
+  --color-pinegreen: #003d2d;
+  --color-mossgreen: #95c672;
+  --color-sunlightyellow: #f1e967;
+  --color-petalpink: #eebbca;
+  --color-midgray: #cccccc;
+  --color-lightgray: #efefef;
+}
