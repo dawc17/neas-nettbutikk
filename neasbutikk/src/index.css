@@ -1,5 +1,1 @@
-@import "tailwindcss" @theme {
-  --color-neaspinegreen: #003d2d --color-neaspink: #eebbca
-    --color-neasmossgreen: #95c672 --color-neasyellow: #f1e967
-    --color-neasgrey: #cccccc --color-neaslightgrey: #efefef;
-}
+@import "tailwindcss";
