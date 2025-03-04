@@ -1,4 +1,4 @@
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   return (
@@ -8,9 +8,12 @@ function Navbar() {
           src="/neas.svg"
           className="relative flex items-center justify-center h-12 w-30 mt-2 mb-2 mx-4 hover:scale-90 transition-all duration-100 ease-in-out cursor-pointer"
         />
-      </div>
-      <div className="fixed left-200">
-        <SearchBar />
+        <div className="fixed left-200">
+          <SearchBar />
+        </div>
+        <div className="flex flew-row fixed bottom-218 left-370">
+          <BarIcon icon={<FaShoppingCart size="28" />} />
+        </div>
       </div>
     </>
   );
@@ -26,18 +29,18 @@ function SearchBar() {
             name="search-neas"
             id="search-neas"
             placeholder="Hva leter du etter?"
-            className="flex w-full rounded-4xl bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-950 sm:text-sm/6"
+            className="flex w-58 rounded-4xl bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-950 sm:text-sm/6"
           />
-          <BarIcon icon={<FaSearch size="28" />} />
+          <BarIcon icon={<FaSearch size="28" />} text={"Søk"} />
         </div>
       </div>
     </form>
   );
 }
 
-function BarIcon({ icon, text = "Søk" }) {
+function BarIcon({ icon, text }) {
   return (
-    <div className="navbar-icon group">
+    <div className="navbar-icon cursor-pointer group">
       {icon}
 
       <span className="navbar-tooltip group-hover:scale-100">{text}</span>
