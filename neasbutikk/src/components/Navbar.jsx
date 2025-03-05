@@ -7,7 +7,7 @@ function Navbar() {
         <img
           src="/neas.svg"
           alt="Logo"
-          className="h-auto w-25 hover:scale-120 transition-all duration-300 ease-in-out cursor-pointer"
+          className="h-auto w-25 hover:scale-95 transition-all duration-300 ease-in-out cursor-pointer"
         />
       </a>
       <div className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-md">
@@ -86,4 +86,4 @@ function NavbarButton({ text, bg, textcolor, texthover, bghover }) {
   );
 }
 
-export default Navbar;
+export { Navbar, NavbarButton };

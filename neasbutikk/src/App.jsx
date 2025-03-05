@@ -1,5 +1,5 @@
 import "./index.css";
-import Navbar from "./components/Navbar";
+import { Navbar } from "./components/Navbar";
 import FooterMain from "./components/Footer";
 
 function App() {
