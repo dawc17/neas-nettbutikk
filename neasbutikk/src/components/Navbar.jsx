@@ -2,24 +2,12 @@ import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
   return (
-    <div
-      className="
-        bg-white
-        text-black
-        flex
-        items-center
-        rounded-2xl
-        w-full
-        shadow-lg
-        h-25
-        px-6
-      "
-    >
+    <div className="bg-white text-black flex items-center rounded-2xl w-full shadow-lg h-25 px-6">
       <a href="https://neas.no">
         <img
           src="/neas.svg"
           alt="Logo"
-          className="h-auto w-25 hover:scale-95 transition-all duration-300 ease-in-out cursor-pointer"
+          className="h-auto w-25 hover:scale-120 transition-all duration-300 ease-in-out cursor-pointer"
         />
       </a>
       <div className="absolute left-1/2 transform -translate-x-1/2 w-full max-w-md">
@@ -65,22 +53,7 @@ function SearchBar() {
           id="search"
           placeholder="Hva leter du etter?"
           maxLength={36}
-          className="
-            w-full
-            rounded-full
-            bg-white
-            px-3
-            py-2
-            pr-8
-            text-base
-            text-gray-900
-            outline
-            outline-gray-300
-            placeholder:text-gray-400
-            focus:outline-2
-            focus:outline-green-950
-            sm:text-sm
-          "
+          className="w-full rounded-full bg-white px-3 py-2 pr-8 text-base text-gray-900 outline outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-950 sm:text-sm"
         />
         <button
           type="submit"
@@ -113,4 +86,4 @@ function NavbarButton({ text, bg, textcolor, texthover, bghover }) {
   );
 }
 
-export { Navbar, NavbarButton };
+export default Navbar;
