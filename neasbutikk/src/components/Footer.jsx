@@ -4,10 +4,10 @@ function FooterMain() {
   return (
     <div>
       <div className="footer-wrapper font-mabrylight">
-        <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-4">
-          <div className="flex flex-row w-full justify-between items-center p-4 bg-pinegreen-footer rounded-xl">
-            <h2 className="text-breadtext mb-15">Kontakt oss</h2>
-            <div className="mobile-numbers grid grid-cols-5 gap-2 w-full">
+        <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-2">
+          <div className="flex flex-col w-full justify-between items-center p-4 bg-pinegreen-footer rounded-xl">
+            <h2 className="text-breadtext flex flex-col w-full mb-15 p-2">Kontakt oss</h2>
+            <div className="mobile-numbers grid grid-cols-5 gap-2 w-full mb-2">
               <ContactNumberItem city={"Kristiansund"} number={"71 56 55 25"} />
               <ContactNumberItem
                 city={"Oppdal & Rennebu"}
@@ -21,13 +21,13 @@ function FooterMain() {
 
           <div className="grid grid-cols-4 gap-2 w-full">
             <div className="col-span-2 flex items-center justify-between p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-breadtext mb-15">Om oss</h2>
+              <h2 className="text-breadtext mb-15 p-2">Om oss</h2>
             </div>
             <div className="flex items-center justify-between p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-breadtext mb-15">Snarveier</h2>
+              <h2 className="text-breadtext mb-15 p-2">Snarveier</h2>
             </div>
             <div className="flex items-center justify-between p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-breadtext mb-15">Annet</h2>
+              <h2 className="text-breadtext mb-15 p-2">Annet</h2>
             </div>
           </div>
 
@@ -62,7 +62,7 @@ function ContactNumberItem({ city, number }) {
   return (
     <div className="phone-item flex flex-col w-full">
       <div className="phone-title">{city}</div>
-      <div className="phone-number">{number}</div>
+      <div className="phone-number text-2xl mt-3">{number}</div>
     </div>
   );
 }
