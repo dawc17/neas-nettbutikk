@@ -18,10 +18,10 @@ function Navbar() {
           <BarIcon icon={<FaShoppingCart size={28} />} />
         </div>
         <div className="mr-1">
-          <NavbarButton text={"Bli kunde ->"} bg={"bg-mossgreen"} textcolor={"text-pinegreen"}/>
+          <NavbarButton text={"Bli kunde ->"} bg={"bg-mossgreen"} textcolor={"text-pinegreen"} bghover={"hover:bg-mossgreen/85"}/>
         </div>
         <div className="ml-3.5">
-          <NavbarButton text={"Min side ->"} bg={"bg-pinegreen"} textcolor={"text-white"} texthover={"hover:text-sunlightyellow"} />
+          <NavbarButton text={"Min side ->"} bg={"bg-pinegreen"} textcolor={"text-white"} texthover={"hover:text-sunlightyellow"} bghover={"hover:bg-pinegreen/85"}/>
         </div>
       </div>
     </div>
@@ -55,10 +55,10 @@ function BarIcon({ icon }) {
   );
 }
 
-function NavbarButton({text, bg, textcolor, texthover}) {
+function NavbarButton({text, bg, textcolor, texthover, bghover}) {
   return (
     <div>
-      <button className={`hover:scale-95 transition-all duration-200 ease-in-out cursor-pointer font-mabry text-xl rounded-full px-7 py-3 w-full ${bg} ${textcolor} ${texthover}`}>
+      <button className={`hover:scale-95 transition-all duration-200 ease-in-out cursor-pointer font-mabry text-xl rounded-full px-7 py-3 w-full ${bg} ${textcolor} ${texthover} ${bghover}`}>
         {text}
       </button>
     </div>
