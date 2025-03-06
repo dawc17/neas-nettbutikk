@@ -1,18 +1,50 @@
 import "./index.css";
 import { Navbar } from "./components/Navbar";
 import FooterMain from "./components/Footer";
+import ProductCard from "./components/ProductCard";
 
 function App() {
   return (
-    <>
-      <header className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
+      <header>
         <Navbar />
       </header>
-      <main className="flex-1 flex items-start"></main>
+      <main className="">
+        <section className="product-cards flex-grow grid grid-cols-4 gap-4 m-10">
+          <ProductCard
+            productName={"Laptop"}
+            productDescription={"En perfekt laptop, for en perfekt mann, i en perfekt verden."}
+            productPrice={"1999"}
+            image={"/productImages/laptop.png"}
+            altText={"Laptop"}
+          />
+          <ProductCard
+            productName={"Laptop"}
+            productDescription={"En perfekt laptop, for en perfekt mann, i en perfekt verden."}
+            productPrice={"1999"}
+            image={"/productImages/laptop.png"}
+            altText={"Laptop"}
+          />
+          <ProductCard
+            productName={"Laptop"}
+            productDescription={"En perfekt laptop, for en perfekt mann, i en perfekt verden."}
+            productPrice={"1999"}
+            image={"/productImages/laptop.png"}
+            altText={"Laptop"}
+          />
+          <ProductCard
+            productName={"Laptop"}
+            productDescription={"En perfekt laptop, for en perfekt mann, i en perfekt verden."}
+            productPrice={"1999"}
+            image={"/productImages/laptop.png"}
+            altText={"Laptop"}
+          />
+        </section>
+      </main>
       <footer>
         <FooterMain />
       </footer>
-    </>
+    </div>
   );
 }
 
