@@ -25,23 +25,19 @@
   --color-breadtext: #92afa5;
 }
 
-/* Add this to your index.css file */
-
-/* Hide scrollbar for all elements with this class */
 .hide-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none; /* Microsoft Edge */
   scrollbar-width: none; /* Firefox */
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+/* Chrome, Safari and Opera */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-/* Apply globally to the body and html if you want to hide all scrollbars */
 html,
 body {
-  -ms-overflow-style: none; /* IE and Edge */
+  -ms-overflow-style: none; /* Microsoft Edge */
   scrollbar-width: none; /* Firefox */
 }
 

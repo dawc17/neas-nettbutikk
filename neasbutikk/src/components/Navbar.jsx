@@ -5,7 +5,7 @@ import { FaSearch, FaShoppingCart } from "react-icons/fa";
 function Navbar() {
   return (
     <div className="bg-white text-black flex items-center rounded-2xl w-full shadow-lg h-25 px-6 mb-1">
-      <a href="https://neas.no">
+      <a href="/">
         <img
           src="/neas.svg"
           alt="Logo"

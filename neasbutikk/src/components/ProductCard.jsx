@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// Define the Divider component
 function Divider() {
   return (
     <div className="divider bg-pinegreen h-0.5 m-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-mossgreen"></div>
@@ -29,7 +28,6 @@ function ProductCard({
     };
   }, [isOverlayOpen]);
 
-  // Example extended product description
   const extendedDescription = `
     ${productDescription}
     
@@ -58,20 +56,26 @@ function ProductCard({
   return (
     <>
       <div
-        className={`product-card bg-lightgray flex flex-col items-center p-4 rounded-xl gap-5 group ${isOverlayOpen ? "blur-sm" : ""}`}
+        className={`product-card bg-lightgray flex flex-col items-center p-4 rounded-xl gap-5 group ${
+          isOverlayOpen ? "blur-sm" : ""
+        } h-[32rem] w-full`}
       >
         <img
           src={image}
           alt={altText}
-          className="w-50 h-auto mt-5 scale-100 hover:scale-120 hover:translate-y-5 transition-all duration-200 ease-in-out"
+          className="w-50 h-40 object-contain mt-5 scale-100 hover:scale-120 hover:translate-y-5 transition-all duration-200 ease-in-out"
         />
         <Divider />
-        <h3 className="font-mabry text-pinegreen">{productName}</h3>
-        <p className="font-mabrylight text-pinegreen">{productDescription}</p>
+        <h3 className="font-mabry text-pinegreen h-14 line-clamp-2 text-center w-full">
+          {productName}
+        </h3>
+        <p className="font-mabrylight text-pinegreen h-20 line-clamp-3 text-center w-full">
+          {productDescription}
+        </p>
         <p className="font-mabry text-pinegreen">{productPrice} NOK</p>
         <button
           onClick={() => setIsOverlayOpen(true)}
-          className="bg-mossgreen text-pinegreen font-mabrylight rounded-xl px-2 py-1 w-full cursor-pointer scale-100 hover:scale-95 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-150"
+          className="bg-mossgreen text-pinegreen font-mabrylight rounded-xl px-2 py-1 w-full cursor-pointer scale-100 hover:scale-95 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-150 mt-auto"
         >
           Les mer
         </button>

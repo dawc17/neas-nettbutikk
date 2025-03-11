@@ -1,7 +1,9 @@
 import "../index.css";
+
+import { products } from "../data/ProductsData";
 import { Navbar } from "../components/Navbar";
-import FooterMain from "../components/Footer";
 import ProductCard from "../components/ProductCard";
+import FooterMain from "../components/Footer";
 
 function App() {
   return (
@@ -11,60 +13,9 @@ function App() {
       </header>
       <main className="hide-scrollbar">
         <section className="product-cards flex-grow grid grid-cols-6 gap-4 m-10 hide-scrollbar">
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
-          <ProductCard
-            productName={"Laptop"}
-            productDescription={
-              "En perfekt laptop, for en perfekt mann, i en perfekt verden."
-            }
-            productPrice={"1999"}
-            image={"/productImages/laptop.png"}
-            altText={"Laptop"}
-          />
+          {products.map((product, index) => (
+            <ProductCard key={index} {...product} />
+          ))}
         </section>
       </main>
       <footer>
