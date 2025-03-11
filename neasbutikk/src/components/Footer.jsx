@@ -22,7 +22,7 @@ function FooterMain() {
               <div className="social-links block isolate">
                 <ul className="flex flex-row gap-6 mt-10 ml-30">
                   <li className="">
-                    <a href="">
+                    <a href="https://www.facebook.com/neas.i.nabolaget">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ function FooterMain() {
                     </a>
                   </li>
                   <li>
-                    <a href="">
+                    <a href="https://www.instagram.com/neas_i_nabolaget/">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -52,7 +52,7 @@ function FooterMain() {
                     </a>
                   </li>
                   <li>
-                    <a href="">
+                    <a href="https://www.linkedin.com/company/105153">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -67,7 +67,7 @@ function FooterMain() {
                     </a>
                   </li>
                   <li>
-                    <a href="">
+                    <a href="https://www.youtube.com/neaskanalen">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
