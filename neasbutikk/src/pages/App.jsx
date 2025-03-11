@@ -12,7 +12,7 @@ function App() {
         <Navbar />
       </header>
       <main className="hide-scrollbar">
-        <section className="product-cards flex-grow grid grid-cols-6 gap-4 m-10 hide-scrollbar">
+        <section className="product-cards flex-grow grid grid-cols-5 gap-4 m-10 hide-scrollbar">
           {products.map((product, index) => (
             <ProductCard key={index} {...product} />
           ))}

@@ -6,46 +6,42 @@ export const products = [
     productPrice: "1999",
     image: "/productImages/laptop.png",
     altText: "Laptop",
+    extendedDescription: "Lorem ipsum kys!!!.",
   },
   {
     productName: "Lenovo ThinkPad Hybrid Docking",
     productDescription:
       "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
     productPrice: "1999",
-    image: "/productImages/laptop.png",
+    image: "/productImages/dock.png",
     altText: "Laptop",
+    extendedDescription: "Lorem ipsum kys.",
   },
   {
     productName: "Logitech MK850 Combo Trådløs",
     productDescription:
       "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
     productPrice: "1999",
-    image: "/productImages/laptop.png",
+    image: "/productImages/keyboard1.png",
     altText: "Laptop",
+    extendedDescription: "Lorem ipsum kys.",
   },
   {
     productName: 'Samsung 49" ViewFinity Curved skjerm S49C950',
     productDescription:
       "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
     productPrice: "1999",
-    image: "/productImages/laptop.png",
+    image: "/productImages/screen.png",
     altText: "Laptop",
+    extendedDescription: "Lorem ipsum kys.",
   },
   {
     productName: "Svive Styx RtP Gaming Musematte XXL",
     productDescription:
       "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
     productPrice: "1999",
-    image: "/productImages/laptop.png",
+    image: "/productImages/mousepad.png",
     altText: "Laptop",
+    extendedDescription: "Lorem ipsum kys.",
   },
-  {
-    productName: "Sigma",
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/laptop.png",
-    altText: "Laptop",
-  },
-  // Add more products here
 ];

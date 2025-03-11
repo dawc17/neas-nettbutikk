@@ -13,6 +13,7 @@ function ProductCard({
   image,
   altText,
   altImage,
+  extendedDescription,
 }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
@@ -27,31 +28,6 @@ function ProductCard({
       document.body.style.overflow = "unset";
     };
   }, [isOverlayOpen]);
-
-  const extendedDescription = `
-    ${productDescription}
-    
-    Spesifikasjoner:
-    - Produsert med bærekraftige materialer
-    - Håndlaget i Norge
-    - Slitesterk og holdbar konstruksjon
-    - Leveres i miljøvennlig emballasje
-    
-    Vedlikehold:
-    Dette produktet er designet for å vare lenge med riktig vedlikehold. Vi anbefaler å rengjøre det regelmessig med en fuktig klut. Unngå sterke kjemikalier som kan skade overflaten.
-    
-    Historie:
-    Denne kolleksjonen er inspirert av norsk natur og tradisjoner. Hver detalj har blitt nøye utformet av våre dyktige håndverkere som har flere tiårs erfaring.
-    
-    Garanti:
-    Vi er stolte av kvaliteten på våre produkter, og derfor kommer de med en 2-års garanti mot produksjonsfeil.
-    
-    Levering:
-    Normal leveringstid er 3-5 virkedager i Norge. For internasjonal frakt, ta kontakt med kundeservice.
-    
-    Retur:
-    Vi aksepterer retur innen 30 dager etter mottak hvis du ikke er helt fornøyd med kjøpet ditt. Produktet må returneres i originalemballasjen.
-  `;
 
   return (
     <>
@@ -108,7 +84,8 @@ function ProductCard({
                   Beskrivelse
                 </h3>
                 <div className="font-mabrylight text-pinegreen whitespace-pre-line">
-                  {extendedDescription}
+                  {productDescription}
+                  <p className="mt-5">{extendedDescription}</p>
                 </div>
               </div>
             </div>

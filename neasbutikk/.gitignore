@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 .netlify
+.firebase
+build
+firebase.json
+.firebaserc
 
 # Editor directories and files
 .vscode/*
