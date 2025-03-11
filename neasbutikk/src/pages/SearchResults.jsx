@@ -22,7 +22,7 @@ function SearchResults() {
           Søkeresultater for "{query}"
         </h1>
         {filteredProducts.length > 0 ? (
-          <div className="product-cards grid grid-cols-6 gap-4">
+          <div className="product-cards grid grid-cols-5 gap-4">
             {filteredProducts.map((product, index) => (
               <ProductCard key={index} {...product} />
             ))}
