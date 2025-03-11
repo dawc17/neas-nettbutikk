@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 function Navbar() {
@@ -44,13 +46,25 @@ function Navbar() {
 }
 
 function SearchBar() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
-    <form className="w-full max-w-md font-mabrylight" action="#">
+    <form className="w-full max-w-md font-mabrylight" onSubmit={handleSubmit}>
       <div className="relative">
         <input
           type="search"
           name="search"
           id="search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Hva leter du etter?"
           maxLength={36}
           className="w-full rounded-full bg-white px-3 py-2 pr-8 text-base text-gray-900 outline outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-950 sm:text-sm"
