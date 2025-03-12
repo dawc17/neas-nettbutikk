@@ -12,13 +12,12 @@ function ProductCard({
   productPrice,
   image,
   altText,
-  images = [], // Array of additional images
+  images = [],
   extendedDescription,
 }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Combine main image with additional images
   const allImages = image
     ? [{ src: image, alt: altText }, ...images]
     : [...images];
@@ -35,7 +34,6 @@ function ProductCard({
     };
   }, [isOverlayOpen]);
 
-  // Reset image index when overlay is closed
   useEffect(() => {
     if (!isOverlayOpen) {
       setCurrentImageIndex(0);
@@ -103,7 +101,6 @@ function ProductCard({
           </div>
 
           <div className="flex-grow overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 md:pb-24">
-            {/* Image carousel */}
             <div className="relative flex justify-center mb-4 md:mb-6">
               <div className="w-full sm:w-3/4 md:w-2/3 relative">
                 {allImages.length > 0 && (
@@ -117,7 +114,6 @@ function ProductCard({
                       className="w-full h-auto object-contain transition-opacity duration-300"
                     />
 
-                    {/* Navigation arrows - only show if we have multiple images */}
                     {allImages.length > 1 && (
                       <>
                         {/* Left arrow */}

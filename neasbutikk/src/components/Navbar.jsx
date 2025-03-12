@@ -11,7 +11,6 @@ function Navbar() {
 
   return (
     <div className="bg-white text-black flex flex-wrap items-center justify-between rounded-2xl w-full shadow-lg px-4 md:px-6 py-3 md:py-4 mb-1 relative">
-      {/* Logo */}
       <a href="/" className="z-10">
         <img
           src="/neas.svg"
@@ -20,7 +19,6 @@ function Navbar() {
         />
       </a>
 
-      {/* Mobile Menu Toggle */}
       <div className="block lg:hidden z-20">
         <button
           onClick={toggleMobileMenu}
@@ -116,10 +114,7 @@ function SearchBar() {
   };
 
   return (
-    <form
-      className="w-full mx-auto font-mabrylight" // Removed max-w-md to allow wider width
-      onSubmit={handleSubmit}
-    >
+    <form className="w-full mx-auto font-mabrylight" onSubmit={handleSubmit}>
       <div className="relative">
         <input
           type="search"

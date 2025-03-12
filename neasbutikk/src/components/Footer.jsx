@@ -87,9 +87,7 @@ function FooterMain() {
             </div>
           </div>
 
-          {/* Main Footer Links Sections */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text w-full">
-            {/* About Us Section */}
             <div className="md:col-span-2 flex flex-col p-4 bg-pinegreen-footer rounded-xl">
               <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Om oss
@@ -106,7 +104,6 @@ function FooterMain() {
               </div>
             </div>
 
-            {/* Shortcuts Section */}
             <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
               <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Snarveier
@@ -120,7 +117,6 @@ function FooterMain() {
               </div>
             </div>
 
-            {/* Other Section */}
             <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
               <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Annet
@@ -136,7 +132,6 @@ function FooterMain() {
             </div>
           </div>
 
-          {/* Bottom Logo and Login */}
           <div className="flex flex-col sm:flex-row w-full justify-between items-center p-4 bg-mossgreen rounded-xl">
             <a href="https://neas.no" className="mb-4 sm:mb-0">
               <img
