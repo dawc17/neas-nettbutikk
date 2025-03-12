@@ -10,6 +10,11 @@ export const products = [
     productPrice: "1999",
     image: "/productImages/laptop.png",
     altText: "Laptop",
+    images: [
+      { src: "/productImages/keyboard1.png", alt: "Laptop" },
+      { src: "/productImages/dock.png", alt: "Laptop 2" },
+      { src: "/productImages/screen.png", alt: "Laptop" },
+    ],
     extendedDescription: "Lorem ipsum kys!!!.",
   },
   {
@@ -67,7 +72,6 @@ const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
 /*
-
 function writeUserData(
   productName,
   title,
@@ -94,5 +98,4 @@ writeUserData(
   "null",
   "This is a long desctrion of the product."
 );
-
 */

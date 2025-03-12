@@ -16,9 +16,8 @@ function App() {
       states: {
         "default-state": {
           gradients: [
-            ["#ff9966", "#ff5e62"],
-            ["#00F260", "#0575E6"],
-            ["#e1eec3", "#f05053"],
+            ["#f1e967", "#95c672"],
+            ["#eebbca", "#f1e967"],
           ],
         },
       },
@@ -37,7 +36,7 @@ function App() {
       <main className="hide-scrollbar">
         <section className="welcome-banner flex justify-center m-10 ">
           <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-end shadow-lg p-2">
-            <canvas id="canvas-basic" className="rounded-xl">
+            <canvas id="canvas-basic" className="rounded-xl w-full h-1">
               <div className="canvas-mask"></div>
             </canvas>
           </div>
@@ -45,7 +44,7 @@ function App() {
         <div className="text-2xl text-pinegreen font-mabry m-10 flex justify-center">
           <h1>Populært siste uken</h1>
         </div>
-        <section className="product-cards flex-grow grid grid-cols-5 gap-4 m-10 hide-scrollbar">
+        <section className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">
           {products.map((product, index) => (
             <ProductCard key={index} {...product} />
           ))}

@@ -5,11 +5,12 @@ function FooterMain() {
     <div className="m-1">
       <div className="footer-wrapper font-mabrylight">
         <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-2">
+          {/* Contact Section */}
           <div className="flex flex-col w-full justify-between items-center p-4 bg-pinegreen-footer rounded-xl">
-            <h2 className="text-mossgreen flex flex-col w-full mb-15 p-2">
+            <h2 className="text-mossgreen flex flex-col w-full mb-4 md:mb-15 p-2 text-xl md:text-2xl">
               Kontakt oss
             </h2>
-            <div className="mobile-numbers grid grid-cols-6 w-full ml-3 mb-2">
+            <div className="mobile-numbers grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 w-full ml-0 sm:ml-3 mb-2 gap-4">
               <ContactNumberItem city={"Kristiansund"} number={"71 56 55 25"} />
               <ContactNumberItem
                 city={"Oppdal & Rennebu"}
@@ -19,9 +20,9 @@ function FooterMain() {
               <ContactNumberItem city={"Elektro"} number={"71 56 65 00"} />
               <ContactNumberItem city={"IT"} number={"71 67 84 90"} />
 
-              <div className="social-links block isolate">
-                <ul className="flex flex-row gap-6 mt-10 ml-30">
-                  <li className="">
+              <div className="social-links block isolate col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-1">
+                <ul className="flex flex-row gap-4 md:gap-6 mt-4 md:mt-10 justify-center lg:justify-self-end lg:mr-3">
+                  <li>
                     <a href="https://www.facebook.com/neas.i.nabolaget">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -86,10 +87,14 @@ function FooterMain() {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-2 text w-full">
-            <div className="col-span-2 flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-7 p-2">Om oss</h2>
-              <div className="grid grid-cols-2 text-xl gap-x-5 gap-y-5 w-full ml-2 mt-4">
+          {/* Main Footer Links Sections */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text w-full">
+            {/* About Us Section */}
+            <div className="md:col-span-2 flex flex-col p-4 bg-pinegreen-footer rounded-xl">
+              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+                Om oss
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 text-base md:text-xl gap-x-5 gap-y-3 md:gap-y-5 w-full ml-2 mt-4">
                 <FooterLink text={"Kontakt"} />
                 <FooterLink text={"Hva skjer i nabolaget?"} />
                 <FooterLink text={"Om oss"} />
@@ -101,9 +106,12 @@ function FooterMain() {
               </div>
             </div>
 
+            {/* Shortcuts Section */}
             <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-7 p-2">Snarveier</h2>
-              <div className="flex flex-col text-xl gap-5 w-full ml-2 mt-4">
+              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+                Snarveier
+              </h2>
+              <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
                 <FooterLink text={"Webmail Nordmøre"} />
                 <FooterLink text={"Webmail Oppdal"} />
                 <FooterLink text={"Live kamera og vær"} />
@@ -112,9 +120,12 @@ function FooterMain() {
               </div>
             </div>
 
+            {/* Other Section */}
             <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-7 p-2">Annet</h2>
-              <div className="flex flex-col text-xl gap-5 w-full ml-2 mt-4">
+              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+                Annet
+              </h2>
+              <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
                 <FooterLink text={"Strømguiden"} />
                 <FooterLink text={"Historiske strømpriser"} />
                 <FooterLink text={"Personvern og Cookies"} />
@@ -125,16 +136,17 @@ function FooterMain() {
             </div>
           </div>
 
-          <div className="flex flex-row w-full justify-between items-center p-4 bg-mossgreen rounded-xl">
-            <a href="https://neas.no">
+          {/* Bottom Logo and Login */}
+          <div className="flex flex-col sm:flex-row w-full justify-between items-center p-4 bg-mossgreen rounded-xl">
+            <a href="https://neas.no" className="mb-4 sm:mb-0">
               <img
                 src="/neas.svg"
                 alt="Logo"
-                className="h-auto m-3.5 w-25 hover:scale-95 transition-all duration-300 ease-in-out cursor-pointer"
+                className="h-auto m-3.5 w-20 sm:w-25 hover:scale-95 transition-all duration-300 ease-in-out cursor-pointer"
               />
             </a>
 
-            <div>
+            <div className="mt-2 sm:mt-0">
               <a href="https://minside.neas.no/">
                 <NavbarButton
                   text={"Logg inn ->"}
@@ -155,8 +167,12 @@ function FooterMain() {
 function ContactNumberItem({ city, number }) {
   return (
     <div className="phone-item flex flex-col w-full">
-      <div className="phone-title text-breadtext">{city}</div>
-      <div className="phone-number text-2xl mt-3">{number}</div>
+      <div className="phone-title text-breadtext text-sm md:text-base">
+        {city}
+      </div>
+      <div className="phone-number text-lg md:text-2xl mt-1 md:mt-3">
+        {number}
+      </div>
     </div>
   );
 }
