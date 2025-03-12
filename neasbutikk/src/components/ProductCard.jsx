@@ -55,11 +55,11 @@ function ProductCard({
   return (
     <>
       <div className="product-card bg-lightgray flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
-        <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center overflow-hidden">
+        <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center">
           <img
             src={image}
             alt={altText}
-            className="w-auto max-w-full h-auto max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
+            className="w-auto max-w-full h-full max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
           />
         </div>
         <Divider />
@@ -104,22 +104,29 @@ function ProductCard({
             <div className="relative flex justify-center mb-4 md:mb-6">
               <div className="w-full sm:w-3/4 md:w-2/3 relative">
                 {allImages.length > 0 && (
-                  <div className="aspect-w-1 aspect-h-1 relative">
-                    <img
-                      src={allImages[currentImageIndex]?.src}
-                      alt={
-                        allImages[currentImageIndex]?.alt ||
-                        `Product image ${currentImageIndex + 1}`
-                      }
-                      className="w-full h-auto object-contain transition-opacity duration-300"
-                    />
+                  <div className="aspect-w-1 aspect-h-1 relative overflow-hidden">
+                    <div
+                      className="flex transition-transform duration-300 ease-in-out"
+                      style={{
+                        transform: `translateX(-${currentImageIndex * 100}%)`,
+                      }}
+                    >
+                      {allImages.map((img, index) => (
+                        <img
+                          key={index}
+                          src={img.src}
+                          alt={img.alt || `Product image ${index + 1}`}
+                          className="w-full h-full object-contain flex-shrink-0"
+                        />
+                      ))}
+                    </div>
 
                     {allImages.length > 1 && (
                       <>
                         {/* Left arrow */}
                         <button
                           onClick={prevImage}
-                          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-r-lg p-1 md:p-2 z-10 shadow-md"
+                          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-r-lg p-1 md:p-2 z-10 shadow-md transition-all duration-200"
                           aria-label="Previous image"
                         >
                           <svg
@@ -141,7 +148,7 @@ function ProductCard({
                         {/* Right arrow */}
                         <button
                           onClick={nextImage}
-                          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-l-lg p-1 md:p-2 z-10 shadow-md"
+                          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-l-lg p-1 md:p-2 z-10 shadow-md transition-all duration-200"
                           aria-label="Next image"
                         >
                           <svg
