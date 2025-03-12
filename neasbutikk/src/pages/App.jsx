@@ -49,7 +49,7 @@ function App() {
           </div>
         </section>
         <div className="text-2xl text-pinegreen font-mabry m-10 flex justify-center">
-          <h1>Populært siste uken</h1>
+          <h1>Populært denne uken</h1>
         </div>
         <section className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">
           {loading ? (
