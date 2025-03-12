@@ -1,59 +1,7 @@
+import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, set } from "firebase/database";
-
-export const products = [
-  {
-    productName: 'Lenovo ThinkPad E14 G6 14" Full HD+',
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/laptop.png",
-    altText: "Laptop",
-    images: [
-      { src: "/productImages/keyboard1.png", alt: "Laptop" },
-      { src: "/productImages/dock.png", alt: "Laptop 2" },
-      { src: "/productImages/screen.png", alt: "Laptop" },
-    ],
-    extendedDescription: "Lorem ipsum kys!!!.",
-  },
-  {
-    productName: "Lenovo ThinkPad Hybrid Docking",
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/dock.png",
-    altText: "Laptop",
-    extendedDescription: "Lorem ipsum kys.",
-  },
-  {
-    productName: "Logitech MK850 Combo Trådløs",
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/keyboard1.png",
-    altText: "Laptop",
-    extendedDescription: "Lorem ipsum kys.",
-  },
-  {
-    productName: 'Samsung 49" ViewFinity Curved skjerm S49C950',
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/screen.png",
-    altText: "Laptop",
-    extendedDescription: "Lorem ipsum kys.",
-  },
-  {
-    productName: "Svive Styx RtP Gaming Musematte XXL",
-    productDescription:
-      "En perfekt laptop, for en perfekt mann, i en perfekt verden.",
-    productPrice: "1999",
-    image: "/productImages/mousepad.png",
-    altText: "Laptop",
-    extendedDescription: "Lorem ipsum kys.",
-  },
-];
+import { getDatabase, ref, set, get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDvyh73cj0xDmkVSMrfy8wD1V2C0nL9bzg",
@@ -71,31 +19,49 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase(app);
 
-/*
-function writeUserData(
-  productName,
-  title,
-  shortText,
-  price,
-  imageUrl,
-  longText
-) {
-  const db = getDatabase();
-  set(ref(db, "products/" + productName), {
-    title: title,
-    descriptionShort: shortText,
-    price: price,
-    imageUrl: imageUrl,
-    descriptionLong: longText,
-  });
-}
+export const useProducts = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-writeUserData(
-  "LenovoLaptop",
-  "Lenovo Laptop",
-  "Sigma laptop sigma.",
-  "1999",
-  "null",
-  "This is a long desctrion of the product."
-);
-*/
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productsRef = ref(database, "products");
+        const snapshot = await get(productsRef);
+
+        if (snapshot.exists()) {
+          // Convert from Firebase object to array
+          const productsArray = Object.values(snapshot.val());
+          setProducts(productsArray);
+        } else {
+          setProducts([]);
+        }
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching products: ", err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  return { products, loading, error };
+};
+
+export const getProducts = async () => {
+  try {
+    const productsRef = ref(database, "products");
+    const snapshot = await get(productsRef);
+
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
+    return [];
+  } catch (error) {
+    console.error("Error in getProducts: ", error);
+    throw error;
+  }
+};

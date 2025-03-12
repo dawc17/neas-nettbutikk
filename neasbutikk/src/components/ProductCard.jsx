@@ -9,7 +9,7 @@ function Divider() {
 function ProductCard({
   productName,
   productDescription,
-  productPrice,
+  price,
   image,
   altText,
   images = [],
@@ -70,7 +70,7 @@ function ProductCard({
           {productDescription}
         </p>
         <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
-          {productPrice} NOK
+          {price} NOK
         </p>
         <button
           onClick={() => setIsOverlayOpen(true)}
@@ -198,7 +198,7 @@ function ProductCard({
           <div className="absolute bottom-0 left-0 right-0 bg-lightgray py-3 md:py-4 px-3 sm:px-4 md:px-6 border-t border-pinegreen/20 shadow-lg">
             <div className="flex justify-between items-center">
               <p className="font-mabry text-pinegreen text-lg sm:text-xl md:text-2xl">
-                {productPrice} NOK
+                {price} NOK
               </p>
               <button className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-90 transition-all duration-150">
                 Kjøp nå

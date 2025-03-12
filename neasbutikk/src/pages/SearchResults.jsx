@@ -1,16 +1,23 @@
 import { useSearchParams } from "react-router-dom";
-import { products } from "../data/ProductsData";
+import { useProducts } from "../data/ProductsData";
 import { Navbar } from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("q")?.toLowerCase();
+  const query = searchParams.get("q")?.toLowerCase() || "";
 
-  const filteredProducts = products.filter((product) =>
-    product.productName.toLowerCase().includes(query)
-  );
+  // Use the Firebase products hook instead of importing static data
+  const { products, loading, error } = useProducts();
+
+  // Filter products once they're loaded
+  const filteredProducts =
+    loading || error
+      ? []
+      : products.filter((product) =>
+          product.productName.toLowerCase().includes(query)
+        );
 
   return (
     <div className="min-h-screen flex flex-col hide-scrollbar">
@@ -21,8 +28,15 @@ function SearchResults() {
         <h1 className="font-mabry text-2xl text-pinegreen mb-4">
           Søkeresultater for "{query}"
         </h1>
-        {filteredProducts.length > 0 ? (
-          <div className="product-cards grid grid-cols-5 gap-4">
+
+        {loading ? (
+          <p className="font-mabrylight text-pinegreen">Laster produkter...</p>
+        ) : error ? (
+          <p className="font-mabrylight text-red-500">
+            Feil ved lasting av produkter: {error}
+          </p>
+        ) : filteredProducts.length > 0 ? (
+          <div className="product-cards grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {filteredProducts.map((product, index) => (
               <ProductCard key={index} {...product} />
             ))}
