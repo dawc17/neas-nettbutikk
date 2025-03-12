@@ -6,6 +6,7 @@ import { Navbar } from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
 import Granim from "granim";
+import ImageCarousel from "../components/ImageCarousel";
 
 function App() {
   // Use the hook to fetch products from Firebase
@@ -37,7 +38,10 @@ function App() {
         <Navbar />
       </header>
       <main className="hide-scrollbar">
-        <section className="welcome-banner flex justify-center m-10 ">
+        <section className="m-10">
+          <ImageCarousel />
+        </section>
+        <section className="gradient-banner flex justify-center m-10 ">
           <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-end shadow-lg p-2">
             <canvas id="canvas-basic" className="rounded-xl w-full h-1">
               <div className="canvas-mask"></div>
