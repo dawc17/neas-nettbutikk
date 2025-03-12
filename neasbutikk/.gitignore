@@ -17,6 +17,8 @@ build
 firebase.json
 .firebaserc
 ProductsData.jsx
+neasbutikk/src/data/ProductsData.jsx
+
 
 # Editor directories and files
 .vscode/*
