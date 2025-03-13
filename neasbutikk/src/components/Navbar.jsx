@@ -1,6 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FaSearch, FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaSearch,
+  FaShoppingCart,
+  FaBars,
+  FaTimes,
+  FaHeart,
+} from "react-icons/fa";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,8 +42,13 @@ function Navbar() {
       {/* Desktop Navigation */}
       <div className="hidden lg:flex items-center order-2 lg:order-3">
         <div className="mr-5">
+          <Link to="/favorites">
+            <BarIcon icon={<FaHeart size={28} className="text-pinegreen" />} />
+          </Link>
+        </div>
+        <div className="mr-5">
           <BarIcon
-            icon={<FaShoppingCart size={24} className="text-pinegreen" />}
+            icon={<FaShoppingCart size={28} className="text-pinegreen" />}
           />
         </div>
         <div className="mr-1">

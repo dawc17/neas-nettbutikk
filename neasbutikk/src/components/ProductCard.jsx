@@ -3,12 +3,13 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import ProductOverlay from "./ProductOverlay";
 
 const getFavoriteFromStorage = (productId) => {
-  if (!productId || typeof window === 'undefined' || !window.localStorage) return false;
+  if (!productId || typeof window === "undefined" || !window.localStorage)
+    return false;
   try {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     return !!favorites[productId];
   } catch (error) {
-    console.error('Error reading favorites from localStorage:', error);
+    console.error("Error reading favorites from localStorage:", error);
     return false;
   }
 };
@@ -28,29 +29,36 @@ function ProductCard({
   images = [],
   extendedDescription,
   id,
+  onFavoriteChange, // Add this prop
 }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(() => getFavoriteFromStorage(id));
+  const [isFavorite, setIsFavorite] = useState(() =>
+    getFavoriteFromStorage(id)
+  );
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation(); // Prevent event bubbling
-    console.log('Favorite button clicked for product ID:', id);
+    console.log("Favorite button clicked for product ID:", id);
     if (!id) {
-      console.warn('Product ID is missing!');
+      console.warn("Product ID is missing!");
       return;
     }
-  
-    setIsFavorite(prev => {
+
+    setIsFavorite((prev) => {
       const newValue = !prev;
-      console.log('Setting favorite to:', newValue);
+      console.log("Setting favorite to:", newValue);
       try {
-        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
-        console.log('Current favorites:', favorites);
+        const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
+        console.log("Current favorites:", favorites);
         favorites[id] = newValue;
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        console.log('Updated favorites:', favorites);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+        console.log("Updated favorites:", favorites);
+        // Call the onFavoriteChange callback if it exists
+        if (onFavoriteChange) {
+          onFavoriteChange();
+        }
       } catch (error) {
-        console.error('Error saving favorite to localStorage:', error);
+        console.error("Error saving favorite to localStorage:", error);
       }
       return newValue;
     });
@@ -67,12 +75,14 @@ function ProductCard({
           <button
             onClick={handleFavoriteClick}
             className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
-            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            aria-label={
+              isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
           >
             {isFavorite ? (
-              <FaHeart className="text-red-500 text-xl" />
+              <FaHeart className="text-red-500 text-xl mt-0.5" />
             ) : (
-              <FaRegHeart className="text-pinegreen text-xl hover:text-red-500" />
+              <FaRegHeart className="text-pinegreen text-xl hover:text-red-500 mt-0.5" />
             )}
           </button>
           <img
