@@ -1,4 +1,17 @@
 import { useState, useEffect } from "react";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import ProductOverlay from "./ProductOverlay";
+
+const getFavoriteFromStorage = (productId) => {
+  if (!productId || typeof window === 'undefined' || !window.localStorage) return false;
+  try {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return !!favorites[productId];
+  } catch (error) {
+    console.error('Error reading favorites from localStorage:', error);
+    return false;
+  }
+};
 
 function Divider() {
   return (
@@ -14,48 +27,54 @@ function ProductCard({
   altText,
   images = [],
   extendedDescription,
+  id,
 }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(() => getFavoriteFromStorage(id));
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation(); // Prevent event bubbling
+    console.log('Favorite button clicked for product ID:', id);
+    if (!id) {
+      console.warn('Product ID is missing!');
+      return;
+    }
+  
+    setIsFavorite(prev => {
+      const newValue = !prev;
+      console.log('Setting favorite to:', newValue);
+      try {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+        console.log('Current favorites:', favorites);
+        favorites[id] = newValue;
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        console.log('Updated favorites:', favorites);
+      } catch (error) {
+        console.error('Error saving favorite to localStorage:', error);
+      }
+      return newValue;
+    });
+  };
 
   const allImages = image
     ? [{ src: image, alt: altText }, ...images]
     : [...images];
 
-  useEffect(() => {
-    if (isOverlayOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOverlayOpen]);
-
-  useEffect(() => {
-    if (!isOverlayOpen) {
-      setCurrentImageIndex(0);
-    }
-  }, [isOverlayOpen]);
-
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === allImages.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
-    );
-  };
-
   return (
     <>
       <div className="product-card bg-lightgray flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
-        <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center">
+        <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
+          <button
+            onClick={handleFavoriteClick}
+            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
+            aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {isFavorite ? (
+              <FaHeart className="text-red-500 text-xl" />
+            ) : (
+              <FaRegHeart className="text-pinegreen text-xl hover:text-red-500" />
+            )}
+          </button>
           <img
             src={image}
             alt={altText}
@@ -63,10 +82,10 @@ function ProductCard({
           />
         </div>
         <Divider />
-        <h3 className="font-mabry text-pinegreen text-base md:text-lg h-12 md:h-14 line-clamp-2 text-center w-full px-1 md:px-2">
+        <h3 className="font-mabry text-pinegreen text-base md:text-md h-12 md:h-14 line-clamp-2 text-center w-full px-1 md:px-2">
           {productName}
         </h3>
-        <p className="font-mabrylight text-pinegreen text-sm md:text-base h-16 md:h-20 line-clamp-3 text-center w-full px-1 md:px-2">
+        <p className="font-mabrylight text-pinegreen text-sm md:text-md h-16 md:h-20 line-clamp-3 text-center w-full px-1 md:px-2">
           {productDescription}
         </p>
         <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
@@ -80,140 +99,17 @@ function ProductCard({
         </button>
       </div>
 
-      <div
-        className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 transition-all duration-500 ease-in-out ${
-          isOverlayOpen
-            ? "backdrop-blur-md bg-white/30 opacity-100 visible"
-            : "backdrop-blur-none bg-white/0 opacity-0 invisible"
-        }`}
-      >
-        <div className="bg-lightgray rounded-lg md:rounded-xl w-full h-full md:w-11/12 md:h-5/6 lg:max-w-4xl relative shadow-2xl flex flex-col overflow-hidden">
-          <div className="p-3 sm:p-4 md:p-6 flex justify-between items-center border-b border-pinegreen/20">
-            <h2 className="font-mabry text-pinegreen text-lg sm:text-xl md:text-2xl truncate pr-2">
-              {productName}
-            </h2>
-            <button
-              onClick={() => setIsOverlayOpen(false)}
-              className="text-pinegreen hover:text-mossgreen text-lg md:text-xl p-1 md:p-2"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="flex-grow overflow-y-auto p-3 sm:p-4 md:p-6 pb-20 md:pb-24">
-            <div className="relative flex justify-center mb-4 md:mb-6">
-              <div className="w-full sm:w-3/4 md:w-2/3 relative">
-                {allImages.length > 0 && (
-                  <div className="aspect-w-1 aspect-h-1 relative overflow-hidden">
-                    <div
-                      className="flex transition-transform duration-300 ease-in-out"
-                      style={{
-                        transform: `translateX(-${currentImageIndex * 100}%)`,
-                      }}
-                    >
-                      {allImages.map((img, index) => (
-                        <img
-                          key={index}
-                          src={img.src}
-                          alt={img.alt || `Product image ${index + 1}`}
-                          className="w-full h-full object-contain flex-shrink-0"
-                        />
-                      ))}
-                    </div>
-
-                    {allImages.length > 1 && (
-                      <>
-                        {/* Left arrow */}
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-r-lg p-1 md:p-2 z-10 shadow-md transition-all duration-200"
-                          aria-label="Previous image"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 md:h-6 md:w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 19l-7-7 7-7"
-                            />
-                          </svg>
-                        </button>
-
-                        {/* Right arrow */}
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-l-lg p-1 md:p-2 z-10 shadow-md transition-all duration-200"
-                          aria-label="Next image"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 md:h-6 md:w-6"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Thumbnail indicators */}
-            {allImages.length > 1 && (
-              <div className="flex justify-center gap-2 mb-4 md:mb-6">
-                {allImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentImageIndex(index)}
-                    className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-200 ${
-                      currentImageIndex === index
-                        ? "bg-pinegreen scale-125"
-                        : "bg-pinegreen/40 hover:bg-pinegreen/70"
-                    }`}
-                    aria-label={`Go to image ${index + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div>
-              <h3 className="font-mabry text-pinegreen text-lg md:text-xl mb-2">
-                Beskrivelse
-              </h3>
-              <div className="font-mabrylight text-pinegreen text-sm md:text-base whitespace-pre-line">
-                {productDescription}
-                <p className="mt-3 md:mt-5">{extendedDescription}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 bg-lightgray py-3 md:py-4 px-3 sm:px-4 md:px-6 border-t border-pinegreen/20 shadow-lg">
-            <div className="flex justify-between items-center">
-              <p className="font-mabry text-pinegreen text-lg sm:text-xl md:text-2xl">
-                {price} NOK
-              </p>
-              <button className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-90 transition-all duration-150">
-                Kjøp nå
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {isOverlayOpen && (
+        <ProductOverlay
+          isOpen={isOverlayOpen}
+          onClose={() => setIsOverlayOpen(false)}
+          productName={productName}
+          productDescription={productDescription}
+          extendedDescription={extendedDescription}
+          price={price}
+          allImages={allImages}
+        />
+      )}
     </>
   );
 }
