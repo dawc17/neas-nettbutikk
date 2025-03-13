@@ -16,13 +16,14 @@ function App() {
     var granimInstance = new Granim({
       element: "#canvas-basic",
       direction: "left-right",
-      isPausedWhenNotInView: true,
+      isPausedWhenNotInView: false,
       states: {
         "default-state": {
           gradients: [
             ["#f1e967", "#95c672"],
             ["#eebbca", "#f1e967"],
           ],
+          transitionSpeed: 1000,
         },
       },
     });
@@ -43,7 +44,7 @@ function App() {
         </section>
         <section className="gradient-banner flex justify-center m-10 ">
           <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-end shadow-lg p-2">
-            <canvas id="canvas-basic" className="rounded-xl w-full h-1">
+            <canvas id="canvas-basic" className="rounded-xl w-full h-2">
               <div className="canvas-mask"></div>
             </canvas>
           </div>

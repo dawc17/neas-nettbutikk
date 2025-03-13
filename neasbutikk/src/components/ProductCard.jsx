@@ -14,6 +14,24 @@ const getFavoriteFromStorage = (productId) => {
   }
 };
 
+const cleanupFavorites = () => {
+  try {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
+    const cleanedFavorites = Object.entries(favorites).reduce(
+      (acc, [key, value]) => {
+        if (value === true) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+    localStorage.setItem("favorites", JSON.stringify(cleanedFavorites));
+  } catch (error) {
+    console.error("Error cleaning up favorites:", error);
+  }
+};
+
 function Divider() {
   return (
     <div className="divider bg-pinegreen h-0.5 mx-2 md:m-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-mossgreen"></div>
@@ -29,16 +47,23 @@ function ProductCard({
   images = [],
   extendedDescription,
   id,
-  onFavoriteChange, // Add this prop
+  onFavoriteChange,
 }) {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(() =>
     getFavoriteFromStorage(id)
   );
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    cleanupFavorites();
+  }, []);
 
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // Prevent event bubbling
-    console.log("Favorite button clicked for product ID:", id);
+    e.stopPropagation();
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 300);
+
     if (!id) {
       console.warn("Product ID is missing!");
       return;
@@ -53,7 +78,7 @@ function ProductCard({
         favorites[id] = newValue;
         localStorage.setItem("favorites", JSON.stringify(favorites));
         console.log("Updated favorites:", favorites);
-        // Call the onFavoriteChange callback if it exists
+
         if (onFavoriteChange) {
           onFavoriteChange();
         }
@@ -70,11 +95,13 @@ function ProductCard({
 
   return (
     <>
-      <div className="product-card bg-lightgray flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
+      <div className="product-card bg-lightgray flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
         <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
           <button
             onClick={handleFavoriteClick}
-            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
+            className={`absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white ${
+              isAnimating ? "animate-bounce" : ""
+            }`}
             aria-label={
               isFavorite ? "Remove from favorites" : "Add to favorites"
             }
