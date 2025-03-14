@@ -8,14 +8,36 @@ import {
   FaHeart,
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import CartOverlay from "./CartOverlay";
+import FavoritesOverlay from "./FavoritesOverlay";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showCartOverlay, setShowCartOverlay] = useState(false);
+  const [showFavoritesOverlay, setShowFavoritesOverlay] = useState(false);
   const { getCartCount, showNotification } = useCart();
   const cartCount = getCartCount();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleCartMouseEnter = () => {
+    setShowCartOverlay(true);
+    setShowFavoritesOverlay(false); // Close favorites overlay when cart overlay is opened
+  };
+
+  const handleCartMouseLeave = () => {
+    setShowCartOverlay(false);
+  };
+
+  const handleFavoritesMouseEnter = () => {
+    setShowFavoritesOverlay(true);
+    setShowCartOverlay(false); // Close cart overlay when favorites overlay is opened
+  };
+
+  const handleFavoritesMouseLeave = () => {
+    setShowFavoritesOverlay(false);
   };
 
   return (
@@ -44,12 +66,24 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <div className="hidden lg:flex items-center order-2 lg:order-3">
-        <div className="mr-5">
+        <div
+          className="mr-5 relative"
+          onMouseEnter={handleFavoritesMouseEnter}
+          onMouseLeave={handleFavoritesMouseLeave}
+        >
           <Link to="/favorites">
             <BarIcon icon={<FaHeart size={28} className="text-pinegreen" />} />
           </Link>
+          <FavoritesOverlay
+            isVisible={showFavoritesOverlay}
+            onClose={() => setShowFavoritesOverlay(false)}
+          />
         </div>
-        <div className="mr-5 relative tooltip tooltip-bottom" data-tip="hello">
+        <div
+          className="mr-5 relative"
+          onMouseEnter={handleCartMouseEnter}
+          onMouseLeave={handleCartMouseLeave}
+        >
           <Link to="/cart">
             <BarIcon
               icon={<FaShoppingCart size={28} className="text-pinegreen" />}
@@ -63,6 +97,10 @@ function Navbar() {
               <span className="absolute -top-2 -right-2 animate-bounce-violent animate-color-change rounded-full w-5 h-5 opacity-75"></span>
             )}
           </Link>
+          <CartOverlay
+            isVisible={showCartOverlay}
+            onClose={() => setShowCartOverlay(false)}
+          />
         </div>
         <div className="mr-1">
           <a href="https://minside.neas.no/register">
