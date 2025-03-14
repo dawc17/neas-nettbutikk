@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
+import { formatPrice } from "../utils/priceFormatter";
 
 function ProductOverlay({
   isOpen,
@@ -9,10 +10,11 @@ function ProductOverlay({
   extendedDescription,
   price,
   allImages = [],
-  id, // Make sure id is passed
+  id,
 }) {
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (isOpen) {
@@ -29,6 +31,7 @@ function ProductOverlay({
   useEffect(() => {
     if (!isOpen) {
       setCurrentImageIndex(0);
+      setQuantity(1); // Reset quantity when closing
     }
   }, [isOpen]);
 
@@ -45,18 +48,26 @@ function ProductOverlay({
   };
 
   const handleAddToCart = () => {
+    // Pass the ID and the selected quantity
     addToCart({
       id,
-      productName,
-      productDescription,
-      price,
-      image: allImages[0]?.src,
+      quantity,
     });
 
-    // Close the overlay
     onClose();
 
-    // Scroll to top with smooth behavior
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleIncrement = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   };
 
   return (
@@ -192,14 +203,33 @@ function ProductOverlay({
         <div className="absolute bottom-0 left-0 right-0 bg-lightgray py-3 md:py-4 px-3 sm:px-4 md:px-6 border-t border-pinegreen/20 shadow-lg">
           <div className="flex justify-between items-center">
             <p className="font-mabry text-pinegreen text-lg sm:text-xl md:text-2xl">
-              {price} NOK
+              {formatPrice(price)}
             </p>
-            <button
-              onClick={handleAddToCart}
-              className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-95 transition-all duration-150"
-            >
-              Legg til handlekurv
-            </button>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center border border-pinegreen/30 rounded-lg overflow-hidden">
+                <button
+                  onClick={handleDecrement}
+                  className="bg-gray-100 px-2 py-1 text-pinegreen hover:bg-gray-200 transition-colors"
+                >
+                  -
+                </button>
+                <span className="px-3 py-1 font-mabry text-pinegreen min-w-[30px] text-center">
+                  {quantity}
+                </span>
+                <button
+                  onClick={handleIncrement}
+                  className="bg-gray-100 px-2 py-1 text-pinegreen hover:bg-gray-200 transition-colors"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                onClick={handleAddToCart}
+                className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-95 transition-all duration-150"
+              >
+                Legg til handlekurv
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import ProductOverlay from "./ProductOverlay";
+import { formatPrice } from "../utils/priceFormatter";
 
 const getFavoriteFromStorage = (productId) => {
   if (!productId || typeof window === "undefined" || !window.localStorage)
@@ -123,7 +124,7 @@ function ProductCard({
           {productDescription}
         </p>
         <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
-          {price} NOK
+          {formatPrice(price)}
         </p>
         <button
           onClick={() => setIsOverlayOpen(true)}

@@ -3,10 +3,14 @@ import { Navbar } from "../components/Navbar";
 import FooterMain from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
+import { useProducts } from "../data/ProductsData";
+import { formatPrice } from "../utils/priceFormatter";
 
 function Cart() {
-  const { cartItems, removeFromCart, getCartTotal, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } =
+    useCart();
   const [total, setTotal] = useState(0);
+  const { loading } = useProducts();
 
   useEffect(() => {
     setTotal(getCartTotal());
@@ -14,6 +18,16 @@ function Cart() {
 
   const handleRemoveItem = (id) => {
     removeFromCart(id);
+  };
+
+  const handleQuantityDecrease = (id, currentQuantity) => {
+    if (currentQuantity > 1) {
+      updateQuantity(id, currentQuantity - 1);
+    }
+  };
+
+  const handleQuantityIncrease = (id, currentQuantity) => {
+    updateQuantity(id, currentQuantity + 1);
   };
 
   const handleCheckout = () => {
@@ -35,7 +49,11 @@ function Cart() {
           {/* Cart Items - Scrollable Section */}
           <div className="flex-1 bg-lightgray rounded-xl p-4 shadow-md">
             <div className="max-h-[60vh] overflow-y-auto hide-scrollbar">
-              {cartItems.length > 0 ? (
+              {loading ? (
+                <div className="text-center py-12 font-mabrylight text-pinegreen">
+                  Laster handlekurv...
+                </div>
+              ) : cartItems.length > 0 ? (
                 cartItems.map((item) => (
                   <div
                     key={item.id}
@@ -59,7 +77,7 @@ function Cart() {
                         {item.productDescription}
                       </p>
                       <p className="font-mabry text-pinegreen">
-                        {item.price} NOK per stk
+                        {formatPrice(item.price)} per stk
                       </p>
                     </div>
 
@@ -68,9 +86,9 @@ function Cart() {
                       <div className="flex items-center mb-2">
                         <button
                           className="bg-pinegreen/10 text-pinegreen p-2 rounded-l-lg hover:bg-pinegreen/20 transition-all"
-                          onClick={() => {
-                            /* Implement decrease quantity functionality */
-                          }}
+                          onClick={() =>
+                            handleQuantityDecrease(item.id, item.quantity)
+                          }
                           disabled={item.quantity === 1}
                         >
                           <FaMinus size={10} />
@@ -80,16 +98,16 @@ function Cart() {
                         </span>
                         <button
                           className="bg-pinegreen/10 text-pinegreen p-2 rounded-r-lg hover:bg-pinegreen/20 transition-all"
-                          onClick={() => {
-                            /* Implement increase quantity functionality */
-                          }}
+                          onClick={() =>
+                            handleQuantityIncrease(item.id, item.quantity)
+                          }
                         >
                           <FaPlus size={10} />
                         </button>
                       </div>
 
                       <p className="font-mabry text-pinegreen mb-2">
-                        {item.price * item.quantity} NOK
+                        {formatPrice(item.price * item.quantity)}
                       </p>
 
                       <button
@@ -136,7 +154,9 @@ function Cart() {
                 <span className="font-mabrylight text-pinegreen">
                   Subtotal:
                 </span>
-                <span className="font-mabry text-pinegreen">{total} NOK</span>
+                <span className="font-mabry text-pinegreen">
+                  {formatPrice(total)}
+                </span>
               </div>
 
               <div className="flex justify-between items-center">
@@ -150,7 +170,7 @@ function Cart() {
                     Totalt:
                   </span>
                   <span className="font-mabry text-pinegreen text-lg">
-                    {total} NOK
+                    {formatPrice(total)}
                   </span>
                 </div>
               </div>
