@@ -31,7 +31,7 @@ function Cart() {
   };
 
   const handleCheckout = () => {
-    alert("Thanks for your purchase!");
+    alert("Takk for din bestilling!");
     clearCart();
   };
 
@@ -84,26 +84,28 @@ function Cart() {
                     {/* Quantity Controls */}
                     <div className="w-full sm:w-1/4 flex flex-col items-center mt-3 sm:mt-0">
                       <div className="flex items-center mb-2">
-                        <button
-                          className="bg-pinegreen/10 text-pinegreen p-2 rounded-l-lg hover:bg-pinegreen/20 transition-all"
-                          onClick={() =>
-                            handleQuantityDecrease(item.id, item.quantity)
-                          }
-                          disabled={item.quantity === 1}
-                        >
-                          <FaMinus size={10} />
-                        </button>
-                        <span className="px-4 py-1 bg-white text-pinegreen font-mabry">
-                          {item.quantity}
-                        </span>
-                        <button
-                          className="bg-pinegreen/10 text-pinegreen p-2 rounded-r-lg hover:bg-pinegreen/20 transition-all"
-                          onClick={() =>
-                            handleQuantityIncrease(item.id, item.quantity)
-                          }
-                        >
-                          <FaPlus size={10} />
-                        </button>
+                        <div className="flex items-center border border-pinegreen/30 rounded-lg overflow-hidden">
+                          <button
+                            onClick={() =>
+                              handleQuantityDecrease(item.id, item.quantity)
+                            }
+                            disabled={item.quantity === 1}
+                            className="bg-gray-100 px-2 py-1 text-pinegreen hover:bg-gray-200 transition-colors disabled:opacity-50"
+                          >
+                            -
+                          </button>
+                          <span className="px-3 py-1 font-mabry text-pinegreen min-w-[30px] text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() =>
+                              handleQuantityIncrease(item.id, item.quantity)
+                            }
+                            className="bg-gray-100 px-2 py-1 text-pinegreen hover:bg-gray-200 transition-colors"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
 
                       <p className="font-mabry text-pinegreen mb-2">
