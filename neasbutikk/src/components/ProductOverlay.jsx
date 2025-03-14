@@ -55,11 +55,6 @@ function ProductOverlay({
     });
 
     onClose();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
   };
 
   const handleIncrement = () => {
