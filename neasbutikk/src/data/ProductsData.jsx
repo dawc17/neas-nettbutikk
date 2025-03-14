@@ -31,7 +31,6 @@ export const useProducts = () => {
         const snapshot = await get(productsRef);
 
         if (snapshot.exists()) {
-          // Convert from Firebase object to array
           const productsArray = Object.values(snapshot.val());
           setProducts(productsArray);
         } else {

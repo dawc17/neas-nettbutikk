@@ -1,3 +1,25 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark,
+    cupcake,
+    cyberpunk,
+    dracula,
+    funky,
+    halloween,
+    aqua,
+    forest,
+    halloween,
+    lofi,
+    noir,
+    dark,
+    light,
+    polar,
+    sky,
+    unicorn;
+}
+
 @font-face {
   font-family: Mabry;
   src: url("../src/assets/fonts/mabry-regular-pro.otf");

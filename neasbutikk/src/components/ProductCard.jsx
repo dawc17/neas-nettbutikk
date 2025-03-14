@@ -34,7 +34,9 @@ const cleanupFavorites = () => {
 
 function Divider() {
   return (
-    <div className="divider bg-pinegreen h-0.5 mx-2 md:m-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-mossgreen"></div>
+    <div className="flex justify-center w-full">
+      <div className="divider bg-pinegreen h-0.5 mx-2 md:mx-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-mossgreen"></div>
+    </div>
   );
 }
 
@@ -53,7 +55,6 @@ function ProductCard({
   const [isFavorite, setIsFavorite] = useState(() =>
     getFavoriteFromStorage(id)
   );
-  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     cleanupFavorites();
@@ -61,8 +62,6 @@ function ProductCard({
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 300);
 
     if (!id) {
       console.warn("Product ID is missing!");
@@ -99,9 +98,7 @@ function ProductCard({
         <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
           <button
             onClick={handleFavoriteClick}
-            className={`absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white ${
-              isAnimating ? "animate-bounce" : ""
-            }`}
+            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
             aria-label={
               isFavorite ? "Remove from favorites" : "Add to favorites"
             }
@@ -145,6 +142,7 @@ function ProductCard({
           extendedDescription={extendedDescription}
           price={price}
           allImages={allImages}
+          id={id}
         />
       )}
     </>

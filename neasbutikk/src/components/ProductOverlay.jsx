@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useCart } from "../context/CartContext";
 
 function ProductOverlay({
   isOpen,
@@ -7,8 +8,10 @@ function ProductOverlay({
   productDescription,
   extendedDescription,
   price,
-  allImages = []
+  allImages = [],
+  id, // Make sure id is passed
 }) {
+  const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
@@ -39,6 +42,21 @@ function ProductOverlay({
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? allImages.length - 1 : prevIndex - 1
     );
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id,
+      productName,
+      productDescription,
+      price,
+      image: allImages[0]?.src,
+    });
+
+    // Close the overlay
+    onClose();
+
+    // Scroll to top with smooth behavior
   };
 
   return (
@@ -176,8 +194,11 @@ function ProductOverlay({
             <p className="font-mabry text-pinegreen text-lg sm:text-xl md:text-2xl">
               {price} NOK
             </p>
-            <button className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-90 transition-all duration-150">
-              Kjøp nå
+            <button
+              onClick={handleAddToCart}
+              className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-95 transition-all duration-150"
+            >
+              Legg til handlekurv
             </button>
           </div>
         </div>

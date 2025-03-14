@@ -7,9 +7,12 @@ import {
   FaTimes,
   FaHeart,
 } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { getCartCount, showNotification } = useCart();
+  const cartCount = getCartCount();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -46,10 +49,20 @@ function Navbar() {
             <BarIcon icon={<FaHeart size={28} className="text-pinegreen" />} />
           </Link>
         </div>
-        <div className="mr-5">
-          <BarIcon
-            icon={<FaShoppingCart size={28} className="text-pinegreen" />}
-          />
+        <div className="mr-5 relative tooltip tooltip-bottom" data-tip="hello">
+          <Link to="/cart">
+            <BarIcon
+              icon={<FaShoppingCart size={28} className="text-pinegreen" />}
+            />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+            {showNotification && cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 animate-bounce-violent animate-color-change rounded-full w-5 h-5 opacity-75"></span>
+            )}
+          </Link>
         </div>
         <div className="mr-1">
           <a href="https://minside.neas.no/register">
@@ -84,11 +97,19 @@ function Navbar() {
         className={`lg:hidden w-full order-5 transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-screen opacity-100 pt-4 pb-3" : "max-h-0 opacity-0 overflow-hidden"}`}
       >
         <div className="flex flex-col space-y-3 items-center">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center relative">
             <BarIcon
               icon={<FaShoppingCart size={20} className="text-pinegreen" />}
             />
             <span className="ml-2 text-pinegreen">Handlekurv</span>
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-10 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+            {showNotification && cartCount > 0 && (
+              <span className="absolute -top-2 -right-10 animate-ping bg-red-500 rounded-full w-5 h-5 opacity-75"></span>
+            )}
           </div>
           <a href="https://minside.neas.no/register" className="w-full">
             <NavbarButton

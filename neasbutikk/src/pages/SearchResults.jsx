@@ -8,10 +8,8 @@ function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
-  // Use the Firebase products hook instead of importing static data
   const { products, loading, error } = useProducts();
 
-  // Filter products once they're loaded
   const filteredProducts =
     loading || error
       ? []
