@@ -67,3 +67,83 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
+
+.product-extended-description h1 {
+  font-size: 1.8rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-family: "Mabry", sans-serif;
+  color: var(--color-pinegreen);
+}
+
+.product-extended-description h2 {
+  font-size: 1.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-family: "Mabry", sans-serif;
+  color: var(--color-pinegreen);
+}
+
+.product-extended-description h3 {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: "Mabry", sans-serif;
+  color: var(--color-pinegreen);
+}
+
+.product-extended-description p {
+  margin-bottom: 1rem;
+}
+
+.product-extended-description ul,
+.product-extended-description ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.product-extended-description ul {
+  list-style-type: disc;
+}
+
+.product-extended-description ol {
+  list-style-type: decimal;
+}
+
+.product-extended-description li {
+  margin-bottom: 0.25rem;
+}
+
+.product-extended-description strong {
+  font-weight: bold;
+}
+
+.product-extended-description em {
+  font-style: italic;
+}
+
+.product-extended-description a {
+  color: var(--color-mossgreen);
+  text-decoration: underline;
+}
+
+.product-extended-description img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.product-extended-description blockquote {
+  border-left: 3px solid var(--color-mossgreen);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+}
+
+.product-extended-description code {
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: monospace;
+}

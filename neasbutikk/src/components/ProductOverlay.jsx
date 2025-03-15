@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/priceFormatter";
+import ReactMarkdown from "react-markdown";
 
 function ProductOverlay({
   isOpen,
@@ -32,6 +33,7 @@ function ProductOverlay({
     if (!isOpen) {
       setCurrentImageIndex(0);
       setQuantity(1); 
+      
     }
   }, [isOpen]);
 
@@ -58,6 +60,7 @@ function ProductOverlay({
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
+    console.log({allImages})
   };
 
   const handleDecrement = () => {
@@ -177,22 +180,18 @@ function ProductOverlay({
             <h3 className="font-mabry text-pinegreen text-lg md:text-xl mb-2">
               Beskrivelse
             </h3>
-            <div className="font-mabrylight text-pinegreen text-sm md:text-base whitespace-pre-line">
+            <div className="font-mabrylight text-pinegreen text-sm md:text-base">
               {productDescription}
-              <p className="mt-3 md:mt-5">{extendedDescription}</p>
+              
+              {/* Markdown renderer for extended description */}
+              <div className="mt-4 md:mt-6 product-extended-description">
+                <ReactMarkdown >
+                  {extendedDescription}
+                </ReactMarkdown>
+              </div>
             </div>
           </div>
         </div>
-
-        <style jsx>{`
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-        `}</style>
 
         <div className="absolute bottom-0 left-0 right-0 bg-lightgray py-3 md:py-4 px-3 sm:px-4 md:px-6 border-t border-pinegreen/20 shadow-lg">
           <div className="flex justify-between items-center">
