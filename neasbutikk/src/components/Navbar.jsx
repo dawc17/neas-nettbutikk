@@ -1,7 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import {
-  FaSearch,
   FaShoppingCart,
   FaBars,
   FaTimes,
@@ -10,6 +9,9 @@ import {
 import { useCart } from "../context/CartContext";
 import CartOverlay from "./CartOverlay";
 import FavoritesOverlay from "./FavoritesOverlay";
+import SearchBar from "./SearchBar";
+import NavbarButton from "./NavbarButton";
+import BarIcon from "./BarIcon";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,7 +35,7 @@ function Navbar() {
     };
   }, []);
 
-  // Cart overlay visibility logic
+  // cart overlay
   useEffect(() => {
     if (isMouseOverCart || isMouseOverCartOverlay) {
       setShowCartOverlay(true);
@@ -46,7 +48,8 @@ function Navbar() {
     }
   }, [isMouseOverCart, isMouseOverCartOverlay]);
 
-  // Favorites overlay visibility logic
+
+  // favorites overlay
   useEffect(() => {
     if (isMouseOverFavorites || isMouseOverFavoritesOverlay) {
       setShowFavoritesOverlay(true);
@@ -82,12 +85,12 @@ function Navbar() {
         </button>
       </div>
 
-      {/* Search Bar - Hidden on mobile, visible from medium screens */}
+      {/* desktop search bar */}
       <div className="hidden md:block md:w-full lg:w-[40rem] lg:mx-auto lg:px-4 order-3 lg:order-2 mt-3 lg:mt-0">
         <SearchBar />
       </div>
 
-      {/* Desktop Navigation */}
+      {/* dektop navigation */}
       <div className="hidden lg:flex items-center order-2 lg:order-3">
         <div
           className="mr-5 relative"
@@ -166,12 +169,12 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Search Bar - Visible only on small screens */}
+      {/* mobile search bar */}
       <div className="w-full order-4 mt-3 md:hidden">
         <SearchBar />
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* mobile navigation */}
       <div
         className={`lg:hidden w-full order-5 transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-screen opacity-100 pt-4 pb-3" : "max-h-0 opacity-0 overflow-hidden"}`}
       >
@@ -218,60 +221,4 @@ function Navbar() {
   );
 }
 
-function SearchBar() {
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
-
-  return (
-    <form className="w-full mx-auto font-mabrylight" onSubmit={handleSubmit}>
-      <div className="relative">
-        <input
-          type="search"
-          name="search"
-          id="search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Hva leter du etter?"
-          maxLength={36}
-          className="w-full rounded-full bg-white px-6 py-3 pr-12 text-base text-gray-900 outline outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-950 sm:text-sm"
-        />
-        <button
-          type="submit"
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 hover:scale-90 transition-all duration-150 ease-in-out cursor-pointer"
-        >
-          <BarIcon icon={<FaSearch size={18} />} text="Søk" />
-        </button>
-      </div>
-    </form>
-  );
-}
-
-function BarIcon({ icon, text }) {
-  return (
-    <div className="navbar-icon group relative hover:scale-90 transition-all duration-200 ease-in-out cursor-pointer">
-      {icon}
-      {text && <span className="sr-only">{text}</span>}
-    </div>
-  );
-}
-
-function NavbarButton({ text, bg, textcolor, texthover, bghover }) {
-  return (
-    <div className="w-full">
-      <button
-        className={`hover:scale-95 transition-all duration-200 ease-in-out cursor-pointer font-mabry text-base sm:text-lg md:text-xl rounded-full px-4 sm:px-5 md:px-7 py-2 md:py-3 w-full ${bg} ${textcolor} ${texthover} ${bghover}`}
-      >
-        {text}
-      </button>
-    </div>
-  );
-}
-
-export { Navbar, NavbarButton };
+export default Navbar;

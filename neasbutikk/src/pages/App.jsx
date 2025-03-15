@@ -1,37 +1,13 @@
 import "../index.css";
-
-import { useEffect, useState } from "react";
 import { useProducts } from "../data/ProductsData";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
-import Granim from "granim";
 import ImageCarousel from "../components/ImageCarousel";
 
 function App() {
   // Use the hook to fetch products from Firebase
   const { products, loading, error } = useProducts();
-
-  useEffect(() => {
-    var granimInstance = new Granim({
-      element: "#canvas-basic",
-      direction: "left-right",
-      isPausedWhenNotInView: false,
-      states: {
-        "default-state": {
-          gradients: [
-            ["#f1e967", "#95c672"],
-            ["#eebbca", "#f1e967"],
-          ],
-          transitionSpeed: 1000,
-        },
-      },
-    });
-
-    return () => {
-      granimInstance.destroy();
-    };
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col hide-scrollbar">

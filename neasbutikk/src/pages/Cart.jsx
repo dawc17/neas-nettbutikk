@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
 import { useCart } from "../context/CartContext";
-import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { useProducts } from "../data/ProductsData";
 import { formatPrice } from "../utils/priceFormatter";
 

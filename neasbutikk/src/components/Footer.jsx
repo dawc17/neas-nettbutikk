@@ -1,4 +1,6 @@
-import { NavbarButton } from "./Navbar";
+import NavbarButton from "./NavbarButton";
+import ContactNumberItem from "./ContactNumberItem";
+import FooterLink from "./FooterLink";
 
 function FooterMain() {
   return (
@@ -155,29 +157,6 @@ function FooterMain() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ContactNumberItem({ city, number }) {
-  return (
-    <div className="phone-item flex flex-col w-full">
-      <div className="phone-title text-breadtext text-sm md:text-base">
-        {city}
-      </div>
-      <div className="phone-number text-lg md:text-2xl mt-1 md:mt-3">
-        {number}
-      </div>
-    </div>
-  );
-}
-
-function FooterLink({ text }) {
-  return (
-    <div className="about-us-item flex flex-col w-full">
-      <a href="#">
-        <h2 className="about-us-text hover:underline">{text}</h2>
-      </a>
     </div>
   );
 }

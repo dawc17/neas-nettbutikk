@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../data/ProductsData";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
 
