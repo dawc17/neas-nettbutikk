@@ -12,6 +12,7 @@ import FavoritesOverlay from "./FavoritesOverlay";
 import SearchBar from "./SearchBar";
 import NavbarButton from "./NavbarButton";
 import BarIcon from "./BarIcon";
+import AdminButton from "./AdminButton";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -166,6 +167,11 @@ function Navbar() {
               bghover={"hover:bg-pinegreen/85"}
             />
           </a>
+        </div>
+        <div className="ml-2">
+            <a href="/adminpanel">
+              <AdminButton></AdminButton>
+            </a>
         </div>
       </div>
 

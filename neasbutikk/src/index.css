@@ -68,6 +68,26 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+@keyframes colorCycle {
+  0%,
+  100% {
+    background-color: var(--color-mossgreen);
+  }
+  25% {
+    background-color: var(--color-white);
+  }
+  50% {
+    background-color: var(--color-petalpink);
+  }
+  75% {
+    background-color: var(--color-sunlightyellow);
+  }
+}
+
+.animate-color-cycle {
+  animation: colorCycle 9s infinite;
+}
+
 .product-extended-description h1 {
   font-size: 1.8rem;
   margin-top: 1.5rem;
