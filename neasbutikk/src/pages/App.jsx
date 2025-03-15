@@ -42,13 +42,6 @@ function App() {
         <section className="m-10">
           <ImageCarousel />
         </section>
-        <section className="gradient-banner flex justify-center m-10 ">
-          <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-end shadow-lg p-2">
-            <canvas id="canvas-basic" className="rounded-xl w-full h-2">
-              <div className="canvas-mask"></div>
-            </canvas>
-          </div>
-        </section>
         <div className="text-2xl text-pinegreen font-mabry m-10 flex justify-center">
           <h1>Populært denne uken</h1>
         </div>

@@ -48,7 +48,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
 
   return (
     <div
-      className={`absolute top-full right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
+      className={`absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none"
@@ -98,7 +98,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
             ))}
           </div>
 
-          <div className="p-4 border-t border-gray-200 bg-gray-50">
+          <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
             <Link
               to="/favorites"
               className="bg-mossgreen text-pinegreen font-mabry rounded-lg w-full py-2 text-center block hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
@@ -108,7 +108,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
           </div>
         </>
       ) : (
-        <div className="p-6 text-center">
+        <div className="p-6 text-center rounded-b-xl">
           <FaHeart size={24} className="text-gray-300 mx-auto mb-2" />
           <p className="font-mabrylight text-pinegreen mb-2">
             Du har ingen favoritter enda

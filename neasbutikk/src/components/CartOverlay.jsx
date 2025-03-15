@@ -11,13 +11,14 @@ function CartOverlay({ isVisible, onClose }) {
 
   return (
     <div
-      className={`absolute top-full right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
+      className={`absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none"
       }`}
       onMouseLeave={onClose}
     >
+      {/* Fixed Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <h3 className="font-mabry text-pinegreen text-lg">Din handlekurv</h3>
@@ -30,6 +31,7 @@ function CartOverlay({ isVisible, onClose }) {
 
       {cartItems.length > 0 ? (
         <>
+          {/* Scrollable Items Section */}
           <div className="max-h-64 overflow-y-auto hide-scrollbar">
             {cartItems.map((item) => (
               <div
@@ -60,7 +62,8 @@ function CartOverlay({ isVisible, onClose }) {
             ))}
           </div>
 
-          <div className="p-4 border-t border-gray-200 bg-gray-50">
+          {/* Fixed Footer */}
+          <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
             <div className="flex justify-between items-center mb-3">
               <span className="font-mabrylight text-pinegreen">
                 Sum totalt:
@@ -79,7 +82,7 @@ function CartOverlay({ isVisible, onClose }) {
           </div>
         </>
       ) : (
-        <div className="p-6 text-center">
+        <div className="p-6 text-center rounded-b-xl">
           <FaShoppingCart size={24} className="text-gray-300 mx-auto mb-2" />
           <p className="font-mabrylight text-pinegreen mb-2">
             Handlekurven er tom
