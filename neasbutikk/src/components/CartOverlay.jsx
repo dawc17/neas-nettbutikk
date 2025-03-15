@@ -31,7 +31,6 @@ function CartOverlay({ isVisible, onClose }) {
 
       {cartItems.length > 0 ? (
         <>
-          {/* Scrollable Items Section */}
           <div className="max-h-64 overflow-y-auto hide-scrollbar">
             {cartItems.map((item) => (
               <div
@@ -62,7 +61,6 @@ function CartOverlay({ isVisible, onClose }) {
             ))}
           </div>
 
-          {/* Fixed Footer */}
           <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
             <div className="flex justify-between items-center mb-3">
               <span className="font-mabrylight text-pinegreen">

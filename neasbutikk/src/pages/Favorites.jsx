@@ -33,7 +33,6 @@ function Favorites() {
     }
   }, [products, loading, error]);
 
-  // Create a custom onUnfavorite handler
   const handleUnfavorite = () => {
     updateFavorites();
   };
@@ -61,7 +60,7 @@ function Favorites() {
               <ProductCard
                 key={index}
                 {...product}
-                onFavoriteChange={handleUnfavorite} // Add this prop
+                onFavoriteChange={handleUnfavorite} 
               />
             ))
           ) : (

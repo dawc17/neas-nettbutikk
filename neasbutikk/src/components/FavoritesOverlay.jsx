@@ -8,7 +8,6 @@ function FavoritesOverlay({ isVisible, onClose }) {
   const { products } = useProducts();
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
-  // Get favorite products whenever products load or favorites change
   useEffect(() => {
     if (!products?.length) return;
 
@@ -22,9 +21,8 @@ function FavoritesOverlay({ isVisible, onClose }) {
       console.error("Error loading favorites:", error);
       setFavoriteProducts([]);
     }
-  }, [products, isVisible]); // Re-check when overlay becomes visible
+  }, [products, isVisible]); // re-check when overlay becomes visible
 
-  // Listen for storage events (in case favorites are modified in another tab/component)
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === "favorites" && products?.length) {

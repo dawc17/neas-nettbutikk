@@ -46,7 +46,7 @@ function Cart() {
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Cart Items - Scrollable Section */}
+          {/* scrollable cart items */}
           <div className="flex-1 bg-lightgray rounded-xl p-4 shadow-md">
             <div className="max-h-[60vh] overflow-y-auto hide-scrollbar">
               {loading ? (
@@ -59,7 +59,7 @@ function Cart() {
                     key={item.id}
                     className="flex flex-col sm:flex-row items-center border-b border-pinegreen/20 py-4"
                   >
-                    {/* Product Image */}
+                    {/* product image */}
                     <div className="w-full sm:w-1/4 mb-3 sm:mb-0">
                       <img
                         src={item.image}
@@ -68,7 +68,7 @@ function Cart() {
                       />
                     </div>
 
-                    {/* Product Details */}
+                    {/* product details */}
                     <div className="w-full sm:w-2/4 px-4 text-center sm:text-left">
                       <h3 className="font-mabry text-pinegreen text-lg mb-1">
                         {item.productName}
@@ -81,7 +81,7 @@ function Cart() {
                       </p>
                     </div>
 
-                    {/* Quantity Controls */}
+                    {/* quantity control */}
                     <div className="w-full sm:w-1/4 flex flex-col items-center mt-3 sm:mt-0">
                       <div className="flex items-center mb-2">
                         <div className="flex items-center border border-pinegreen/30 rounded-lg overflow-hidden">
@@ -136,7 +136,7 @@ function Cart() {
             </div>
           </div>
 
-          {/* Order Summary */}
+          {/* order summary */}
           <div className="lg:w-1/3 bg-lightgray rounded-xl p-6 shadow-md h-fit">
             <h2 className="text-xl text-pinegreen font-mabry mb-4 border-b border-pinegreen/20 pb-2">
               Ordresammendrag

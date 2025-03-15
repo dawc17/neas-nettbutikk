@@ -31,7 +31,7 @@ function ProductOverlay({
   useEffect(() => {
     if (!isOpen) {
       setCurrentImageIndex(0);
-      setQuantity(1); // Reset quantity when closing
+      setQuantity(1); 
     }
   }, [isOpen]);
 
@@ -48,7 +48,6 @@ function ProductOverlay({
   };
 
   const handleAddToCart = () => {
-    // Pass the ID and the selected quantity
     addToCart({
       id,
       quantity,

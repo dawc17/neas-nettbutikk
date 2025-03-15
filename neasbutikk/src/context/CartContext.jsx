@@ -8,12 +8,12 @@ export function useCart() {
 }
 
 export function CartProvider({ children }) {
-  const [cartItemsMap, setCartItemsMap] = useState({}); // Format: { productId: quantity }
+  const [cartItemsMap, setCartItemsMap] = useState({}); // { productId: quantity }
   const [showNotification, setShowNotification] = useState(false);
   const { products, loading } = useProducts();
   const [cartItems, setCartItems] = useState([]);
 
-  // Load cart from localStorage on mount
+  // load cart from localStorage 
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("cart");
@@ -25,7 +25,7 @@ export function CartProvider({ children }) {
     }
   }, []);
 
-  // Save cart to localStorage when it changes
+  // save cart to localStorage when it changes
   useEffect(() => {
     try {
       localStorage.setItem("cart", JSON.stringify(cartItemsMap));
@@ -34,7 +34,6 @@ export function CartProvider({ children }) {
     }
   }, [cartItemsMap]);
 
-  // Create full cart items with product details when products or cart changes
   useEffect(() => {
     if (loading || !products.length) return;
 
@@ -48,13 +47,12 @@ export function CartProvider({ children }) {
           quantity,
         };
       })
-      .filter(Boolean); // Filter out any null items (products not found)
+      .filter(Boolean);
 
     setCartItems(items);
   }, [cartItemsMap, products, loading]);
 
   const addToCart = (product) => {
-    // Handle the quantity specified in the product object
     const quantityToAdd = product.quantity || 1;
 
     setCartItemsMap((prev) => ({

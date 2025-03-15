@@ -7,7 +7,7 @@ function FooterMain() {
     <div className="m-1">
       <div className="footer-wrapper font-mabrylight">
         <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-2">
-          {/* Contact Section */}
+          {/* kontakt */}
           <div className="flex flex-col w-full justify-between items-center p-4 bg-pinegreen-footer rounded-xl">
             <h2 className="text-mossgreen flex flex-col w-full mb-4 md:mb-15 p-2 text-xl md:text-2xl">
               Kontakt oss

@@ -1,4 +1,3 @@
-// navbar button component
 function NavbarButton({ text, bg, textcolor, texthover, bghover }) {
     return (
       <div className="w-full">
