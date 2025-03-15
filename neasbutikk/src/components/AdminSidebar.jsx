@@ -161,12 +161,6 @@ function AdminSidebar() {
                     )}
                 </div>
             </nav>
-
-            <div className="absolute bottom-6 left-0 right-0 px-4">
-                <div className="p-3 rounded-lg bg-pinegreen-footer font-mabrylight text-sm text-center">
-                    <p>Neas Nettbutikk Admin v1.0</p>
-                </div>
-            </div>
         </div>
     );
 }
