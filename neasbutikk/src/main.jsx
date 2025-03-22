@@ -7,6 +7,7 @@ import SearchResults from "./pages/SearchResults";
 import Favorites from "./pages/Favorites";
 import Cart from "./pages/Cart";
 import AdminPanel from "./pages/AdminPanel";
+import ProductPage from "./pages/ProductPage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/adminpanel" element={<AdminPanel/>} />
+          <Route path="/product/:productId" element={<ProductPage />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

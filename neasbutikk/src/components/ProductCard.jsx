@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import ProductOverlay from "./ProductOverlay";
 import { formatPrice } from "../utils/priceFormatter";
@@ -110,16 +111,31 @@ function ProductCard({
               <FaRegHeart className="text-pinegreen text-xl hover:text-red-500 mt-0.5" />
             )}
           </button>
-          <img
-            src={image}
-            alt={altText}
-            className="w-auto max-w-full h-full max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
-          />
+          
+          {/* Make image clickable */}
+          <Link 
+            to={`/product/${id}`} 
+            className="w-auto h-full flex items-center justify-center cursor-pointer"
+          >
+            <img
+              src={image}
+              alt={altText}
+              className="w-auto max-w-full h-full max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
+            />
+          </Link>
         </div>
         <Divider />
-        <h3 className="font-mabry text-pinegreen text-base md:text-md h-12 md:h-14 line-clamp-2 text-center w-full px-1 md:px-2">
-          {productName}
-        </h3>
+        
+        {/* Make title clickable */}
+        <Link 
+          to={`/product/${id}`}
+          className="h-12 md:h-14 w-full px-1 md:px-2 hover:underline decoration-pinegreen/50"
+        >
+          <h3 className="font-mabry text-pinegreen text-base md:text-md line-clamp-2 text-center">
+            {productName}
+          </h3>
+        </Link>
+        
         <p className="font-mabrylight text-pinegreen text-sm md:text-md h-16 md:h-20 line-clamp-3 text-center w-full px-1 md:px-2">
           {productDescription}
         </p>

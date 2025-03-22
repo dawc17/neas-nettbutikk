@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/priceFormatter";
 import ReactMarkdown from "react-markdown";
@@ -216,12 +217,21 @@ function ProductOverlay({
                   +
                 </button>
               </div>
-              <button
-                onClick={handleAddToCart}
-                className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-95 transition-all duration-150"
-              >
-                Legg til handlekurv
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-mossgreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-95 transition-all duration-150"
+                >
+                  Legg til handlekurv
+                </button>
+                <Link
+                  to={`/product/${id}`}
+                  onClick={onClose}
+                  className="border border-pinegreen text-pinegreen font-mabry rounded-lg md:rounded-xl px-3 py-1 sm:px-4 sm:py-2 text-sm md:text-base hover:bg-pinegreen hover:text-white hover:scale-95 transition-all duration-150 whitespace-nowrap"
+                >
+                  Se detaljer
+                </Link>
+              </div>
             </div>
           </div>
         </div>
