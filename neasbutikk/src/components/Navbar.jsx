@@ -5,8 +5,10 @@ import {
   FaBars,
   FaTimes,
   FaHeart,
+  FaUserShield, // Add this for admin icon
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext"; // Import useAuth
 import CartOverlay from "./CartOverlay";
 import FavoritesOverlay from "./FavoritesOverlay";
 import SearchBar from "./SearchBar";
@@ -19,6 +21,7 @@ function Navbar() {
   const [showCartOverlay, setShowCartOverlay] = useState(false);
   const [showFavoritesOverlay, setShowFavoritesOverlay] = useState(false);
   const { getCartCount, showNotification } = useCart();
+  const { currentUser, isAdmin } = useAuth(); // Get auth state
   const cartCount = getCartCount();
   
   const cartTimeoutRef = useRef(null);
@@ -93,6 +96,14 @@ function Navbar() {
 
       {/* dektop navigation */}
       <div className="hidden lg:flex items-center order-2 lg:order-3">
+        {/* Admin Indicator - Moved to be between search bar and favorites icon */}
+        {currentUser && isAdmin && (
+          <div className="mr-4 bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1 rounded-full flex items-center">
+            <FaUserShield className="mr-1" />
+            <span>Admin</span>
+          </div>
+        )}
+        
         <div
           className="mr-5 relative"
           onMouseEnter={() => setIsMouseOverFavorites(true)}
@@ -168,10 +179,11 @@ function Navbar() {
             />
           </a>
         </div>
-        <div className="ml-2">
-            <a href="/adminpanel">
-              <AdminButton></AdminButton>
-            </a>
+        <div className="ml-2 relative">
+          <AdminButton />
+          {currentUser && isAdmin && (
+            <span className="absolute -top-2 -right-2 bg-mossgreen text-pinegreen text-xs font-bold rounded-full w-3 h-3 flex items-center justify-center"></span>
+          )}
         </div>
       </div>
 
@@ -185,6 +197,16 @@ function Navbar() {
         className={`lg:hidden w-full order-5 transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-screen opacity-100 pt-4 pb-3" : "max-h-0 opacity-0 overflow-hidden"}`}
       >
         <div className="flex flex-col space-y-3 items-center">
+          {/* Admin indicator for mobile */}
+          {currentUser && isAdmin && (
+            <div className="w-full flex items-center justify-center mb-2">
+              <div className="bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1.5 rounded-full flex items-center justify-center">
+                <FaUserShield className="mr-1" />
+                <span>Logget inn som administrator</span>
+              </div>
+            </div>
+          )}
+          
           <Link to="/cart" className="flex items-center justify-center relative w-full">
             <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
               <FaShoppingCart size={20} className="text-pinegreen" />
@@ -221,6 +243,14 @@ function Navbar() {
               bghover={"hover:bg-pinegreen/85"}
             />
           </a>
+          
+          {/* Admin link for mobile */}
+          <Link to="/adminpanel" className="flex items-center justify-center relative w-full">
+            <div className="flex items-center justify-center py-2 px-4 rounded-lg bg-gray-100 hover:bg-gray-200 w-full">
+              <FaUserShield size={20} className="text-pinegreen" />
+              <span className="ml-2 text-pinegreen">Admin Panel</span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
