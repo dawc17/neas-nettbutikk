@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
 import { FaArrowLeft, FaHeart, FaRegHeart } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
+import { CATEGORY_NAMES } from "../components/AdminProductForm";
 
 function ProductPage() {
   const { productId } = useParams();
@@ -22,7 +23,7 @@ function ProductPage() {
     if (!loading && products?.length > 0) {
       const foundProduct = products.find((p) => p.id === productId);
       setProduct(foundProduct);
-      
+
       // Check if product is favorited
       try {
         const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
@@ -48,15 +49,15 @@ function ProductPage() {
 
   const handleFavoriteToggle = () => {
     if (!product) return;
-    
+
     try {
       const newValue = !isFavorite;
       setIsFavorite(newValue);
-      
+
       const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
       favorites[product.id] = newValue;
       localStorage.setItem("favorites", JSON.stringify(favorites));
-      
+
       // Dispatch an event to notify other components
       window.dispatchEvent(new Event("storage"));
     } catch (error) {
@@ -65,8 +66,11 @@ function ProductPage() {
   };
 
   // Get all product images
-  const allImages = product?.image 
-    ? [{ src: product.image, alt: product.productName }, ...(product.images || [])]
+  const allImages = product?.image
+    ? [
+        { src: product.image, alt: product.productName },
+        ...(product.images || []),
+      ]
     : product?.images || [];
 
   const nextImage = () => {
@@ -102,14 +106,52 @@ function ProductPage() {
           </div>
         ) : !product ? (
           <div className="text-center py-12">
-            <p className="font-mabrylight text-pinegreen">Produkt ikke funnet</p>
-            <Link to="/" className="text-mossgreen hover:underline mt-4 inline-block">
+            <p className="font-mabrylight text-pinegreen">
+              Produkt ikke funnet
+            </p>
+            <Link
+              to="/"
+              className="text-mossgreen hover:underline mt-4 inline-block"
+            >
               Tilbake til butikken
             </Link>
           </div>
         ) : (
           <div className="max-w-7xl mx-auto">
-            {/* Back button */}
+            {/* Breadcrumbs */}
+            <nav
+              className="flex mb-4 text-sm font-mabrylight"
+              aria-label="Breadcrumb"
+            >
+              <ol className="inline-flex items-center space-x-1 md:space-x-2">
+                <li className="inline-flex items-center">
+                  <Link to="/" className="text-mossgreen hover:text-pinegreen">
+                    Hjem
+                  </Link>
+                </li>
+                <li>
+                  <div className="flex items-center">
+                    <span className="mx-2 text-gray-400">/</span>
+                    <Link
+                      to={`/category/${product.category}`}
+                      className="text-mossgreen hover:text-pinegreen"
+                    >
+                      {CATEGORY_NAMES[product.category] || "Kategori"}
+                    </Link>
+                  </div>
+                </li>
+                <li aria-current="page">
+                  <div className="flex items-center">
+                    <span className="mx-2 text-gray-400">/</span>
+                    <span className="text-pinegreen truncate max-w-[200px]">
+                      {product.productName}
+                    </span>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+
+            {/* Back button - you can keep or remove this now that you have breadcrumbs */}
             <Link
               to="/"
               className="inline-flex items-center font-mabrylight text-pinegreen hover:text-mossgreen mb-6 transition-colors"
@@ -126,10 +168,13 @@ function ProductPage() {
                       <>
                         <img
                           src={allImages[currentImageIndex]?.src}
-                          alt={allImages[currentImageIndex]?.alt || product.productName}
+                          alt={
+                            allImages[currentImageIndex]?.alt ||
+                            product.productName
+                          }
                           className="w-full h-full object-contain"
                         />
-                        
+
                         {allImages.length > 1 && (
                           <>
                             <button
@@ -137,8 +182,19 @@ function ProductPage() {
                               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Previous image"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M15 19l-7-7 7-7"
+                                />
                               </svg>
                             </button>
                             <button
@@ -146,8 +202,19 @@ function ProductPage() {
                               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Next image"
                             >
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
+                                />
                               </svg>
                             </button>
                           </>
@@ -184,7 +251,11 @@ function ProductPage() {
                     <button
                       onClick={handleFavoriteToggle}
                       className="p-2 transition-all duration-200 hover:scale-110 bg-white/90 rounded-full hover:bg-white"
-                      aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                      aria-label={
+                        isFavorite
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }
                     >
                       {isFavorite ? (
                         <FaHeart className="text-red-500 text-xl" />
@@ -205,7 +276,9 @@ function ProductPage() {
                   {/* Add to cart section */}
                   <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
                     <div className="flex items-center mb-4">
-                      <span className="mr-4 font-mabry text-pinegreen">Antall:</span>
+                      <span className="mr-4 font-mabry text-pinegreen">
+                        Antall:
+                      </span>
                       <div className="flex items-center border border-pinegreen/30 rounded-lg overflow-hidden">
                         <button
                           onClick={() => handleQuantityChange(-1)}
