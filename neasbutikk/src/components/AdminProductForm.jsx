@@ -64,6 +64,8 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
   const [additionalImageUrl, setAdditionalImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
+  const [uploadType, setUploadType] = useState("url"); // "url" or "file"
+  const [additionalUploadType, setAdditionalUploadType] = useState("url");
 
   // Load product data when editing
   useEffect(() => {
@@ -95,13 +97,82 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
     }
   };
 
+  // Function to convert file to base64
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Handle main image file upload
+  const handleMainImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      // Check file size (limit to 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setFeedback({
+          type: "error",
+          message: "Bildet er for stort. Maksimal størrelse er 5MB.",
+        });
+        return;
+      }
+
+      const base64 = await fileToBase64(file);
+      setProduct({ ...product, image: base64 });
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      setFeedback({
+        type: "error",
+        message: "Kunne ikke laste opp bildet. Vennligst prøv igjen.",
+      });
+    }
+  };
+
+  // Handle additional image file upload
+  const handleAdditionalImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      // Check file size (limit to 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setFeedback({
+          type: "error",
+          message: "Bildet er for stort. Maksimal størrelse er 5MB.",
+        });
+        return;
+      }
+
+      const base64 = await fileToBase64(file);
+      setProduct({
+        ...product,
+        images: [
+          ...product.images,
+          { src: base64, alt: product.productName, isBase64: true },
+        ],
+      });
+    } catch (error) {
+      console.error("Error converting image to base64:", error);
+      setFeedback({
+        type: "error",
+        message: "Kunne ikke laste opp bildet. Vennligst prøv igjen.",
+      });
+    }
+  };
+
+  // Add existing image URL
   const addImage = () => {
     if (additionalImageUrl.trim()) {
       setProduct({
         ...product,
         images: [
           ...product.images,
-          { src: additionalImageUrl, alt: product.productName },
+          { src: additionalImageUrl, alt: product.productName, isBase64: false },
         ],
       });
       setAdditionalImageUrl("");
@@ -340,24 +411,57 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
           />
         </div>
 
-        {/* Main image URL */}
+        {/* Main image section */}
         <div>
-          <label
-            htmlFor="image"
-            className="block font-mabry text-pinegreen mb-1"
-          >
-            Hovedbilde URL*
+          <label className="block font-mabry text-pinegreen mb-1">
+            Hovedbilde*
           </label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={product.image}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
-            placeholder="https://example.com/image.jpg"
-            required
-          />
+
+          <div className="flex space-x-4 mb-2">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="url"
+                checked={uploadType === "url"}
+                onChange={() => setUploadType("url")}
+                className="mr-1"
+              />
+              <span>URL</span>
+            </label>
+
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="file"
+                checked={uploadType === "file"}
+                onChange={() => setUploadType("file")}
+                className="mr-1"
+              />
+              <span>Last opp fil</span>
+            </label>
+          </div>
+
+          {uploadType === "url" ? (
+            <input
+              type="text"
+              id="image"
+              name="image"
+              value={product.image}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              placeholder="https://example.com/image.jpg"
+              required={!product.image.startsWith("data:")}
+            />
+          ) : (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleMainImageUpload}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              required={!product.image}
+            />
+          )}
+
           {product.image && (
             <div className="mt-2">
               <img
@@ -374,22 +478,56 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
           <label className="block font-mabry text-pinegreen mb-1">
             Ekstra bilder
           </label>
-          <div className="flex">
-            <input
-              type="text"
-              value={additionalImageUrl}
-              onChange={(e) => setAdditionalImageUrl(e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
-              placeholder="https://example.com/image.jpg"
-            />
-            <button
-              type="button"
-              onClick={addImage}
-              className="px-4 py-2 bg-mossgreen text-pinegreen font-mabry rounded-r-md hover:bg-mossgreen/80"
-            >
-              Legg til
-            </button>
+
+          <div className="flex space-x-4 mb-2">
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="url"
+                checked={additionalUploadType === "url"}
+                onChange={() => setAdditionalUploadType("url")}
+                className="mr-1"
+              />
+              <span>URL</span>
+            </label>
+
+            <label className="inline-flex items-center">
+              <input
+                type="radio"
+                value="file"
+                checked={additionalUploadType === "file"}
+                onChange={() => setAdditionalUploadType("file")}
+                className="mr-1"
+              />
+              <span>Last opp fil</span>
+            </label>
           </div>
+
+          {additionalUploadType === "url" ? (
+            <div className="flex">
+              <input
+                type="text"
+                value={additionalImageUrl}
+                onChange={(e) => setAdditionalImageUrl(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                placeholder="https://example.com/image.jpg"
+              />
+              <button
+                type="button"
+                onClick={addImage}
+                className="px-4 py-2 bg-mossgreen text-pinegreen font-mabry rounded-r-md hover:bg-mossgreen/80"
+              >
+                Legg til
+              </button>
+            </div>
+          ) : (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAdditionalImageUpload}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+            />
+          )}
 
           {product.images.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
@@ -425,8 +563,8 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             {isSubmitting
               ? "Lagrer..."
               : isEditMode
-                ? "Oppdater produkt"
-                : "Legg til produkt"}
+              ? "Oppdater produkt"
+              : "Legg til produkt"}
           </button>
         </div>
       </form>
