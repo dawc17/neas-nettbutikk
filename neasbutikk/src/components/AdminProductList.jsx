@@ -6,7 +6,7 @@ import { CATEGORY_NAMES } from "../components/AdminProductForm";
 import { formatPrice } from "../utils/priceFormatter";
 
 function AdminProductList({ onEditFullProduct }) {
-  const { products, loading } = useProducts();
+  const { products, loading, refreshProducts } = useProducts();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingProduct, setEditingProduct] = useState(null);
@@ -94,6 +94,9 @@ function AdminProductList({ onEditFullProduct }) {
       setEditingProduct(null);
       setEditFormData({});
 
+      // Refresh products list to show updated data
+      refreshProducts();
+
       // Clear feedback after 3 seconds
       setTimeout(() => {
         setFeedback({ type: "", message: "" });
@@ -123,6 +126,9 @@ function AdminProductList({ onEditFullProduct }) {
         type: "success",
         message: `Produktet "${productToDelete.productName}" ble slettet!`,
       });
+
+      // Refresh products list to show updated data
+      refreshProducts();
 
       // Clear feedback after 3 seconds
       setTimeout(() => {

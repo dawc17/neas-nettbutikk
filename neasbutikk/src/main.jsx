@@ -8,6 +8,7 @@ import Favorites from "./pages/Favorites";
 import Cart from "./pages/Cart";
 import AdminPanel from "./pages/AdminPanel";
 import ProductPage from "./pages/ProductPage";
+import CategoryPage from "./pages/CategoryPage"; // Import the new component
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,8 +19,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/search" element={<SearchResults />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/adminpanel" element={<AdminPanel/>} />
+          <Route path="/adminpanel" element={<AdminPanel />} />
           <Route path="/product/:productId" element={<ProductPage />} />
+          <Route path="/category/:categoryId" element={<CategoryPage />} />{" "}
+          {/* Add this new route */}
         </Routes>
       </BrowserRouter>
     </CartProvider>

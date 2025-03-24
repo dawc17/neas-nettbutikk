@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, get } from "firebase/database";
@@ -23,31 +23,41 @@ export const useProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshCounter, setRefreshCounter] = useState(0);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productsRef = ref(database, "products");
-        const snapshot = await get(productsRef);
+  const database = getDatabase();
 
-        if (snapshot.exists()) {
-          const productsArray = Object.values(snapshot.val());
-          setProducts(productsArray);
-        } else {
-          setProducts([]);
-        }
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching products: ", err);
-        setError(err.message);
-        setLoading(false);
+  const fetchProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const productsRef = ref(database, "products");
+      const snapshot = await get(productsRef);
+
+      if (snapshot.exists()) {
+        const productsArray = Object.values(snapshot.val());
+        setProducts(productsArray);
+      } else {
+        setProducts([]);
       }
-    };
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching products: ", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [database]);
 
-    fetchProducts();
+  // Force a refresh by incrementing the counter
+  const refreshProducts = useCallback(() => {
+    setRefreshCounter((prev) => prev + 1);
   }, []);
 
-  return { products, loading, error };
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts, refreshCounter]);
+
+  return { products, loading, error, refreshProducts };
 };
 
 export const getProducts = async () => {
