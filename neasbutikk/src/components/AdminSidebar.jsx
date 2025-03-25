@@ -12,7 +12,10 @@ import {
   FaImages,
   FaChevronDown,
   FaChevronRight,
+  FaSignOutAlt, // Add this import for the logout icon
 } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext"; // Import useAuth hook
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 function AdminSidebar({ activeSection, onSectionChange }) {
   const [expandedMenus, setExpandedMenus] = useState({
@@ -21,6 +24,18 @@ function AdminSidebar({ activeSection, onSectionChange }) {
     customers: false,
     settings: false,
   });
+
+  const { logout } = useAuth(); // Get logout function from AuthContext
+  const navigate = useNavigate(); // Initialize navigate
+  
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/admin/login"); // Redirect to login page after logout
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const toggleMenu = (menu) => {
     setExpandedMenus((prev) => ({
@@ -181,6 +196,17 @@ function AdminSidebar({ activeSection, onSectionChange }) {
               </button>
             </div>
           )}
+        </div>
+        
+        {/* Logout Button - Added at the bottom for easy access */}
+        <div className="mt-8 pt-4 border-t border-pinegreen-footer">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center p-3 rounded-lg bg-red-500/20 hover:bg-red-500/40 transition-all duration-200"
+          >
+            <FaSignOutAlt className="mr-3 text-red-300" />
+            <span className="font-mabry">Logg ut</span>
+          </button>
         </div>
       </nav>
     </div>

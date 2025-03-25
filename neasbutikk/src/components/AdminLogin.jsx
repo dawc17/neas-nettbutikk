@@ -1,0 +1,131 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { FaSignInAlt, FaLock, FaEnvelope, FaArrowLeft } from "react-icons/fa";
+import { useNavigate, Link } from "react-router-dom";
+
+function AdminLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      setError("");
+      setLoading(true);
+      const { role } = await login(email, password);
+      
+      // Handle navigation based on role
+      if (role === "admin") {
+        navigate("/adminpanel");
+      } else {
+        setError("Du har ikke admin-tilgang.");
+      }
+    } catch (error) {
+      setError("Feil e-post eller passord. Vennligst prøv igjen.");
+      console.error("Login failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-pinegreen-footer">
+      <div className="p-4">
+        <Link 
+          to="/" 
+          className="inline-flex items-center text-white bg-pinegreen px-4 py-2 rounded-md hover:bg-mossgreen transition-all duration-200"
+        >
+          <FaArrowLeft className="mr-2" />
+          Tilbake til butikk
+        </Link>
+      </div>
+      
+      <div className="flex-grow flex items-center justify-center">
+        <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-xl">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-mabry text-pinegreen">Admin Login</h2>
+            <p className="text-gray-500 font-mabrylight">
+              Logg inn for å få tilgang til admin-panelet
+            </p>
+          </div>
+
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block font-mabry text-pinegreen mb-2"
+              >
+                E-post
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <FaEnvelope className="text-pinegreen" />
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                  placeholder="din@epost.no"
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label
+                htmlFor="password"
+                className="block font-mabry text-pinegreen mb-2"
+              >
+                Passord
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <FaLock className="text-pinegreen" />
+                </div>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-pinegreen text-white font-mabry py-2 px-4 rounded-md hover:bg-mossgreen transition-all duration-200 flex items-center justify-center"
+            >
+              {loading ? (
+                <span>Logger inn...</span>
+              ) : (
+                <>
+                  <FaSignInAlt className="mr-2" />
+                  <span>Logg inn</span>
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default AdminLogin;
