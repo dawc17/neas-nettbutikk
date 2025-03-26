@@ -18,6 +18,8 @@ firebase.json
 .firebaserc
 ProductsData.jsx
 neasbutikk/src/data/ProductsData.jsx
+*.env
+.env
 
 
 # Editor directories and files

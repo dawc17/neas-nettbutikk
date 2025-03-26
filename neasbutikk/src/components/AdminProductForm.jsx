@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDatabase, ref, push, set, update, get } from "firebase/database";
 import { initializeApp } from "firebase/app";
-
+import { uploadFile, getPublicUrl } from "../utils/BucketHandler";
 const firebaseConfig = {
   apiKey: "AIzaSyDvyh73cj0xDmkVSMrfy8wD1V2C0nL9bzg",
   authDomain: "neas-nettbutikk-cb665.firebaseapp.com",
@@ -72,6 +72,8 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
     if (productToEdit) {
       // Transform the product data to match the form structure
       const images = productToEdit.images || [];
+
+      console.log();
 
       setProduct({
         productName: productToEdit.productName || "",
@@ -172,7 +174,11 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         ...product,
         images: [
           ...product.images,
-          { src: additionalImageUrl, alt: product.productName, isBase64: false },
+          {
+            src: additionalImageUrl,
+            alt: product.productName,
+            isBase64: false,
+          },
         ],
       });
       setAdditionalImageUrl("");
@@ -563,8 +569,8 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             {isSubmitting
               ? "Lagrer..."
               : isEditMode
-              ? "Oppdater produkt"
-              : "Legg til produkt"}
+                ? "Oppdater produkt"
+                : "Legg til produkt"}
           </button>
         </div>
       </form>
