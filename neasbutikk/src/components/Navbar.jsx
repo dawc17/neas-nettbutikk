@@ -105,7 +105,7 @@ function Navbar() {
         </div>
       )}
     
-      <div className="bg-white text-black flex flex-wrap items-center justify-between rounded-2xl w-full shadow-lg px-4 md:px-6 py-3 md:py-4 mb-1 relative">
+      <div className="bg-navbargray text-black flex flex-wrap items-center justify-between rounded-2xl w-full shadow-lg px-4 md:px-6 py-3 md:py-4 mb-1 relative">
         <a href="/" className="z-10">
           <img
             src="/neas.svg"

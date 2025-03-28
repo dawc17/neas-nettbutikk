@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { getDatabase, ref, push, set, update, get } from "firebase/database";
 import { initializeApp } from "firebase/app";
-import { uploadFile, getPublicUrl } from "../utils/BucketHandler";
 const firebaseConfig = {
   apiKey: "AIzaSyDvyh73cj0xDmkVSMrfy8wD1V2C0nL9bzg",
   authDomain: "neas-nettbutikk-cb665.firebaseapp.com",
