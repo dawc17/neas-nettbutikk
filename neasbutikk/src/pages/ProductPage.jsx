@@ -8,6 +8,7 @@ import FooterMain from "../components/Footer";
 import { FaArrowLeft, FaHeart, FaRegHeart } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { CATEGORY_NAMES } from "../components/AdminProductForm";
+import ReviewSection from "../components/ReviewSection";
 
 function ProductPage() {
   const { productId } = useParams();
@@ -319,6 +320,9 @@ function ProductPage() {
                   </div>
                 </div>
               )}
+
+              {/* Review section */}
+              <ReviewSection productId={productId} />
             </div>
           </div>
         )}

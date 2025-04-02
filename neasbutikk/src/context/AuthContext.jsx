@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   // Navigation won't work directly here - we'll create a separate hook
 
   // Check if user is admin
@@ -55,7 +55,11 @@ export function AuthProvider({ children }) {
 
   // Login function (without navigation)
   const login = async (email, password) => {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const role = await checkUserRole(userCredential.user.uid);
     return { user: userCredential.user, role };
   };
@@ -70,6 +74,17 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setCurrentUser(user);
+        // Fetch additional user data including name
+        const database = getDatabase();
+        const userRef = ref(database, `users/${user.uid}`);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          user.displayName = userData.name; // Add displayName property
+          user.role = userData.role; // Add role for admin checks
+        }
+
         await checkUserRole(user.uid);
       } else {
         setCurrentUser(null);
@@ -87,7 +102,7 @@ export function AuthProvider({ children }) {
     isAdmin: userRole === "admin",
     login,
     logout,
-    loading
+    loading,
   };
 
   return (
