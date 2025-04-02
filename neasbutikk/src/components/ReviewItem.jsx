@@ -1,24 +1,13 @@
 import { useState } from "react";
-import { FaStar, FaReply, FaTrash, FaEdit } from "react-icons/fa";
+import { FaStar, FaReply, FaTrash } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
-import {
-  getDatabase,
-  ref,
-  push,
-  set,
-  remove,
-  update,
-  get,
-} from "firebase/database";
+import { getDatabase, ref, push, set, remove, get } from "firebase/database";
 import ReplyForm from "./ReplyForm";
 import { formatDistanceToNow } from "date-fns";
 import { nb } from "date-fns/locale";
 
 function ReviewItem({ review, productId }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const [editing, setEditing] = useState(false);
-  const [editText, setEditText] = useState(review.text);
-  const [editRating, setEditRating] = useState(review.rating);
   const { currentUser } = useAuth();
   const database = getDatabase();
 
@@ -63,7 +52,7 @@ function ReviewItem({ review, productId }) {
 
       await set(newReplyRef, {
         userId: currentUser.uid,
-        userDisplayName: userDisplayName, // Using readableId instead of userName
+        userDisplayName: userDisplayName,
         text: replyData.text,
         createdAt: Date.now(),
       });
@@ -89,58 +78,23 @@ function ReviewItem({ review, productId }) {
     }
   };
 
-  const handleEdit = async () => {
-    if (!isAuthor) return;
-
-    if (editing) {
-      try {
-        const reviewRef = ref(database, `reviews/${productId}/${review.id}`);
-        await update(reviewRef, {
-          text: editText,
-          rating: editRating,
-          edited: true,
-          editedAt: Date.now(),
-        });
-        setEditing(false);
-      } catch (error) {
-        console.error("Error updating review:", error);
-      }
-    } else {
-      setEditing(true);
-    }
-  };
-
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm">
       {/* Review header */}
       <div className="flex justify-between mb-2">
         <div>
-          {/* Use userDisplayName instead of userName */}
           <div className="font-mabry text-pinegreen">
             {review.userDisplayName || "Anonym bruker"}
           </div>
           <div className="flex items-center">
-            {!editing &&
-              [...Array(5)].map((_, i) => (
-                <FaStar
-                  key={i}
-                  className={
-                    i < review.rating ? "text-yellow-500" : "text-gray-300"
-                  }
-                />
-              ))}
-            {editing && (
-              <div className="flex">
-                {[...Array(5)].map((_, index) => (
-                  <FaStar
-                    key={index}
-                    className="cursor-pointer"
-                    color={index < editRating ? "#f59e0b" : "#e5e7eb"}
-                    onClick={() => setEditRating(index + 1)}
-                  />
-                ))}
-              </div>
-            )}
+            {[...Array(5)].map((_, i) => (
+              <FaStar
+                key={i}
+                className={
+                  i < review.rating ? "text-yellow-500" : "text-gray-300"
+                }
+              />
+            ))}
             <span className="text-xs text-gray-500 ml-2">{formattedDate}</span>
             {review.edited && (
               <span className="text-xs text-gray-500 ml-2">(redigert)</span>
@@ -149,15 +103,7 @@ function ReviewItem({ review, productId }) {
         </div>
 
         {canModify && (
-          <div className="flex space-x-2">
-            {isAuthor && (
-              <button
-                onClick={handleEdit}
-                className="text-pinegreen hover:text-mossgreen"
-              >
-                <FaEdit />
-              </button>
-            )}
+          <div>
             <button
               onClick={handleDelete}
               className="text-red-500 hover:text-red-700"
@@ -169,33 +115,7 @@ function ReviewItem({ review, productId }) {
       </div>
 
       {/* Review content */}
-      {editing ? (
-        <textarea
-          value={editText}
-          onChange={(e) => setEditText(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen mb-2"
-          rows="3"
-        />
-      ) : (
-        <p className="font-mabrylight text-pinegreen mb-4">{review.text}</p>
-      )}
-
-      {editing && (
-        <div className="flex justify-end space-x-2 mb-4">
-          <button
-            onClick={() => setEditing(false)}
-            className="px-3 py-1 border border-gray-300 rounded text-sm"
-          >
-            Avbryt
-          </button>
-          <button
-            onClick={handleEdit}
-            className="px-3 py-1 bg-mossgreen text-pinegreen rounded text-sm"
-          >
-            Lagre endringer
-          </button>
-        </div>
-      )}
+      <p className="font-mabrylight text-pinegreen mb-4">{review.text}</p>
 
       {/* Replies */}
       {replies.length > 0 && (

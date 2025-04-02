@@ -3,7 +3,7 @@ import { getDatabase, ref, onValue, push, set, get } from "firebase/database";
 import { useAuth } from "../context/AuthContext";
 import ReviewForm from "./ReviewForm";
 import ReviewItem from "./ReviewItem";
-import { FaStar, FaCommentAlt } from "react-icons/fa";
+import { FaStar, FaCommentAlt, FaEdit } from "react-icons/fa";
 
 function ReviewSection({ productId }) {
   const [reviews, setReviews] = useState([]);
@@ -11,6 +11,8 @@ function ReviewSection({ productId }) {
   const [averageRating, setAverageRating] = useState(0);
   const { currentUser } = useAuth();
   const database = getDatabase();
+  const [userReview, setUserReview] = useState(null);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   // Fetch reviews for this product
   useEffect(() => {
@@ -31,6 +33,16 @@ function ReviewSection({ productId }) {
 
         setReviews(reviewsArray);
 
+        // If user is logged in, check if they've already left a review
+        if (currentUser) {
+          const userExistingReview = reviewsArray.find(
+            (review) => review.userId === currentUser.uid
+          );
+          setUserReview(userExistingReview || null);
+        } else {
+          setUserReview(null);
+        }
+
         // Calculate average rating
         const totalRating = reviewsArray.reduce(
           (sum, review) => sum + review.rating,
@@ -40,14 +52,20 @@ function ReviewSection({ productId }) {
       } else {
         setReviews([]);
         setAverageRating(0);
+        setUserReview(null);
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [productId, database]);
+  }, [productId, database, currentUser]);
 
   const handleAddReview = async (reviewData) => {
+    // Check if user already has a review
+    if (userReview) {
+      return false;
+    }
+
     try {
       const reviewsRef = ref(database, `reviews/${productId}`);
       const newReviewRef = push(reviewsRef);
@@ -70,7 +88,7 @@ function ReviewSection({ productId }) {
 
       await set(newReviewRef, {
         userId: currentUser.uid,
-        userDisplayName: userDisplayName, // Using readableId instead of userName
+        userDisplayName: userDisplayName,
         rating: reviewData.rating,
         text: reviewData.text,
         createdAt: Date.now(),
@@ -79,6 +97,27 @@ function ReviewSection({ productId }) {
       return true;
     } catch (error) {
       console.error("Error adding review:", error);
+      return false;
+    }
+  };
+
+  const handleEditExistingReview = async (reviewData) => {
+    if (!userReview) return false;
+
+    try {
+      const reviewRef = ref(database, `reviews/${productId}/${userReview.id}`);
+      await set(reviewRef, {
+        ...userReview,
+        rating: reviewData.rating,
+        text: reviewData.text,
+        edited: true,
+        editedAt: Date.now(),
+      });
+
+      setShowEditForm(false);
+      return true;
+    } catch (error) {
+      console.error("Error updating review:", error);
       return false;
     }
   };
@@ -112,7 +151,45 @@ function ReviewSection({ productId }) {
 
       {/* Review Form */}
       {currentUser ? (
-        <ReviewForm onSubmit={handleAddReview} />
+        userReview ? (
+          showEditForm ? (
+            <div className="mb-6">
+              <div className="flex justify-between mb-2">
+                <h3 className="font-mabry text-pinegreen">
+                  Rediger din anmeldelse
+                </h3>
+                <button
+                  onClick={() => setShowEditForm(false)}
+                  className="text-sm text-gray-500 hover:text-pinegreen"
+                >
+                  Avbryt redigering
+                </button>
+              </div>
+              <ReviewForm
+                initialRating={userReview.rating}
+                initialText={userReview.text}
+                buttonText="Oppdater anmeldelse"
+                onSubmit={handleEditExistingReview}
+              />
+            </div>
+          ) : (
+            <div className="bg-mossgreen/20 rounded-lg p-4 mb-6">
+              <div className="flex justify-between items-center">
+                <p className="font-mabrylight text-pinegreen">
+                  Du har allerede skrevet en anmeldelse.
+                </p>
+                <button
+                  onClick={() => setShowEditForm(true)}
+                  className="text-sm text-mossgreen hover:underline flex items-center"
+                >
+                  <FaEdit className="mr-1" /> Rediger
+                </button>
+              </div>
+            </div>
+          )
+        ) : (
+          <ReviewForm onSubmit={handleAddReview} />
+        )
       ) : (
         <div className="bg-mossgreen/20 rounded-lg p-4 mb-6">
           <p className="font-mabrylight text-pinegreen">
