@@ -48,6 +48,29 @@ function ProductPage() {
     setQuantity((prev) => Math.max(1, prev + amount));
   };
 
+  const handleQuantityInput = (e) => {
+    const value = e.target.value;
+
+    // Allow empty string for typing purposes
+    if (value === "") {
+      setQuantity("");
+      return;
+    }
+
+    // Convert to number and validate
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue)) {
+      setQuantity(Math.max(1, numValue));
+    }
+  };
+
+  // Ensure quantity is a number when losing focus
+  const handleQuantityBlur = () => {
+    if (quantity === "" || isNaN(quantity)) {
+      setQuantity(1);
+    }
+  };
+
   const handleFavoriteToggle = () => {
     if (!product) return;
 
@@ -287,9 +310,14 @@ function ProductPage() {
                         >
                           -
                         </button>
-                        <span className="px-4 py-1 font-mabry text-pinegreen min-w-[40px] text-center">
-                          {quantity}
-                        </span>
+                        <input
+                          type="text"
+                          value={quantity}
+                          onChange={handleQuantityInput}
+                          onBlur={handleQuantityBlur}
+                          className="px-2 py-1 font-mabry text-pinegreen w-16 text-center focus:outline-none"
+                          aria-label="Quantity"
+                        />
                         <button
                           onClick={() => handleQuantityChange(1)}
                           className="bg-gray-100 px-3 py-1 text-pinegreen hover:bg-gray-200 transition-colors"

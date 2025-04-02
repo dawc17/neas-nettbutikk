@@ -26,10 +26,10 @@ function Navbar() {
   const { currentUser, isAdmin, logout } = useAuth(); // Get auth state and logout function
   const cartCount = getCartCount();
   const navigate = useNavigate();
-  
+
   // Add state for logout notification
   const [showLogoutNotification, setShowLogoutNotification] = useState(false);
-  
+
   // Rest of your existing states and refs
   const cartTimeoutRef = useRef(null);
   const favoritesTimeoutRef = useRef(null);
@@ -37,14 +37,17 @@ function Navbar() {
   const [isMouseOverCart, setIsMouseOverCart] = useState(false);
   const [isMouseOverCartOverlay, setIsMouseOverCartOverlay] = useState(false);
   const [isMouseOverFavorites, setIsMouseOverFavorites] = useState(false);
-  const [isMouseOverFavoritesOverlay, setIsMouseOverFavoritesOverlay] = useState(false);
+  const [isMouseOverFavoritesOverlay, setIsMouseOverFavoritesOverlay] =
+    useState(false);
 
   // Clear all timeouts when component unmounts
   useEffect(() => {
     return () => {
       if (cartTimeoutRef.current) clearTimeout(cartTimeoutRef.current);
-      if (favoritesTimeoutRef.current) clearTimeout(favoritesTimeoutRef.current);
-      if (logoutNotificationTimeoutRef.current) clearTimeout(logoutNotificationTimeoutRef.current);
+      if (favoritesTimeoutRef.current)
+        clearTimeout(favoritesTimeoutRef.current);
+      if (logoutNotificationTimeoutRef.current)
+        clearTimeout(logoutNotificationTimeoutRef.current);
     };
   }, []);
 
@@ -61,13 +64,13 @@ function Navbar() {
     }
   }, [isMouseOverCart, isMouseOverCartOverlay]);
 
-
   // favorites overlay
   useEffect(() => {
     if (isMouseOverFavorites || isMouseOverFavoritesOverlay) {
       setShowFavoritesOverlay(true);
       setShowCartOverlay(false);
-      if (favoritesTimeoutRef.current) clearTimeout(favoritesTimeoutRef.current);
+      if (favoritesTimeoutRef.current)
+        clearTimeout(favoritesTimeoutRef.current);
     } else {
       favoritesTimeoutRef.current = setTimeout(() => {
         setShowFavoritesOverlay(false);
@@ -78,19 +81,19 @@ function Navbar() {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
-  
+
   // Handle logout
   const handleLogout = async () => {
     try {
       await logout();
       setShowLogoutNotification(true);
-      
+
       // Clear notification after 3 seconds
       logoutNotificationTimeoutRef.current = setTimeout(() => {
         setShowLogoutNotification(false);
       }, 3000);
-      
-      navigate('/');
+
+      navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -104,7 +107,7 @@ function Navbar() {
           Logget ut.
         </div>
       )}
-    
+
       <div className="bg-navbargray text-black flex flex-wrap items-center justify-between rounded-2xl w-full shadow-lg px-4 md:px-6 py-3 md:py-4 mb-1 relative">
         <a href="/" className="z-10">
           <img
@@ -148,17 +151,19 @@ function Navbar() {
               )}
             </>
           )}
-          
+
           <div
             className="mr-5 relative"
             onMouseEnter={() => setIsMouseOverFavorites(true)}
             onMouseLeave={() => setIsMouseOverFavorites(false)}
           >
             <Link to="/favorites">
-              <BarIcon icon={<FaHeart size={28} className="text-pinegreen" />} />
+              <BarIcon
+                icon={<FaHeart size={28} className="text-pinegreen" />}
+              />
             </Link>
-            <div 
-              className="absolute z-50" 
+            <div
+              className="absolute z-50"
               onMouseEnter={() => setIsMouseOverFavoritesOverlay(true)}
               onMouseLeave={() => setIsMouseOverFavoritesOverlay(false)}
             >
@@ -189,8 +194,8 @@ function Navbar() {
                 <span className="absolute -top-2 -right-2 animate-bounce-violent animate-color-change rounded-full w-5 h-5 opacity-75"></span>
               )}
             </Link>
-            <div 
-              className="absolute z-50" 
+            <div
+              className="absolute z-50"
               onMouseEnter={() => setIsMouseOverCartOverlay(true)}
               onMouseLeave={() => setIsMouseOverCartOverlay(false)}
             >
@@ -208,7 +213,9 @@ function Navbar() {
           {currentUser && (
             <div className="mr-5 relative">
               <Link to="/profile">
-                <BarIcon icon={<FaUser size={28} className="text-pinegreen" />} />
+                <BarIcon
+                  icon={<FaUser size={28} className="text-pinegreen" />}
+                />
               </Link>
             </div>
           )}
@@ -223,17 +230,19 @@ function Navbar() {
               />
             </a>
           </div>
-          <div className="ml-2 ">
-            <Link to="/login">
-              <NavbarButton
-                text={"Logg inn ->"}
-                bg={"bg-pinegreen"}
-                textcolor={"text-white"}
-                texthover={"hover:text-sunlightyellow"}
-                bghover={"hover:bg-pinegreen/85"}
-              />
-            </Link>
-          </div>
+          {!currentUser && (
+            <div className="ml-2 ">
+              <Link to="/login">
+                <NavbarButton
+                  text={"Logg inn ->"}
+                  bg={"bg-pinegreen"}
+                  textcolor={"text-white"}
+                  texthover={"hover:text-sunlightyellow"}
+                  bghover={"hover:bg-pinegreen/85"}
+                />
+              </Link>
+            </div>
+          )}
 
           {/* Only show these buttons if user is logged in */}
           {currentUser && (
@@ -276,8 +285,11 @@ function Navbar() {
                 )}
               </div>
             )}
-            
-            <Link to="/cart" className="flex items-center justify-center relative w-full">
+
+            <Link
+              to="/cart"
+              className="flex items-center justify-center relative w-full"
+            >
               <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
                 <FaShoppingCart size={20} className="text-pinegreen" />
                 <span className="ml-2 text-pinegreen">Handlekurv</span>
@@ -288,8 +300,11 @@ function Navbar() {
                 )}
               </div>
             </Link>
-            
-            <Link to="/favorites" className="flex items-center justify-center relative w-full">
+
+            <Link
+              to="/favorites"
+              className="flex items-center justify-center relative w-full"
+            >
               <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
                 <FaHeart size={20} className="text-pinegreen" />
                 <span className="ml-2 text-pinegreen">Favoritter</span>
@@ -298,7 +313,10 @@ function Navbar() {
 
             {/* Profile link for mobile */}
             {currentUser && (
-              <Link to="/profile" className="flex items-center justify-center relative w-full">
+              <Link
+                to="/profile"
+                className="flex items-center justify-center relative w-full"
+              >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
                   <FaUser size={20} className="text-pinegreen mr-2" />
                   <span className="text-pinegreen">Min profil</span>
@@ -314,20 +332,21 @@ function Navbar() {
                 bghover={"hover:bg-mossgreen/85"}
               />
             </a>
-            <Link to="/login" className="w-full">
-              <NavbarButton
-                text={"Logg inn ->"}
-                bg={"bg-pinegreen"}
-                textcolor={"text-white"}
-                texthover={"hover:text-sunlightyellow"}
-                bghover={"hover:bg-pinegreen/85"}
-              />
-            </Link>
-            
-            
+            {!currentUser && (
+              <Link to="/login" className="w-full">
+                <NavbarButton
+                  text={"Logg inn ->"}
+                  bg={"bg-pinegreen"}
+                  textcolor={"text-white"}
+                  texthover={"hover:text-sunlightyellow"}
+                  bghover={"hover:bg-pinegreen/85"}
+                />
+              </Link>
+            )}
+
             {/* Only show logout button if user is logged in */}
             {currentUser && (
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex items-center justify-center relative w-full py-2 px-4 rounded-lg bg-red-500 hover:bg-red-600 text-white"
               >
