@@ -3,37 +3,8 @@ import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import ProductOverlay from "./ProductOverlay";
 import { formatPrice } from "../utils/priceFormatter";
-import { getDatabase, ref, onValue, off } from "firebase/database";
-
-const getFavoriteFromStorage = (productId) => {
-  if (!productId || typeof window === "undefined" || !window.localStorage)
-    return false;
-  try {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    return !!favorites[productId];
-  } catch (error) {
-    console.error("Error reading favorites from localStorage:", error);
-    return false;
-  }
-};
-
-const cleanupFavorites = () => {
-  try {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-    const cleanedFavorites = Object.entries(favorites).reduce(
-      (acc, [key, value]) => {
-        if (value === true) {
-          acc[key] = value;
-        }
-        return acc;
-      },
-      {}
-    );
-    localStorage.setItem("favorites", JSON.stringify(cleanedFavorites));
-  } catch (error) {
-    console.error("Error cleaning up favorites:", error);
-  }
-};
+import { getDatabase, ref, onValue, off, set } from "firebase/database";
+import { useAuth } from "../context/AuthContext"; // Import Auth Context
 
 function Divider() {
   return (
@@ -54,14 +25,23 @@ function ProductCard({
   id,
   onFavoriteChange,
 }) {
-  const [isFavorite, setIsFavorite] = useState(() =>
-    getFavoriteFromStorage(id)
-  );
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [reviewStats, setReviewStats] = useState({ count: 0, average: 0 });
+  const { currentUser } = useAuth(); // Get current user
 
   useEffect(() => {
-    cleanupFavorites();
-  }, []);
+    if (!id || !currentUser) return;
+
+    const db = getDatabase();
+    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${id}`);
+
+    const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
+      setIsFavorite(!!snapshot.val());
+    });
+
+    return () => unsubscribe();
+  }, [id, currentUser]);
 
   useEffect(() => {
     if (!id) return;
@@ -91,7 +71,7 @@ function ProductCard({
     };
   }, [id]);
 
-  const handleFavoriteClick = (e) => {
+  const handleFavoriteClick = async (e) => {
     e.stopPropagation();
 
     if (!id) {
@@ -99,24 +79,25 @@ function ProductCard({
       return;
     }
 
-    setIsFavorite((prev) => {
-      const newValue = !prev;
-      console.log("Setting favorite to:", newValue);
-      try {
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-        console.log("Current favorites:", favorites);
-        favorites[id] = newValue;
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-        console.log("Updated favorites:", favorites);
+    if (!currentUser) {
+      alert("Du må være logget inn for å legge til favoritter."); // Alert user to log in
+      return;
+    }
 
-        if (onFavoriteChange) {
-          onFavoriteChange();
-        }
-      } catch (error) {
-        console.error("Error saving favorite to localStorage:", error);
+    try {
+      const db = getDatabase();
+      const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${id}`);
+
+      // Toggle favorite status
+      const newFavoriteStatus = !isFavorite;
+      await set(userFavoritesRef, newFavoriteStatus ? true : null); // Use null to remove from database
+
+      if (onFavoriteChange) {
+        onFavoriteChange();
       }
-      return newValue;
-    });
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
   };
 
   const allImages = image

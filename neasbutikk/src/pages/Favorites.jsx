@@ -1,41 +1,61 @@
 import { useState, useEffect } from "react";
 import { useProducts } from "../data/ProductsData";
+import { useAuth } from "../context/AuthContext";
+import { getDatabase, ref, onValue } from "firebase/database";
 import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
+import { Link } from "react-router-dom";
 
 function Favorites() {
   const { products, loading, error } = useProducts();
   const [favoriteProducts, setFavoriteProducts] = useState([]);
+  const { currentUser } = useAuth();
 
-  const updateFavorites = () => {
-    try {
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-      const favoritedProducts = products.filter(
-        (product) => favorites[product.id]
+  useEffect(() => {
+    if (!currentUser || !products?.length) return;
+    
+    const db = getDatabase();
+    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites`);
+    
+    const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
+      const favoritesData = snapshot.val() || {};
+      const favoritedProducts = products.filter(product => 
+        favoritesData[product.id]
       );
       setFavoriteProducts(favoritedProducts);
-    } catch (error) {
-      console.error("Error loading favorites:", error);
-    }
-  };
-
-  // Listen for storage events
-  useEffect(() => {
-    window.addEventListener("storage", updateFavorites);
-    return () => window.removeEventListener("storage", updateFavorites);
-  }, []);
-
-  // Update favorites when products load or change
-  useEffect(() => {
-    if (!loading && !error && products.length > 0) {
-      updateFavorites();
-    }
-  }, [products, loading, error]);
+    });
+    
+    return () => unsubscribe();
+  }, [currentUser, products]);
 
   const handleUnfavorite = () => {
-    updateFavorites();
+    // The database listener will update the UI automatically
   };
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen flex flex-col hide-scrollbar">
+        <header>
+          <Navbar />
+        </header>
+        <main className="flex flex-col items-center justify-center flex-grow p-10">
+          <div className="text-center max-w-md">
+            <h2 className="text-2xl text-pinegreen font-mabry mb-4">Logg inn for å se favoritter</h2>
+            <p className="font-mabrylight mb-6">
+              Du må være logget inn for å kunne lagre og se dine favoritter på tvers av enheter.
+            </p>
+            <Link to="/login" className="bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-6 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200">
+              Logg inn
+            </Link>
+          </div>
+        </main>
+        <footer>
+          <FooterMain />
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col hide-scrollbar">

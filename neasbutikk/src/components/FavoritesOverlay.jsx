@@ -3,44 +3,30 @@ import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import { formatPrice } from "../utils/priceFormatter";
 import { useProducts } from "../data/ProductsData";
+import { useAuth } from "../context/AuthContext";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 function FavoritesOverlay({ isVisible, onClose }) {
   const { products } = useProducts();
+  const { currentUser } = useAuth();
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   useEffect(() => {
-    if (!products?.length) return;
+    if (!isVisible || !currentUser || !products?.length) return;
 
-    try {
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-      const favoritedProducts = products.filter(
-        (product) => favorites[product.id]
+    const db = getDatabase();
+    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites`);
+    
+    const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
+      const favoritesData = snapshot.val() || {};
+      const favoritedProducts = products.filter(product => 
+        favoritesData[product.id]
       );
       setFavoriteProducts(favoritedProducts);
-    } catch (error) {
-      console.error("Error loading favorites:", error);
-      setFavoriteProducts([]);
-    }
-  }, [products, isVisible]); // re-check when overlay becomes visible
-
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === "favorites" && products?.length) {
-        try {
-          const favorites = JSON.parse(e.newValue || "{}");
-          const favoritedProducts = products.filter(
-            (product) => favorites[product.id]
-          );
-          setFavoriteProducts(favoritedProducts);
-        } catch (error) {
-          console.error("Error processing storage event:", error);
-        }
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [products]);
+    });
+    
+    return () => unsubscribe();
+  }, [currentUser, products, isVisible]);
 
   if (!isVisible) return null;
 
@@ -63,7 +49,17 @@ function FavoritesOverlay({ isVisible, onClose }) {
         </div>
       </div>
 
-      {favoriteProducts.length > 0 ? (
+      {!currentUser ? (
+        <div className="p-6 text-center rounded-b-xl">
+          <FaHeart size={24} className="text-gray-300 mx-auto mb-2" />
+          <p className="font-mabrylight text-pinegreen mb-2">
+            Logg inn for å legge til favoritter
+          </p>
+          <Link to="/login" className="text-mossgreen text-sm hover:underline">
+            Logg inn
+          </Link>
+        </div>
+      ) : favoriteProducts.length > 0 ? (
         <>
           <div className="max-h-64 overflow-y-auto hide-scrollbar">
             {favoriteProducts.map((product) => (
