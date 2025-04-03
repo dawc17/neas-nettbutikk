@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useProducts } from "../data/ProductsData";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext"; // Import Auth Context
 import { formatPrice } from "../utils/priceFormatter";
 import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
@@ -9,11 +10,13 @@ import { FaArrowLeft, FaHeart, FaRegHeart } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { CATEGORY_NAMES } from "../components/AdminProductForm";
 import ReviewSection from "../components/ReviewSection";
+import { getDatabase, ref, onValue, set } from "firebase/database"; // Import Firebase functions
 
 function ProductPage() {
   const { productId } = useParams();
   const { products, loading, error } = useProducts();
   const { addToCart } = useCart();
+  const { currentUser } = useAuth(); // Get current user
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -24,16 +27,25 @@ function ProductPage() {
     if (!loading && products?.length > 0) {
       const foundProduct = products.find((p) => p.id === productId);
       setProduct(foundProduct);
-
-      // Check if product is favorited
-      try {
-        const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-        setIsFavorite(!!favorites[productId]);
-      } catch (error) {
-        console.error("Error loading favorite status:", error);
-      }
     }
   }, [productId, products, loading]);
+  
+  // Check if product is favorited using Firebase
+  useEffect(() => {
+    if (!productId || !currentUser) {
+      setIsFavorite(false);
+      return;
+    }
+    
+    const db = getDatabase();
+    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${productId}`);
+    
+    const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
+      setIsFavorite(!!snapshot.val());
+    });
+    
+    return () => unsubscribe();
+  }, [productId, currentUser]);
 
   const handleAddToCart = () => {
     if (product) {
@@ -71,21 +83,23 @@ function ProductPage() {
     }
   };
 
-  const handleFavoriteToggle = () => {
+  const handleFavoriteToggle = async () => {
     if (!product) return;
-
+    
+    if (!currentUser) {
+      alert("Du må være logget inn for å legge til favoritter.");
+      return;
+    }
+    
     try {
-      const newValue = !isFavorite;
-      setIsFavorite(newValue);
-
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-      favorites[product.id] = newValue;
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-
-      // Dispatch an event to notify other components
-      window.dispatchEvent(new Event("storage"));
+      const db = getDatabase();
+      const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${product.id}`);
+      
+      // Toggle favorite status
+      const newFavoriteStatus = !isFavorite;
+      await set(userFavoritesRef, newFavoriteStatus ? true : null); // Use null to remove from database
     } catch (error) {
-      console.error("Error saving favorite:", error);
+      console.error("Error updating favorite:", error);
     }
   };
 

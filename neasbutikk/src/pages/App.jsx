@@ -41,7 +41,7 @@ function App() {
             {/* All Products Button */}
             <button
               onClick={() => setActiveCategory(null)}
-              className={`category-btn py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
+              className={`category-btn border-1 border-mossgreen py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
                 ${activeCategory === null ? "bg-mossgreen text-pinegreen font-bold" : "bg-white hover:bg-gray-100 text-pinegreen font-medium"}`}
             >
               <svg
@@ -65,7 +65,7 @@ function App() {
             {Object.entries(PRODUCT_CATEGORIES).map(([key, value]) => (
               <div
                 key={value}
-                className={`category-btn py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
+                className={`category-btn border-1 border-mossgreen py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
                   ${activeCategory === value ? "bg-mossgreen text-pinegreen font-bold" : "bg-white hover:bg-gray-100 text-pinegreen font-medium"}`}
               >
                 <div

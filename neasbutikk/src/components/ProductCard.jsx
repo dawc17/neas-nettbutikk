@@ -105,7 +105,7 @@ function ProductCard({
     : [...images];
 
   return (
-    <div className="product-card bg-lightgray flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
+    <div className="product-card bg-lightgray border-1 border-mossgreen flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
       <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
         <button
           onClick={handleFavoriteClick}
@@ -141,7 +141,8 @@ function ProductCard({
         </h3>
       </Link>
 
-      <p className="font-mabrylight text-pinegreen text-sm md:text-md h-16 md:h-20 line-clamp-3 text-center w-full px-1 md:px-2">
+      {/* Updated product description with better responsive height */}
+      <p className="font-mabrylight text-pinegreen text-sm md:text-md min-h-[4rem] h-auto max-h-24 line-clamp-3 sm:line-clamp-3 md:line-clamp-4 text-center w-full px-1 md:px-2 mb-auto">
         {productDescription}
       </p>
 
@@ -170,13 +171,6 @@ function ProductCard({
       <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
         {formatPrice(price)}
       </p>
-
-      <Link
-        to={`/product/${id}`}
-        className="bg-mossgreen text-pinegreen font-mabrylight rounded-lg md:rounded-xl px-2 py-1 w-full cursor-pointer scale-100 hover:scale-95 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-150 mt-auto text-sm md:text-base text-center"
-      >
-        Les mer
-      </Link>
     </div>
   );
 }
