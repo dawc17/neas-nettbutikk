@@ -5,12 +5,17 @@ import { useCart } from "../context/CartContext";
 import { FaTrash } from "react-icons/fa";
 import { useProducts } from "../data/ProductsData";
 import { formatPrice } from "../utils/priceFormatter";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } =
     useCart();
   const [total, setTotal] = useState(0);
   const { loading } = useProducts();
+  const { currentUser } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTotal(getCartTotal());
@@ -31,8 +36,19 @@ function Cart() {
   };
 
   const handleCheckout = () => {
-    alert("Takk for din bestilling!");
-    clearCart();
+    if (!currentUser) {
+      // User is not logged in, show login modal
+      setShowLoginModal(true);
+    } else {
+      // User is logged in, proceed with checkout
+      alert("Takk for din bestilling!");
+      clearCart();
+    }
+  };
+
+  const handleLoginRedirect = () => {
+    // Navigate to login page with return URL to cart
+    navigate("/login", { state: { returnPath: "/cart" } });
   };
 
   return (
@@ -41,6 +57,35 @@ function Cart() {
         <Navbar />
       </header>
       <main className="flex-1 p-6 md:p-10">
+        {/* Login Modal */}
+        {showLoginModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+              <h2 className="text-xl text-pinegreen font-mabry mb-3">
+                Logg inn for å fortsette
+              </h2>
+              <p className="font-mabrylight text-pinegreen mb-6">
+                Du må være logget inn for å kunne gå til betaling. Produktene i
+                handlekurven din vil bli bevart.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleLoginRedirect}
+                  className="bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
+                >
+                  Logg inn
+                </button>
+                <button
+                  onClick={() => setShowLoginModal(false)}
+                  className="border border-pinegreen text-pinegreen font-mabrylight rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen/10 transition-all duration-200"
+                >
+                  Avbryt
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <h1 className="text-2xl text-pinegreen font-mabry mb-6">
           Din handlekurv
         </h1>
