@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import ProductOverlay from "./ProductOverlay";
 import { formatPrice } from "../utils/priceFormatter";
@@ -28,13 +28,18 @@ function ProductCard({
   const [showOverlay, setShowOverlay] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [reviewStats, setReviewStats] = useState({ count: 0, average: 0 });
+  const [showLoginModal, setShowLoginModal] = useState(false); // Add state for modal
   const { currentUser } = useAuth(); // Get current user
+  const navigate = useNavigate(); // Add navigate for login redirect
 
   useEffect(() => {
     if (!id || !currentUser) return;
 
     const db = getDatabase();
-    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${id}`);
+    const userFavoritesRef = ref(
+      db,
+      `users/${currentUser.uid}/favorites/${id}`
+    );
 
     const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
       setIsFavorite(!!snapshot.val());
@@ -80,13 +85,17 @@ function ProductCard({
     }
 
     if (!currentUser) {
-      alert("Du må være logget inn for å legge til favoritter."); // Alert user to log in
+      // Show login modal instead of alert
+      setShowLoginModal(true);
       return;
     }
 
     try {
       const db = getDatabase();
-      const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${id}`);
+      const userFavoritesRef = ref(
+        db,
+        `users/${currentUser.uid}/favorites/${id}`
+      );
 
       // Toggle favorite status
       const newFavoriteStatus = !isFavorite;
@@ -100,78 +109,117 @@ function ProductCard({
     }
   };
 
+  const handleLoginRedirect = () => {
+    // Navigate to login page with return URL
+    setShowLoginModal(false);
+    navigate("/login", { state: { returnPath: window.location.pathname } });
+  };
+
   const allImages = image
     ? [{ src: image, alt: altText }, ...images]
     : [...images];
 
   return (
-    <div className="product-card bg-lightgray border-1 border-mossgreen flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
-      <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
-        <button
-          onClick={handleFavoriteClick}
-          className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
-          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-        >
-          {isFavorite ? (
-            <FaHeart className="text-red-500 text-xl mt-0.5" />
-          ) : (
-            <FaRegHeart className="text-pinegreen text-xl hover:text-red-500 mt-0.5" />
-          )}
-        </button>
+    <>
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h2 className="text-xl text-pinegreen font-mabry mb-3">
+              Logg inn for å fortsette
+            </h2>
+            <p className="font-mabrylight text-pinegreen mb-6">
+              Du må være logget inn for å kunne legge til favoritter. Logg inn
+              for å samle dine favorittsprodukter.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleLoginRedirect}
+                className="bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
+              >
+                Logg inn
+              </button>
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="border border-pinegreen text-pinegreen font-mabrylight rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen/10 transition-all duration-200"
+              >
+                Avbryt
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="product-card bg-lightgray border-1 border-mossgreen flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
+        <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
+          <button
+            onClick={handleFavoriteClick}
+            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
+            aria-label={
+              isFavorite ? "Remove from favorites" : "Add to favorites"
+            }
+          >
+            {isFavorite ? (
+              <FaHeart className="text-red-500 text-xl mt-0.5" />
+            ) : (
+              <FaRegHeart className="text-pinegreen text-xl hover:text-red-500 mt-0.5" />
+            )}
+          </button>
+
+          <Link
+            to={`/product/${id}`}
+            className="w-auto h-full flex items-center justify-center cursor-pointer"
+          >
+            <img
+              src={image}
+              alt={altText}
+              className="w-auto max-w-full h-full max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
+            />
+          </Link>
+        </div>
+        <Divider />
 
         <Link
           to={`/product/${id}`}
-          className="w-auto h-full flex items-center justify-center cursor-pointer"
+          className="h-12 md:h-14 w-full px-1 md:px-2 hover:underline decoration-pinegreen/50"
         >
-          <img
-            src={image}
-            alt={altText}
-            className="w-auto max-w-full h-full max-h-full object-contain mt-2 md:mt-5 scale-100 group-hover:scale-110 transition-all duration-200 ease-in-out"
-          />
+          <h3 className="font-mabry text-pinegreen text-base md:text-md line-clamp-2 text-center">
+            {productName}
+          </h3>
         </Link>
-      </div>
-      <Divider />
 
-      <Link
-        to={`/product/${id}`}
-        className="h-12 md:h-14 w-full px-1 md:px-2 hover:underline decoration-pinegreen/50"
-      >
-        <h3 className="font-mabry text-pinegreen text-base md:text-md line-clamp-2 text-center">
-          {productName}
-        </h3>
-      </Link>
+        {/* Updated product description with better responsive height */}
+        <p className="font-mabrylight text-pinegreen text-sm md:text-md min-h-[4rem] h-auto max-h-24 line-clamp-3 sm:line-clamp-3 md:line-clamp-4 text-center w-full px-1 md:px-2 mb-auto">
+          {productDescription}
+        </p>
 
-      {/* Updated product description with better responsive height */}
-      <p className="font-mabrylight text-pinegreen text-sm md:text-md min-h-[4rem] h-auto max-h-24 line-clamp-3 sm:line-clamp-3 md:line-clamp-4 text-center w-full px-1 md:px-2 mb-auto">
-        {productDescription}
-      </p>
-
-      <div className="flex items-center justify-center w-full mt-1">
-        <div className="flex items-center">
-          <div className="flex items-center text-yellow-500 mr-1">
-            {[...Array(5)].map((_, i) => (
-              <FaStar
-                key={i}
-                className={`h-3 w-3 ${
-                  i < Math.round(reviewStats.average)
-                    ? "text-yellow-500"
-                    : "text-gray-300"
-                }`}
-              />
-            ))}
+        <div className="flex items-center justify-center w-full mt-1">
+          <div className="flex items-center">
+            <div className="flex items-center text-yellow-500 mr-1">
+              {[...Array(5)].map((_, i) => (
+                <FaStar
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < Math.round(reviewStats.average)
+                      ? "text-yellow-500"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            {reviewStats.count > 0 && (
+              <span className="text-xs text-pinegreen">
+                ({reviewStats.count})
+              </span>
+            )}
           </div>
-          {reviewStats.count > 0 && (
-            <span className="text-xs text-pinegreen">
-              ({reviewStats.count})
-            </span>
-          )}
         </div>
-      </div>
 
-      <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
-        {formatPrice(price)}
-      </p>
-    </div>
+        <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
+          {formatPrice(price)}
+        </p>
+      </div>
+    </>
   );
 }
 

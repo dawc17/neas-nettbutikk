@@ -18,7 +18,7 @@ function UserLogin() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get returnPath from location state if available
+  // Get return path from location state or default to home
   const returnPath = location.state?.returnPath || "/";
 
   const handleSubmit = async (e) => {

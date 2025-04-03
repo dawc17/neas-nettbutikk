@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaStar, FaReply, FaTrash } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { getDatabase, ref, push, set, remove, get } from "firebase/database";
@@ -8,12 +8,32 @@ import { nb } from "date-fns/locale";
 
 function ReviewItem({ review, productId }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
   const { currentUser } = useAuth();
   const database = getDatabase();
 
   const isAuthor = currentUser && currentUser.uid === review.userId;
   const isAdmin = currentUser && currentUser.role === "admin";
   const canModify = isAuthor || isAdmin;
+
+  // Fetch additional user details for admin view
+  useEffect(() => {
+    if (isAdmin && review.userId) {
+      const fetchUserDetails = async () => {
+        try {
+          const userRef = ref(database, `users/${review.userId}`);
+          const snapshot = await get(userRef);
+          if (snapshot.exists()) {
+            setUserDetails(snapshot.val());
+          }
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      };
+
+      fetchUserDetails();
+    }
+  }, [isAdmin, review.userId, database]);
 
   const formattedDate = review.createdAt
     ? formatDistanceToNow(new Date(review.createdAt), {
@@ -43,7 +63,9 @@ function ReviewItem({ review, productId }) {
           const userSnapshot = await get(userRef);
           if (userSnapshot.exists()) {
             const userData = userSnapshot.val();
-            userDisplayName = userData.readableId || "Anonym bruker";
+            // Prioritize nickname, then fall back to real name, then readableId
+            userDisplayName =
+              userData.nickname || userData.name || "Anonym bruker";
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
@@ -78,6 +100,39 @@ function ReviewItem({ review, productId }) {
     }
   };
 
+  // State for storing reply user details (for admin use)
+  const [replyUserDetails, setReplyUserDetails] = useState({});
+
+  // Effect to fetch reply user details for admins
+  useEffect(() => {
+    if (isAdmin && replies.length > 0) {
+      const fetchReplyUserDetails = async () => {
+        const details = {};
+
+        for (const reply of replies) {
+          if (reply.userId) {
+            try {
+              const userRef = ref(database, `users/${reply.userId}`);
+              const snapshot = await get(userRef);
+              if (snapshot.exists()) {
+                details[reply.userId] = snapshot.val();
+              }
+            } catch (error) {
+              console.error(
+                `Error fetching details for user ${reply.userId}:`,
+                error
+              );
+            }
+          }
+        }
+
+        setReplyUserDetails(details);
+      };
+
+      fetchReplyUserDetails();
+    }
+  }, [isAdmin, replies, database]);
+
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm">
       {/* Review header */}
@@ -85,6 +140,11 @@ function ReviewItem({ review, productId }) {
         <div>
           <div className="font-mabry text-pinegreen">
             {review.userDisplayName || "Anonym bruker"}
+            {isAdmin && userDetails && (
+              <span className="text-gray-400 text-sm ml-1">
+                ({userDetails.name || "N/A"}, {userDetails.readableId || "N/A"})
+              </span>
+            )}
           </div>
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
@@ -125,6 +185,12 @@ function ReviewItem({ review, productId }) {
               <div className="flex justify-between">
                 <div className="font-mabry text-pinegreen text-sm">
                   {reply.userDisplayName || "Anonym bruker"}
+                  {isAdmin && replyUserDetails[reply.userId] && (
+                    <span className="text-gray-400 text-sm ml-1">
+                      ({replyUserDetails[reply.userId].name || "N/A"},{" "}
+                      {replyUserDetails[reply.userId].readableId || "N/A"})
+                    </span>
+                  )}
                 </div>
                 <div className="text-xs text-gray-500">
                   {reply.createdAt

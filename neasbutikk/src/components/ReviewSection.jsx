@@ -79,7 +79,8 @@ function ReviewSection({ productId }) {
           const userSnapshot = await get(userRef);
           if (userSnapshot.exists()) {
             const userData = userSnapshot.val();
-            userDisplayName = userData.readableId || "Anonym bruker";
+            userDisplayName =
+              userData.nickname || userData.name || "Anonym bruker";
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
