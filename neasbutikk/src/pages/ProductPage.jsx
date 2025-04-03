@@ -22,6 +22,11 @@ function ProductPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Find the product with matching ID when products load
   useEffect(() => {
     if (!loading && products?.length > 0) {
@@ -29,21 +34,24 @@ function ProductPage() {
       setProduct(foundProduct);
     }
   }, [productId, products, loading]);
-  
+
   // Check if product is favorited using Firebase
   useEffect(() => {
     if (!productId || !currentUser) {
       setIsFavorite(false);
       return;
     }
-    
+
     const db = getDatabase();
-    const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${productId}`);
-    
+    const userFavoritesRef = ref(
+      db,
+      `users/${currentUser.uid}/favorites/${productId}`
+    );
+
     const unsubscribe = onValue(userFavoritesRef, (snapshot) => {
       setIsFavorite(!!snapshot.val());
     });
-    
+
     return () => unsubscribe();
   }, [productId, currentUser]);
 
@@ -85,16 +93,19 @@ function ProductPage() {
 
   const handleFavoriteToggle = async () => {
     if (!product) return;
-    
+
     if (!currentUser) {
       alert("Du må være logget inn for å legge til favoritter.");
       return;
     }
-    
+
     try {
       const db = getDatabase();
-      const userFavoritesRef = ref(db, `users/${currentUser.uid}/favorites/${product.id}`);
-      
+      const userFavoritesRef = ref(
+        db,
+        `users/${currentUser.uid}/favorites/${product.id}`
+      );
+
       // Toggle favorite status
       const newFavoriteStatus = !isFavorite;
       await set(userFavoritesRef, newFavoriteStatus ? true : null); // Use null to remove from database
