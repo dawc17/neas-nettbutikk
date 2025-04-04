@@ -105,7 +105,7 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
 
       // Notify parent component about the update
       if (onProfilePictureUpdate) {
-        onProfilePictureUpdate(croppedImage);
+        await onProfilePictureUpdate(croppedImage); // Wait for the callback to complete
       }
 
       // Close modal and reset states
