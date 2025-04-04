@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { getDatabase, ref, get, update } from "firebase/database";
 import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
+import ProfilePictureUploader from "../components/ProfilePictureUploader";
 import { FaUser, FaEnvelope, FaIdCard, FaUserEdit } from "react-icons/fa";
 
 function Profile() {
@@ -101,6 +102,14 @@ function Profile() {
     }
   };
 
+  // Handle profile picture update
+  const handleProfilePictureUpdate = (newProfilePicture) => {
+    setUserData({
+      ...userData,
+      profilePicture: newProfilePicture,
+    });
+  };
+
   useEffect(() => {
     // Redirect to login if not authenticated
     if (!currentUser) {
@@ -159,6 +168,13 @@ function Profile() {
             </div>
           ) : userData ? (
             <div className="bg-lightgray rounded-xl p-6 shadow-md">
+              {/* Profile Picture Uploader Component */}
+              <ProfilePictureUploader
+                userId={currentUser.uid}
+                userData={userData}
+                onProfilePictureUpdate={handleProfilePictureUpdate}
+              />
+
               <div className="space-y-6">
                 {/* Nickname section - moved to the top */}
                 <div className="flex items-center">

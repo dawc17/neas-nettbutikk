@@ -286,30 +286,70 @@ function Navbar() {
               </div>
             )}
 
-            <Link
-              to="/cart"
-              className="flex items-center justify-center relative w-full"
+            {/* Cart link with hover overlay */}
+            <div 
+              className="w-full relative"
+              onMouseEnter={() => setIsMouseOverCart(true)}
+              onMouseLeave={() => setIsMouseOverCart(false)}
             >
-              <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                <FaShoppingCart size={20} className="text-pinegreen" />
-                <span className="ml-2 text-pinegreen">Handlekurv</span>
-                {cartCount > 0 && (
-                  <span className="ml-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
+              <Link
+                to="/cart"
+                className="flex items-center justify-center relative w-full"
+              >
+                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
+                  <FaShoppingCart size={20} className="text-pinegreen" />
+                  <span className="ml-2 text-pinegreen">Handlekurv</span>
+                  {cartCount > 0 && (
+                    <span className="ml-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
+              </Link>
+              <div
+                className="absolute left-0 right-0 z-50 mt-1"
+                onMouseEnter={() => setIsMouseOverCartOverlay(true)}
+                onMouseLeave={() => setIsMouseOverCartOverlay(false)}
+              >
+                <CartOverlay
+                  isVisible={showCartOverlay && mobileMenuOpen}
+                  onClose={() => {
+                    setIsMouseOverCartOverlay(false);
+                    setShowCartOverlay(false);
+                  }}
+                />
               </div>
-            </Link>
+            </div>
 
-            <Link
-              to="/favorites"
-              className="flex items-center justify-center relative w-full"
+            {/* Favorites link with hover overlay */}
+            <div
+              className="w-full relative"
+              onMouseEnter={() => setIsMouseOverFavorites(true)}
+              onMouseLeave={() => setIsMouseOverFavorites(false)}
             >
-              <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                <FaHeart size={20} className="text-pinegreen" />
-                <span className="ml-2 text-pinegreen">Favoritter</span>
+              <Link
+                to="/favorites"
+                className="flex items-center justify-center relative w-full"
+              >
+                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
+                  <FaHeart size={20} className="text-pinegreen" />
+                  <span className="ml-2 text-pinegreen">Favoritter</span>
+                </div>
+              </Link>
+              <div
+                className="absolute left-0 right-0 z-50 mt-1"
+                onMouseEnter={() => setIsMouseOverFavoritesOverlay(true)}
+                onMouseLeave={() => setIsMouseOverFavoritesOverlay(false)}
+              >
+                <FavoritesOverlay
+                  isVisible={showFavoritesOverlay && mobileMenuOpen}
+                  onClose={() => {
+                    setIsMouseOverFavoritesOverlay(false);
+                    setShowFavoritesOverlay(false);
+                  }}
+                />
               </div>
-            </Link>
+            </div>
 
             {/* Profile link for mobile */}
             {currentUser && (
