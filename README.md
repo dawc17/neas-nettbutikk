@@ -18,6 +18,6 @@ Speaking of:
 - Anyone can register as a user, but admins are added manually through the Realtime Database.
 - Admins have full write access to the database, and can add, edit and remove products through the website's admin panel.
 - Normal users can only read the contents of the database which include the products, so they actually show up on the site for everyone.
-- (WIP) Favorites persist for each user, as well as cart contents.
-- (WIP) Fully functional (and pretty) review system.
-- (WIP) Ability to customize your own profile.
+- Favorites persist for each user, as well as cart contents.
+- Fully functional (and pretty) review system.
+- Ability to customize your own profile.
