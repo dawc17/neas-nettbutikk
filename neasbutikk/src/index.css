@@ -1,24 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes:
-    light --default,
-    dark,
-    cupcake,
-    cyberpunk,
-    dracula,
-    funky,
-    halloween,
-    aqua,
-    forest,
-    halloween,
-    lofi,
-    noir,
-    dark,
-    light,
-    polar,
-    sky,
-    unicorn;
-}
 
 @font-face {
   font-family: Mabry;
@@ -30,22 +10,20 @@
   src: url("../src/assets/fonts/mabry-light-pro.otf");
 }
 
-@import "tailwindcss";
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark;
+}
 
-@theme {
-  --font-mabry: Mabry, "sans-serif";
-  --font-mabrylight: MabryLight, "sans-serif";
-
-  --color-pinegreen: #003d2d;
-  --color-mossgreen: #95c672;
-  --color-sunlightyellow: #f1e967;
-  --color-petalpink: #eebbca;
-  --color-midgray: #cccccc;
-  --color-lightgray: #efefef;
-  --color-navbargray: #f1f6f5;
-
-  --color-pinegreen-footer: #1a4538;
-  --color-breadtext: #92afa5;
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #003d2d;
+  --color-primary-content: #95c672;
+  --color-secondary: #95c672;
+  --color-secondary-content: #003d2d;
+  --color-accent: #f1e967;
 }
 
 .hide-scrollbar {

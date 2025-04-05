@@ -17,6 +17,7 @@ import SearchBar from "./SearchBar";
 import NavbarButton from "./NavbarButton";
 import BarIcon from "./BarIcon";
 import AdminButton from "./AdminButton";
+import ThemeToggle from "./ThemeToggle"; // Add this import
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -120,7 +121,7 @@ function Navbar() {
         <div className="block lg:hidden z-20">
           <button
             onClick={toggleMobileMenu}
-            className="text-pinegreen hover:text-mossgreen transition-all duration-200"
+            className="text-primary hover:text-primary-content transition-all duration-200"
           >
             {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
@@ -138,13 +139,13 @@ function Navbar() {
             <>
               {isAdmin ? (
                 <Link to="/adminpanel">
-                  <div className="mr-4 bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1 rounded-full flex items-center transition-all duration-200 hover:bg-mossgreen/80 hover:shadow-sm cursor-pointer">
+                  <div className="mr-4 bg-secondary text-secondary-content text-xs font-bold px-3 py-1 rounded-full flex items-center transition-all duration-200 hover:bg-secondary/80 hover:shadow-sm cursor-pointer">
                     <FaUserShield className="mr-1" />
                     <span>Admin</span>
                   </div>
                 </Link>
               ) : (
-                <div className="mr-4 bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1 rounded-full flex items-center">
+                <div className="mr-4 bg-secondary text-secondary-content text-xs font-bold px-3 py-1 rounded-full flex items-center">
                   <FaUser className="mr-1" />
                   <span>Innlogget</span>
                 </div>
@@ -152,109 +153,112 @@ function Navbar() {
             </>
           )}
 
-          <div
-            className="mr-5 relative"
-            onMouseEnter={() => setIsMouseOverFavorites(true)}
-            onMouseLeave={() => setIsMouseOverFavorites(false)}
-          >
-            <Link to="/favorites">
-              <BarIcon
-                icon={<FaHeart size={28} className="text-pinegreen" />}
-              />
-            </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <div
-              className="absolute z-50"
-              onMouseEnter={() => setIsMouseOverFavoritesOverlay(true)}
-              onMouseLeave={() => setIsMouseOverFavoritesOverlay(false)}
+              className="mr-5 relative"
+              onMouseEnter={() => setIsMouseOverFavorites(true)}
+              onMouseLeave={() => setIsMouseOverFavorites(false)}
             >
-              <FavoritesOverlay
-                isVisible={showFavoritesOverlay}
-                onClose={() => {
-                  setIsMouseOverFavoritesOverlay(false);
-                  setShowFavoritesOverlay(false);
-                }}
-              />
-            </div>
-          </div>
-          <div
-            className="mr-5 relative"
-            onMouseEnter={() => setIsMouseOverCart(true)}
-            onMouseLeave={() => setIsMouseOverCart(false)}
-          >
-            <Link to="/cart">
-              <BarIcon
-                icon={<FaShoppingCart size={28} className="text-pinegreen" />}
-              />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-              {showNotification && cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 animate-bounce-violent animate-color-change rounded-full w-5 h-5 opacity-75"></span>
-              )}
-            </Link>
-            <div
-              className="absolute z-50"
-              onMouseEnter={() => setIsMouseOverCartOverlay(true)}
-              onMouseLeave={() => setIsMouseOverCartOverlay(false)}
-            >
-              <CartOverlay
-                isVisible={showCartOverlay}
-                onClose={() => {
-                  setIsMouseOverCartOverlay(false);
-                  setShowCartOverlay(false);
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Profile icon - only show when logged in */}
-          {currentUser && (
-            <div className="mr-5 relative">
-              <Link to="/profile">
+              <Link to="/favorites">
                 <BarIcon
-                  icon={<FaUser size={28} className="text-pinegreen" />}
+                  icon={<FaHeart size={28} className="text-primary" />}
                 />
               </Link>
-            </div>
-          )}
-
-          <div className="mr-1">
-            <a href="https://minside.neas.no/register">
-              <NavbarButton
-                text={"Bli kunde ->"}
-                bg={"bg-mossgreen"}
-                textcolor={"text-pinegreen"}
-                bghover={"hover:bg-mossgreen/85"}
-              />
-            </a>
-          </div>
-          {!currentUser && (
-            <div className="ml-2 ">
-              <Link to="/login">
-                <NavbarButton
-                  text={"Logg inn ->"}
-                  bg={"bg-pinegreen"}
-                  textcolor={"text-white"}
-                  texthover={"hover:text-sunlightyellow"}
-                  bghover={"hover:bg-pinegreen/85"}
-                />
-              </Link>
-            </div>
-          )}
-
-          {/* Only show these buttons if user is logged in */}
-          {currentUser && (
-            <div className="ml-3 relative">
-              <button
-                onClick={handleLogout}
-                className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-all duration-200"
+              <div
+                className="absolute z-50"
+                onMouseEnter={() => setIsMouseOverFavoritesOverlay(true)}
+                onMouseLeave={() => setIsMouseOverFavoritesOverlay(false)}
               >
-                <FaSignOutAlt size={18} />
-              </button>
+                <FavoritesOverlay
+                  isVisible={showFavoritesOverlay}
+                  onClose={() => {
+                    setIsMouseOverFavoritesOverlay(false);
+                    setShowFavoritesOverlay(false);
+                  }}
+                />
+              </div>
             </div>
-          )}
+            <div
+              className="mr-5 relative"
+              onMouseEnter={() => setIsMouseOverCart(true)}
+              onMouseLeave={() => setIsMouseOverCart(false)}
+            >
+              <Link to="/cart">
+                <BarIcon
+                  icon={<FaShoppingCart size={28} className="text-primary" />}
+                />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+                {showNotification && cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 animate-bounce-violent animate-color-change rounded-full w-5 h-5 opacity-75"></span>
+                )}
+              </Link>
+              <div
+                className="absolute z-50"
+                onMouseEnter={() => setIsMouseOverCartOverlay(true)}
+                onMouseLeave={() => setIsMouseOverCartOverlay(false)}
+              >
+                <CartOverlay
+                  isVisible={showCartOverlay}
+                  onClose={() => {
+                    setIsMouseOverCartOverlay(false);
+                    setShowCartOverlay(false);
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Profile icon - only show when logged in */}
+            {currentUser && (
+              <div className="mr-5 relative">
+                <Link to="/profile">
+                  <BarIcon
+                    icon={<FaUser size={28} className="text-primary" />}
+                  />
+                </Link>
+              </div>
+            )}
+
+            <div className="mr-1">
+              <a href="https://minside.neas.no/register">
+                <NavbarButton
+                  text={"Bli kunde ->"}
+                  bg={"bg-secondary"}
+                  textcolor={"text-secondary-content"}
+                  bghover={"hover:bg-secondary/85"}
+                />
+              </a>
+            </div>
+            {!currentUser && (
+              <div className="ml-2 ">
+                <Link to="/login">
+                  <NavbarButton
+                    text={"Logg inn ->"}
+                    bg={"bg-primary"}
+                    textcolor={"text-white"}
+                    texthover={"hover:text-accent"}
+                    bghover={"hover:bg-primary/85"}
+                  />
+                </Link>
+              </div>
+            )}
+
+            {/* Only show these buttons if user is logged in */}
+            {currentUser && (
+              <div className="ml-3 relative">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-all duration-200"
+                >
+                  <FaSignOutAlt size={18} />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* mobile search bar */}
@@ -272,13 +276,13 @@ function Navbar() {
               <div className="w-full flex items-center justify-center mb-2">
                 {isAdmin ? (
                   <Link to="/adminpanel" className="w-full flex justify-center">
-                    <div className="bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1.5 rounded-full flex items-center justify-center w-full transition-all duration-200 hover:bg-mossgreen/80 cursor-pointer">
+                    <div className="bg-secondary text-secondary-content text-xs font-bold px-3 py-1.5 rounded-full flex items-center justify-center w-full transition-all duration-200 hover:bg-secondary/80 cursor-pointer">
                       <FaUserShield className="mr-1" />
                       <span>Logget inn som administrator</span>
                     </div>
                   </Link>
                 ) : (
-                  <div className="bg-mossgreen text-pinegreen text-xs font-bold px-3 py-1.5 rounded-full flex items-center justify-center">
+                  <div className="bg-secondary text-secondary-content text-xs font-bold px-3 py-1.5 rounded-full flex items-center justify-center">
                     <FaUser className="mr-1" />
                     <span>Logget inn som bruker</span>
                   </div>
@@ -297,8 +301,8 @@ function Navbar() {
                 className="flex items-center justify-center relative w-full"
               >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                  <FaShoppingCart size={20} className="text-pinegreen" />
-                  <span className="ml-2 text-pinegreen">Handlekurv</span>
+                  <FaShoppingCart size={20} className="text-primary" />
+                  <span className="ml-2 text-primary">Handlekurv</span>
                   {cartCount > 0 && (
                     <span className="ml-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                       {cartCount}
@@ -332,8 +336,8 @@ function Navbar() {
                 className="flex items-center justify-center relative w-full"
               >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                  <FaHeart size={20} className="text-pinegreen" />
-                  <span className="ml-2 text-pinegreen">Favoritter</span>
+                  <FaHeart size={20} className="text-primary" />
+                  <span className="ml-2 text-primary">Favoritter</span>
                 </div>
               </Link>
               <div
@@ -358,8 +362,8 @@ function Navbar() {
                 className="flex items-center justify-center relative w-full"
               >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                  <FaUser size={20} className="text-pinegreen mr-2" />
-                  <span className="text-pinegreen">Min profil</span>
+                  <FaUser size={20} className="text-primary mr-2" />
+                  <span className="text-primary">Min profil</span>
                 </div>
               </Link>
             )}
@@ -367,19 +371,19 @@ function Navbar() {
             <a href="https://minside.neas.no/register" className="w-full">
               <NavbarButton
                 text={"Bli kunde ->"}
-                bg={"bg-mossgreen"}
-                textcolor={"text-pinegreen"}
-                bghover={"hover:bg-mossgreen/85"}
+                bg={"bg-secondary"}
+                textcolor={"text-secondary-content"}
+                bghover={"hover:bg-secondary/85"}
               />
             </a>
             {!currentUser && (
               <Link to="/login" className="w-full">
                 <NavbarButton
                   text={"Logg inn ->"}
-                  bg={"bg-pinegreen"}
+                  bg={"bg-primary"}
                   textcolor={"text-white"}
-                  texthover={"hover:text-sunlightyellow"}
-                  bghover={"hover:bg-pinegreen/85"}
+                  texthover={"hover:text-accent"}
+                  bghover={"hover:bg-primary/85"}
                 />
               </Link>
             )}
