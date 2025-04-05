@@ -41,7 +41,7 @@ function App() {
             {/* All Products Button */}
             <button
               onClick={() => setActiveCategory(null)}
-              className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
+              className={`category-btn border-1 font-mabry border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center justify-center w-36 h-36 text-center
                 ${activeCategory === null ? "bg-secondary text-secondary-content font-bold" : "bg-neutral hover:bg-neutral/80 text-primary font-medium"}`}
             >
               <svg
@@ -58,24 +58,20 @@ function App() {
                   d="M4 6h16M4 10h16M4 14h16M4 18h16"
                 />
               </svg>
-              <span>Alle produkter</span>
+              <span className="w-full">Alle produkter</span>
             </button>
 
             {/* Map through categories to create buttons */}
             {Object.entries(PRODUCT_CATEGORIES).map(([key, value]) => (
-              <div
+              <button
                 key={value}
-                className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
+                onClick={() => handleCategoryClick(value)}
+                className={`category-btn border-1 font-mabry border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center justify-center w-36 h-36 text-center
                   ${activeCategory === value ? "bg-secondary text-secondary-content font-bold" : "bg-neutral hover:bg-neutral/80 text-primary font-medium"}`}
               >
-                <div
-                  className="flex flex-col items-center flex-grow"
-                  onClick={() => handleCategoryClick(value)}
-                >
-                  {getCategoryIcon(value)}
-                  <span>{CATEGORY_NAMES[value]}</span>
-                </div>
-              </div>
+                {getCategoryIcon(value)}
+                <span className="w-full">{CATEGORY_NAMES[value]}</span>
+              </button>
             ))}
           </div>
         </section>
