@@ -49,9 +49,9 @@ function AdminSidebar({ activeSection, onSectionChange }) {
   };
 
   return (
-    <div className="h-full bg-pinegreen text-white rounded-lg shadow-xl p-4 overflow-y-auto">
+    <div className="h-full bg-primary text-white rounded-lg shadow-xl p-4 overflow-y-auto">
       <div className="mb-8">
-        <h2 className="font-mabry text-2xl text-mossgreen mb-2">Admin Panel</h2>
+        <h2 className="font-mabry text-2xl text-secondary mb-2">Admin Panel</h2>
         <p className="font-mabrylight text-sm text-gray-300">
           Administrer nettbutikken
         </p>
@@ -62,9 +62,9 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         {/* Dashboard */}
         <button
           onClick={() => handleSectionClick("dashboard")}
-          className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${activeSection === "dashboard" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+          className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${activeSection === "dashboard" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
         >
-          <FaChartLine className="mr-3 text-mossgreen" />
+          <FaChartLine className="mr-3 text-secondary" />
           <span className="font-mabry">Dashboard</span>
         </button>
 
@@ -72,16 +72,16 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         <div>
           <button
             onClick={() => toggleMenu("products")}
-            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-pinegreen-footer transition-all duration-200"
+            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-accent-content transition-all duration-200"
           >
             <div className="flex items-center">
-              <FaBox className="mr-3 text-mossgreen" />
+              <FaBox className="mr-3 text-secondary" />
               <span className="font-mabry">Produkter</span>
             </div>
             {expandedMenus.products ? (
-              <FaChevronDown className="text-mossgreen" />
+              <FaChevronDown className="text-secondary" />
             ) : (
-              <FaChevronRight className="text-mossgreen" />
+              <FaChevronRight className="text-secondary" />
             )}
           </button>
 
@@ -89,28 +89,28 @@ function AdminSidebar({ activeSection, onSectionChange }) {
             <div className="pl-10 pr-2 py-2 space-y-1 font-mabrylight">
               <button
                 onClick={() => handleSectionClick("addProduct")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "addProduct" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "addProduct" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <FaPlus className="mr-2 text-sm" />
                 <span>Legg til produkt</span>
               </button>
               <button
                 onClick={() => handleSectionClick("editProducts")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "editProducts" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "editProducts" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <FaEdit className="mr-2 text-sm" />
                 <span>Rediger produkter</span>
               </button>
               <button
                 onClick={() => handleSectionClick("manageImages")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "manageImages" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "manageImages" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <FaImages className="mr-2 text-sm" />
                 <span>Administrer bilder</span>
               </button>
               <button
                 onClick={() => handleSectionClick("categories")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "categories" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "categories" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <FaTags className="mr-2 text-sm" />
                 <span>Kategorier</span>
@@ -123,16 +123,16 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         <div>
           <button
             onClick={() => toggleMenu("orders")}
-            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-pinegreen-footer transition-all duration-200"
+            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-accent-content transition-all duration-200"
           >
             <div className="flex items-center">
-              <FaClipboardList className="mr-3 text-mossgreen" />
+              <FaClipboardList className="mr-3 text-secondary" />
               <span className="font-mabry">Ordrer</span>
             </div>
             {expandedMenus.orders ? (
-              <FaChevronDown className="text-mossgreen" />
+              <FaChevronDown className="text-secondary" />
             ) : (
-              <FaChevronRight className="text-mossgreen" />
+              <FaChevronRight className="text-secondary" />
             )}
           </button>
 
@@ -140,13 +140,13 @@ function AdminSidebar({ activeSection, onSectionChange }) {
             <div className="pl-10 pr-2 py-2 space-y-1 font-mabrylight">
               <button
                 onClick={() => handleSectionClick("viewOrders")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "viewOrders" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "viewOrders" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <span>Alle ordrer</span>
               </button>
               <button
                 onClick={() => handleSectionClick("pendingOrders")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "pendingOrders" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "pendingOrders" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <span>Ventende ordrer</span>
               </button>
@@ -157,9 +157,9 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         {/* Analytics Section */}
         <button
           onClick={() => handleSectionClick("analytics")}
-          className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${activeSection === "analytics" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+          className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 ${activeSection === "analytics" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
         >
-          <FaChartLine className="mr-3 text-mossgreen" />
+          <FaChartLine className="mr-3 text-secondary" />
           <span className="font-mabry">Statistikk</span>
         </button>
 
@@ -167,16 +167,16 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         <div>
           <button
             onClick={() => toggleMenu("settings")}
-            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-pinegreen-footer transition-all duration-200"
+            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-accent-content transition-all duration-200"
           >
             <div className="flex items-center">
-              <FaCog className="mr-3 text-mossgreen" />
+              <FaCog className="mr-3 text-secondary" />
               <span className="font-mabry">Innstillinger</span>
             </div>
             {expandedMenus.settings ? (
-              <FaChevronDown className="text-mossgreen" />
+              <FaChevronDown className="text-secondary" />
             ) : (
-              <FaChevronRight className="text-mossgreen" />
+              <FaChevronRight className="text-secondary" />
             )}
           </button>
 
@@ -184,13 +184,13 @@ function AdminSidebar({ activeSection, onSectionChange }) {
             <div className="pl-10 pr-2 py-2 space-y-1 font-mabrylight">
               <button
                 onClick={() => handleSectionClick("siteSettings")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "siteSettings" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "siteSettings" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <span>Nettside innstillinger</span>
               </button>
               <button
                 onClick={() => handleSectionClick("users")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "users" ? "bg-mossgreen text-pinegreen" : "hover:bg-pinegreen-footer"}`}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "users" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <span>Administrer brukere</span>
               </button>
@@ -199,7 +199,7 @@ function AdminSidebar({ activeSection, onSectionChange }) {
         </div>
         
         {/* Logout Button - Added at the bottom for easy access */}
-        <div className="mt-8 pt-4 border-t border-pinegreen-footer">
+        <div className="mt-8 pt-4 border-t border-accent-content">
           <button
             onClick={handleLogout}
             className="w-full flex items-center p-3 rounded-lg bg-red-500/20 hover:bg-red-500/40 transition-all duration-200"

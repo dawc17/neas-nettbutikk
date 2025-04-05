@@ -23,12 +23,12 @@ function SearchResults() {
         <Navbar />
       </header>
       <main className="flex-1 p-8">
-        <h1 className="font-mabry text-2xl text-pinegreen mb-4">
+        <h1 className="font-mabry text-2xl text-primary mb-4">
           Søkeresultater for "{query}"
         </h1>
 
         {loading ? (
-          <p className="font-mabrylight text-pinegreen">Laster produkter...</p>
+          <p className="font-mabrylight text-primary">Laster produkter...</p>
         ) : error ? (
           <p className="font-mabrylight text-red-500">
             Feil ved lasting av produkter: {error}
@@ -40,7 +40,7 @@ function SearchResults() {
             ))}
           </div>
         ) : (
-          <p className="font-mabrylight text-pinegreen">
+          <p className="font-mabrylight text-primary">
             Ingen produkter funnet for dette søket.
           </p>
         )}

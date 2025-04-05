@@ -20,7 +20,6 @@ function ReviewItem({ review, productId }) {
   const isAdmin = currentUser && currentUser.role === "admin";
   const canModify = isAuthor || isAdmin;
 
-  // Fetch additional user details for admin view
   useEffect(() => {
     if (isAdmin && review.userId) {
       const fetchUserDetails = async () => {
@@ -46,7 +45,6 @@ function ReviewItem({ review, productId }) {
       })
     : "";
 
-  // Convert replies object to array if it exists
   const replies = review.replies
     ? Object.entries(review.replies).map(([id, reply]) => ({ id, ...reply }))
     : [];
@@ -68,7 +66,6 @@ function ReviewItem({ review, productId }) {
           const userSnapshot = await get(userRef);
           if (userSnapshot.exists()) {
             const userData = userSnapshot.val();
-            // Prioritize nickname, then fall back to real name
             userDisplayName =
               userData.nickname || userData.name || "Anonym bruker";
             profilePicture = userData.profilePicture || null;
@@ -94,7 +91,6 @@ function ReviewItem({ review, productId }) {
     }
   };
 
-  // Function to initiate editing a reply
   const startEditingReply = async (reply) => {
     setEditingReplyId(reply.id);
     setEditReplyText(reply.text);
@@ -116,7 +112,6 @@ function ReviewItem({ review, productId }) {
     }
   };
 
-  // Function to handle editing a reply
   const handleEditReply = async (replyId) => {
     setIsSubmittingEdit(true);
     try {
@@ -148,14 +143,12 @@ function ReviewItem({ review, productId }) {
     }
   };
 
-  // Function to cancel editing a reply
   const cancelEditReply = () => {
     setEditingReplyId(null);
     setEditReplyText("");
     setEditingProfilePicture(null);
   };
 
-  // Function to handle deleting a reply
   const handleDeleteReply = async (replyId) => {
     if (window.confirm("Er du sikker på at du vil slette dette svaret?")) {
       try {
@@ -183,15 +176,12 @@ function ReviewItem({ review, productId }) {
     }
   };
 
-  // Check if user can edit/delete a specific reply
   const canModifyReply = (reply) => {
     return currentUser && (currentUser.uid === reply.userId || isAdmin);
   };
 
-  // State for storing reply user details (for admin use)
   const [replyUserDetails, setReplyUserDetails] = useState({});
 
-  // Effect to fetch reply user details for admins
   useEffect(() => {
     if (isAdmin && replies.length > 0) {
       const fetchReplyUserDetails = async () => {
@@ -223,10 +213,8 @@ function ReviewItem({ review, productId }) {
 
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm">
-      {/* Review header */}
       <div className="flex justify-between mb-2">
         <div className="flex items-center">
-          {/* Profile Picture */}
           <div className="w-8 h-8 rounded-full overflow-hidden mr-3 bg-gray-100 flex items-center justify-center flex-shrink-0">
             {review.profilePicture ? (
               <img 
@@ -235,13 +223,11 @@ function ReviewItem({ review, productId }) {
                 className="object-cover w-full h-full" 
               />
             ) : (
-              <FaUser className="text-pinegreen opacity-50" />
+              <FaUser className="text-primary opacity-50" />
             )}
           </div>
-          
-          {/* User Name */}
           <div>
-            <div className="font-mabry text-pinegreen">
+            <div className="font-mabry text-primary">
               {review.userDisplayName || "Anonym bruker"}
               {isAdmin && userDetails && (
                 <span className="text-gray-400 text-sm ml-1">
@@ -265,7 +251,6 @@ function ReviewItem({ review, productId }) {
             </div>
           </div>
         </div>
-
         {canModify && (
           <div>
             <button
@@ -277,17 +262,12 @@ function ReviewItem({ review, productId }) {
           </div>
         )}
       </div>
-
-      {/* Review content */}
-      <p className="font-mabrylight text-pinegreen mb-4">{review.text}</p>
-
-      {/* Replies */}
+      <p className="font-mabrylight text-primary mb-4">{review.text}</p>
       {replies.length > 0 && (
         <div className="ml-6 pl-4 border-l-2 border-gray-200 mt-4 space-y-3">
           {replies.map((reply) => (
             <div key={reply.id} className="bg-gray-50 p-3 rounded-lg">
               {editingReplyId === reply.id ? (
-                // Edit reply form
                 <div>
                   <div className="flex items-center mb-2">
                     <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-100 flex items-center justify-center flex-shrink-0">
@@ -298,17 +278,17 @@ function ReviewItem({ review, productId }) {
                           className="object-cover w-full h-full" 
                         />
                       ) : (
-                        <FaUser className="text-pinegreen opacity-50 text-xs" />
+                        <FaUser className="text-primary opacity-50 text-xs" />
                       )}
                     </div>
-                    <div className="font-mabry text-pinegreen text-sm">
+                    <div className="font-mabry text-primary text-sm">
                       {reply.userDisplayName || "Anonym bruker"}
                     </div>
                   </div>
                   <textarea
                     value={editReplyText}
                     onChange={(e) => setEditReplyText(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-mossgreen text-sm mb-2"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-secondary text-sm mb-2"
                     rows="2"
                   />
                   <div className="flex justify-end space-x-2">
@@ -321,7 +301,7 @@ function ReviewItem({ review, productId }) {
                     </button>
                     <button
                       onClick={() => handleEditReply(reply.id)}
-                      className="text-mossgreen hover:text-pinegreen text-sm flex items-center"
+                      className="text-secondary hover:text-primary text-sm flex items-center"
                       disabled={!editReplyText.trim() || isSubmittingEdit}
                     >
                       {isSubmittingEdit ? (
@@ -335,11 +315,9 @@ function ReviewItem({ review, productId }) {
                   </div>
                 </div>
               ) : (
-                // Normal reply display
                 <>
                   <div className="flex justify-between">
                     <div className="flex items-center">
-                      {/* Reply Profile Picture */}
                       <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-100 flex items-center justify-center flex-shrink-0">
                         {reply.profilePicture ? (
                           <img 
@@ -348,13 +326,11 @@ function ReviewItem({ review, productId }) {
                             className="object-cover w-full h-full" 
                           />
                         ) : (
-                          <FaUser className="text-pinegreen opacity-50 text-xs" />
+                          <FaUser className="text-primary opacity-50 text-xs" />
                         )}
                       </div>
-                      
-                      {/* Reply User Name */}
                       <div>
-                        <div className="font-mabry text-pinegreen text-sm">
+                        <div className="font-mabry text-primary text-sm">
                           {reply.userDisplayName || "Anonym bruker"}
                           {isAdmin && replyUserDetails[reply.userId] && (
                             <span className="text-gray-400 text-xs ml-1">
@@ -377,13 +353,11 @@ function ReviewItem({ review, productId }) {
                           <span className="ml-1">(redigert)</span>
                         )}
                       </div>
-                      
-                      {/* Edit and delete buttons */}
                       {canModifyReply(reply) && (
                         <div className="flex space-x-2">
                           <button
                             onClick={() => startEditingReply(reply)}
-                            className="text-mossgreen hover:text-pinegreen"
+                            className="text-secondary hover:text-primary"
                             title="Rediger svar"
                           >
                             <FaEdit size={12} />
@@ -399,7 +373,7 @@ function ReviewItem({ review, productId }) {
                       )}
                     </div>
                   </div>
-                  <p className="font-mabrylight text-pinegreen text-sm mt-1 ml-8">
+                  <p className="font-mabrylight text-primary text-sm mt-1 ml-8">
                     {reply.text}
                   </p>
                 </>
@@ -408,20 +382,16 @@ function ReviewItem({ review, productId }) {
           ))}
         </div>
       )}
-
-      {/* Reply actions */}
       {currentUser && !showReplyForm && (
         <div className="mt-4">
           <button
             onClick={() => setShowReplyForm(true)}
-            className="flex items-center text-sm text-pinegreen hover:text-mossgreen"
+            className="flex items-center text-sm text-primary hover:text-secondary"
           >
             <FaReply className="mr-1" /> Svar
           </button>
         </div>
       )}
-
-      {/* Reply form */}
       {showReplyForm && (
         <div className="mt-4">
           <ReplyForm

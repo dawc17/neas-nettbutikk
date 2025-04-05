@@ -143,8 +143,8 @@ function ReviewSection({ productId }) {
   };
 
   return (
-    <div className="border-t border-pinegreen/10 p-4 md:p-8">
-      <h2 className="font-mabry text-xl text-pinegreen mb-4">Anmeldelser</h2>
+    <div className="border-t border-primary/10 p-4 md:p-8">
+      <h2 className="font-mabry text-xl text-primary mb-4">Anmeldelser</h2>
 
       {/* Summary section */}
       <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
@@ -161,7 +161,7 @@ function ReviewSection({ productId }) {
               />
             ))}
           </div>
-          <span className="font-mabry text-pinegreen">
+          <span className="font-mabry text-primary">
             {averageRating ? averageRating.toFixed(1) : "0"} / 5 (
             {reviews.length}{" "}
             {reviews.length === 1 ? "anmeldelse" : "anmeldelser"})
@@ -175,12 +175,12 @@ function ReviewSection({ productId }) {
           showEditForm ? (
             <div className="mb-6">
               <div className="flex justify-between mb-2">
-                <h3 className="font-mabry text-pinegreen">
+                <h3 className="font-mabry text-primary">
                   Rediger din anmeldelse
                 </h3>
                 <button
                   onClick={() => setShowEditForm(false)}
-                  className="text-sm text-gray-500 hover:text-pinegreen"
+                  className="text-sm text-gray-500 hover:text-primary"
                 >
                   Avbryt redigering
                 </button>
@@ -193,14 +193,14 @@ function ReviewSection({ productId }) {
               />
             </div>
           ) : (
-            <div className="bg-mossgreen/20 rounded-lg p-4 mb-6">
+            <div className="bg-secondary/20 rounded-lg p-4 mb-6">
               <div className="flex justify-between items-center">
-                <p className="font-mabrylight text-pinegreen">
+                <p className="font-mabrylight text-primary">
                   Du har allerede skrevet en anmeldelse.
                 </p>
                 <button
                   onClick={() => setShowEditForm(true)}
-                  className="text-sm text-mossgreen hover:underline flex items-center"
+                  className="text-sm text-secondary hover:underline flex items-center"
                 >
                   <FaEdit className="mr-1" /> Rediger
                 </button>
@@ -211,9 +211,9 @@ function ReviewSection({ productId }) {
           <ReviewForm onSubmit={handleAddReview} />
         )
       ) : (
-        <div className="bg-mossgreen/20 rounded-lg p-4 mb-6">
-          <p className="font-mabrylight text-pinegreen">
-            <a href="/login" className="text-mossgreen hover:underline">
+        <div className="bg-secondary/20 rounded-lg p-4 mb-6">
+          <p className="font-mabrylight text-primary">
+            <a href="/login" className="text-secondary hover:underline">
               Logg inn
             </a>{" "}
             for å skrive en anmeldelse.
@@ -223,7 +223,7 @@ function ReviewSection({ productId }) {
 
       {/* Reviews list */}
       {loading ? (
-        <p className="font-mabrylight text-pinegreen">Laster anmeldelser...</p>
+        <p className="font-mabrylight text-primary">Laster anmeldelser...</p>
       ) : reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
@@ -233,7 +233,7 @@ function ReviewSection({ productId }) {
       ) : (
         <div className="text-center py-6">
           <FaCommentAlt className="mx-auto text-gray-300 text-4xl mb-2" />
-          <p className="font-mabrylight text-pinegreen">
+          <p className="font-mabrylight text-primary">
             Ingen anmeldelser ennå. Vær den første til å anmelde dette
             produktet!
           </p>

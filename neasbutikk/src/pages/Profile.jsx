@@ -204,14 +204,14 @@ function Profile() {
       </header>
       <main className="flex-1 p-6 md:p-10">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-2xl font-mabry text-pinegreen mb-6">
+          <h1 className="text-2xl font-mabry text-primary mb-6">
             Min profil
           </h1>
 
           {loading ? (
-            <div className="bg-lightgray rounded-xl p-6 shadow-md text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pinegreen mx-auto"></div>
-              <p className="mt-4 font-mabrylight text-pinegreen">
+            <div className="bg-neutral rounded-xl p-6 shadow-md text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto"></div>
+              <p className="mt-4 font-mabrylight text-primary">
                 Laster brukerdata...
               </p>
             </div>
@@ -220,7 +220,7 @@ function Profile() {
               {error}
             </div>
           ) : userData ? (
-            <div className="bg-lightgray rounded-xl p-6 shadow-md">
+            <div className="bg-neutral rounded-xl p-6 shadow-md">
               {/* Profile Picture Uploader Component */}
               <ProfilePictureUploader
                 userId={currentUser.uid}
@@ -231,8 +231,8 @@ function Profile() {
               <div className="space-y-6">
                 {/* Nickname section - moved to the top */}
                 <div className="flex items-center">
-                  <div className="bg-mossgreen rounded-full p-3 mr-4">
-                    <FaUserEdit className="text-pinegreen text-xl" />
+                  <div className="bg-secondary rounded-full p-3 mr-4">
+                    <FaUserEdit className="text-primary text-xl" />
                   </div>
                   <div className="flex-grow">
                     <h2 className="text-sm font-mabrylight text-gray-500">
@@ -244,14 +244,14 @@ function Profile() {
                           type="text"
                           value={nickname}
                           onChange={(e) => setNickname(e.target.value)}
-                          className="border rounded-md p-1 mb-2 sm:mb-0 sm:mr-2 font-mabry text-pinegreen"
+                          className="border rounded-md p-1 mb-2 sm:mb-0 sm:mr-2 font-mabry text-primary"
                           placeholder="Ditt kallenavn"
                         />
                         <div className="flex">
                           <button
                             onClick={handleUpdateNickname}
                             disabled={isSaving}
-                            className="bg-mossgreen text-pinegreen px-3 py-1 rounded-md hover:bg-mossgreen/80 transition-all mr-2"
+                            className="bg-secondary text-primary px-3 py-1 rounded-md hover:bg-secondary/80 transition-all mr-2"
                           >
                             {isSaving ? "Lagrer..." : "Lagre"}
                           </button>
@@ -261,7 +261,7 @@ function Profile() {
                               setNickname(userData.nickname || "");
                               setSaveError(null);
                             }}
-                            className="bg-gray-200 text-pinegreen px-3 py-1 rounded-md hover:bg-gray-300 transition-all"
+                            className="bg-gray-200 text-primary px-3 py-1 rounded-md hover:bg-gray-300 transition-all"
                           >
                             Avbryt
                           </button>
@@ -274,12 +274,12 @@ function Profile() {
                       </div>
                     ) : (
                       <div className="flex items-center">
-                        <p className="font-mabry text-pinegreen text-lg">
+                        <p className="font-mabry text-primary text-lg">
                           {userData.nickname || "Ikke satt"}
                         </p>
                         <button
                           onClick={() => setIsEditingNickname(true)}
-                          className="ml-2 text-mossgreen hover:text-pinegreen transition-all"
+                          className="ml-2 text-secondary hover:text-primary transition-all"
                         >
                           {userData.nickname ? "Endre" : "Legg til"}
                         </button>
@@ -290,14 +290,14 @@ function Profile() {
 
                 {/* Name section - now below nickname */}
                 <div className="flex items-center">
-                  <div className="bg-mossgreen rounded-full p-3 mr-4">
-                    <FaUser className="text-pinegreen text-xl" />
+                  <div className="bg-secondary rounded-full p-3 mr-4">
+                    <FaUser className="text-primary text-xl" />
                   </div>
                   <div>
                     <h2 className="text-sm font-mabrylight text-gray-500">
                       Navn
                     </h2>
-                    <p className="font-mabry text-pinegreen text-lg">
+                    <p className="font-mabry text-primary text-lg">
                       {userData.name}
                     </p>
                   </div>
@@ -305,14 +305,14 @@ function Profile() {
 
                 {/* Email section */}
                 <div className="flex items-center">
-                  <div className="bg-mossgreen rounded-full p-3 mr-4">
-                    <FaEnvelope className="text-pinegreen text-xl" />
+                  <div className="bg-secondary rounded-full p-3 mr-4">
+                    <FaEnvelope className="text-primary text-xl" />
                   </div>
                   <div>
                     <h2 className="text-sm font-mabrylight text-gray-500">
                       E-post
                     </h2>
-                    <p className="font-mabry text-pinegreen text-lg">
+                    <p className="font-mabry text-primary text-lg">
                       {userData.email}
                     </p>
                   </div>
@@ -320,14 +320,14 @@ function Profile() {
 
                 {/* User-ID section */}
                 <div className="flex items-center">
-                  <div className="bg-mossgreen rounded-full p-3 mr-4">
-                    <FaIdCard className="text-pinegreen text-xl" />
+                  <div className="bg-secondary rounded-full p-3 mr-4">
+                    <FaIdCard className="text-primary text-xl" />
                   </div>
                   <div>
                     <h2 className="text-sm font-mabrylight text-gray-500">
                       Bruker-ID
                     </h2>
-                    <p className="font-mabry text-pinegreen text-lg">
+                    <p className="font-mabry text-primary text-lg">
                       {userData.readableId || "Ikke tilgjengelig"}
                     </p>
                   </div>
@@ -335,8 +335,8 @@ function Profile() {
               </div>
             </div>
           ) : (
-            <div className="bg-lightgray rounded-xl p-6 shadow-md text-center">
-              <p className="font-mabrylight text-pinegreen">
+            <div className="bg-neutral rounded-xl p-6 shadow-md text-center">
+              <p className="font-mabrylight text-primary">
                 Ingen brukerdata funnet.
               </p>
             </div>

@@ -281,7 +281,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
 
   return (
     <div className="w-full">
-      <h2 className="font-mabry text-xl text-pinegreen mb-4">
+      <h2 className="font-mabry text-xl text-primary mb-4">
         {isEditMode ? "Rediger produkt" : "Legg til nytt produkt"}
       </h2>
 
@@ -298,7 +298,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         <div>
           <label
             htmlFor="productName"
-            className="block font-mabry text-pinegreen mb-1"
+            className="block font-mabry text-primary mb-1"
           >
             Produktnavn*
           </label>
@@ -308,7 +308,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             name="productName"
             value={product.productName}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
             required
           />
         </div>
@@ -317,7 +317,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         <div>
           <label
             htmlFor="productDescription"
-            className="block font-mabry text-pinegreen mb-1"
+            className="block font-mabry text-primary mb-1"
           >
             Kort beskrivelse*
           </label>
@@ -327,7 +327,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             value={product.productDescription}
             onChange={handleChange}
             rows="3"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
             required
           ></textarea>
         </div>
@@ -336,7 +336,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         <div>
           <label
             htmlFor="extendedDescription"
-            className="block font-mabry text-pinegreen mb-1"
+            className="block font-mabry text-primary mb-1"
           >
             Utvidet beskrivelse (markdown)
           </label>
@@ -346,7 +346,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             value={product.extendedDescription}
             onChange={handleChange}
             rows="6"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen font-mono text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary font-mono text-sm"
             placeholder="### Overskrift\n- Punkt 1\n- Punkt 2\n\nMer tekst her..."
           ></textarea>
         </div>
@@ -356,7 +356,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
           <div>
             <label
               htmlFor="price"
-              className="block font-mabry text-pinegreen mb-1"
+              className="block font-mabry text-primary mb-1"
             >
               Pris (NOK)*
             </label>
@@ -367,7 +367,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
               value={product.price}
               onChange={handleChange}
               min="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
               required
             />
           </div>
@@ -375,7 +375,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
           <div>
             <label
               htmlFor="category"
-              className="block font-mabry text-pinegreen mb-1"
+              className="block font-mabry text-primary mb-1"
             >
               Kategori*
             </label>
@@ -384,7 +384,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
               name="category"
               value={product.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
               required
             >
               <option value="">Velg en kategori</option>
@@ -401,7 +401,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         <div>
           <label
             htmlFor="stock"
-            className="block font-mabry text-pinegreen mb-1"
+            className="block font-mabry text-primary mb-1"
           >
             Antall på lager
           </label>
@@ -412,13 +412,13 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
             value={product.stock}
             onChange={handleChange}
             min="0"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
           />
         </div>
 
         {/* Main image section */}
         <div>
-          <label className="block font-mabry text-pinegreen mb-1">
+          <label className="block font-mabry text-primary mb-1">
             Hovedbilde*
           </label>
 
@@ -453,7 +453,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
               name="image"
               value={product.image}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
               placeholder="https://example.com/image.jpg"
               required={!product.image.startsWith("data:")}
             />
@@ -462,7 +462,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
               type="file"
               accept="image/*"
               onChange={handleMainImageUpload}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
               required={!product.image}
             />
           )}
@@ -480,7 +480,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
 
         {/* Additional images */}
         <div>
-          <label className="block font-mabry text-pinegreen mb-1">
+          <label className="block font-mabry text-primary mb-1">
             Ekstra bilder
           </label>
 
@@ -514,13 +514,13 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
                 type="text"
                 value={additionalImageUrl}
                 onChange={(e) => setAdditionalImageUrl(e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-secondary"
                 placeholder="https://example.com/image.jpg"
               />
               <button
                 type="button"
                 onClick={addImage}
-                className="px-4 py-2 bg-mossgreen text-pinegreen font-mabry rounded-r-md hover:bg-mossgreen/80"
+                className="px-4 py-2 bg-secondary text-primary font-mabry rounded-r-md hover:bg-secondary/80"
               >
                 Legg til
               </button>
@@ -530,7 +530,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
               type="file"
               accept="image/*"
               onChange={handleAdditionalImageUpload}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
             />
           )}
 
@@ -561,7 +561,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full px-4 py-2 bg-mossgreen text-pinegreen font-mabry rounded-md hover:bg-pinegreen hover:text-sunlightyellow transition-all ${
+            className={`w-full px-4 py-2 bg-secondary text-primary font-mabry rounded-md hover:bg-primary hover:text-accent transition-all ${
               isSubmitting ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >

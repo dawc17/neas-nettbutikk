@@ -35,27 +35,27 @@ function AdminPanel() {
       default:
         return (
           <>
-            <p className="font-mabrylight text-pinegreen mb-4">
+            <p className="font-mabrylight text-primary mb-4">
               Velg en funksjon fra sidemenyen for å administrere nettbutikken.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              <div className="bg-mossgreen/20 rounded-lg p-4 text-center">
-                <h3 className="font-mabry text-pinegreen text-lg mb-2">
+              <div className="bg-secondary/20 rounded-lg p-4 text-center">
+                <h3 className="font-mabry text-primary text-lg mb-2">
                   Produkter
                 </h3>
-                <p className="font-mabrylight text-pinegreen">
+                <p className="font-mabrylight text-primary">
                   {loading
                     ? "Laster..."
                     : `${products.length} aktive produkter`}
                 </p>
               </div>
 
-              <div className="bg-mossgreen/20 rounded-lg p-4 text-center">
-                <h3 className="font-mabry text-pinegreen text-lg mb-2">
+              <div className="bg-secondary/20 rounded-lg p-4 text-center">
+                <h3 className="font-mabry text-primary text-lg mb-2">
                   Ordrer
                 </h3>
-                <p className="font-mabrylight text-pinegreen">
+                <p className="font-mabrylight text-primary">
                   0 ventende ordrer
                 </p>
               </div>
@@ -86,8 +86,8 @@ function AdminPanel() {
         </div>
 
         {/* Main content area */}
-        <div className="w-full lg:w-3/4 bg-lightgray rounded-lg p-6 shadow-md">
-          <h1 className="text-2xl font-mabry text-pinegreen mb-6">
+        <div className="w-full lg:w-3/4 bg-neutral rounded-lg p-6 shadow-md">
+          <h1 className="text-2xl font-mabry text-primary mb-6">
             {activeSection === "dashboard"
               ? "Dashboard"
               : activeSection === "addProduct"

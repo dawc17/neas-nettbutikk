@@ -368,7 +368,7 @@ function ProductPage() {
                   <h2 className="font-mabry text-xl text-primary mb-4">
                     Produktdetaljer
                   </h2>
-                  <div className="product-extended-description font-mabrylight">
+                  <div className="product-extended-description text-primary font-mabrylight">
                     <ReactMarkdown>{product.extendedDescription}</ReactMarkdown>
                   </div>
                 </div>

@@ -45,11 +45,11 @@ function UserLogin() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-pinegreen-footer">
+    <div className="min-h-screen flex flex-col bg-accent-content" data-theme="light">
       <div className="p-4">
         <Link
           to="/"
-          className="inline-flex items-center text-white bg-pinegreen px-4 py-2 rounded-md hover:bg-mossgreen transition-all duration-200"
+          className="inline-flex items-center text-white bg-primary px-4 py-2 rounded-md hover:bg-secondary transition-all duration-200"
         >
           <FaArrowLeft className="mr-2" />
           Tilbake til butikk
@@ -59,7 +59,7 @@ function UserLogin() {
       <div className="flex-grow flex items-center justify-center">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-xl">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-mabry text-pinegreen">Logg inn</h2>
+            <h2 className="text-3xl font-mabry text-primary">Logg inn</h2>
             <p className="text-gray-500 font-mabrylight">
               Logg inn for å få tilgang til dine favoritter og mer
             </p>
@@ -75,13 +75,13 @@ function UserLogin() {
             <div className="mb-6">
               <label
                 htmlFor="email"
-                className="block font-mabry text-pinegreen mb-2"
+                className="block font-mabry text-primary mb-2"
               >
                 E-post
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FaEnvelope className="text-pinegreen" />
+                  <FaEnvelope className="text-primary" />
                 </div>
                 <input
                   type="email"
@@ -89,7 +89,7 @@ function UserLogin() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-secondary"
                   placeholder="din@epost.no"
                 />
               </div>
@@ -98,13 +98,13 @@ function UserLogin() {
             <div className="mb-6">
               <label
                 htmlFor="password"
-                className="block font-mabry text-pinegreen mb-2"
+                className="block font-mabry text-primary mb-2"
               >
                 Passord
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FaLock className="text-pinegreen" />
+                  <FaLock className="text-primary" />
                 </div>
                 <input
                   type="password"
@@ -112,7 +112,7 @@ function UserLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-mossgreen"
+                  className="pl-10 w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-secondary"
                   placeholder="••••••••"
                 />
               </div>
@@ -121,7 +121,7 @@ function UserLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-pinegreen text-white font-mabry py-2 px-4 rounded-md hover:bg-mossgreen transition-all duration-200 flex items-center justify-center mb-4"
+              className="w-full bg-primary text-white font-mabry py-2 px-4 rounded-md hover:bg-secondary transition-all duration-200 flex items-center justify-center mb-4"
             >
               {loading ? (
                 <span>Logger inn...</span>
@@ -137,7 +137,7 @@ function UserLogin() {
               <p className="text-gray-600 mb-4">Har du ikke en konto?</p>
               <Link
                 to="/register"
-                className="bg-mossgreen text-pinegreen font-mabry py-2 px-4 rounded-md hover:bg-mossgreen/85 transition-all duration-200 flex items-center justify-center"
+                className="bg-secondary text-primary font-mabry py-2 px-4 rounded-md hover:bg-secondary/85 transition-all duration-200 flex items-center justify-center"
               >
                 <FaUserPlus className="mr-2" />
                 <span>Registrer deg</span>

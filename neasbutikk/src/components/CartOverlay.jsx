@@ -21,8 +21,8 @@ function CartOverlay({ isVisible, onClose }) {
       {/* Fixed Header */}
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <h3 className="font-mabry text-pinegreen text-lg">Din handlekurv</h3>
-          <span className="font-mabrylight text-pinegreen">
+          <h3 className="font-mabry text-primary text-lg">Din handlekurv</h3>
+          <span className="font-mabrylight text-primary">
             {cartItems.length}{" "}
             {cartItems.length === 1 ? "produkt" : "produkter"}
           </span>
@@ -45,14 +45,14 @@ function CartOverlay({ isVisible, onClose }) {
                   />
                 </div>
                 <div className="flex-grow">
-                  <h4 className="font-mabrylight text-pinegreen text-sm line-clamp-1">
+                  <h4 className="font-mabrylight text-primary text-sm line-clamp-1">
                     {item.productName}
                   </h4>
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-pinegreen">
+                    <span className="text-xs text-primary">
                       {item.quantity} × {formatPrice(item.price)}
                     </span>
-                    <span className="font-mabry text-pinegreen text-sm">
+                    <span className="font-mabry text-primary text-sm">
                       {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
@@ -63,17 +63,17 @@ function CartOverlay({ isVisible, onClose }) {
 
           <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
             <div className="flex justify-between items-center mb-3">
-              <span className="font-mabrylight text-pinegreen">
+              <span className="font-mabrylight text-primary">
                 Sum totalt:
               </span>
-              <span className="font-mabry text-pinegreen text-lg">
+              <span className="font-mabry text-primary text-lg">
                 {formatPrice(total)}
               </span>
             </div>
 
             <Link
               to="/cart"
-              className="bg-mossgreen text-pinegreen font-mabry rounded-lg w-full py-2 text-center block hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
+              className="bg-secondary text-primary font-mabry rounded-lg w-full py-2 text-center block hover:bg-primary hover:text-secondary-content transition-all duration-200"
             >
               Gå til handlekurv
             </Link>
@@ -82,10 +82,10 @@ function CartOverlay({ isVisible, onClose }) {
       ) : (
         <div className="p-6 text-center rounded-b-xl">
           <FaShoppingCart size={24} className="text-gray-300 mx-auto mb-2" />
-          <p className="font-mabrylight text-pinegreen mb-2">
+          <p className="font-mabrylight text-primary mb-2">
             Handlekurven er tom
           </p>
-          <Link to="/" className="text-mossgreen text-sm hover:underline">
+          <Link to="/" className="text-secondary text-sm hover:underline">
             Fortsett å handle
           </Link>
         </div>

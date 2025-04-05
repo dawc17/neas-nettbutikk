@@ -43,7 +43,7 @@ function ReplyForm({ onSubmit, onCancel, initialText = "" }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows="2"
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen mb-2"
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary mb-2"
         placeholder="Skriv et svar..."
         required
       />
@@ -59,7 +59,7 @@ function ReplyForm({ onSubmit, onCancel, initialText = "" }) {
         <button
           type="submit"
           disabled={submitting}
-          className={`px-3 py-1 bg-mossgreen text-pinegreen rounded text-sm ${
+          className={`px-3 py-1 bg-secondary text-primary rounded text-sm ${
             submitting ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >

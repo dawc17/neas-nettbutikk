@@ -134,7 +134,7 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
     <>
       {/* Profile Picture Display */}
       <div className="mb-8 flex flex-col items-center">
-        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-mossgreen mb-3 bg-gray-100 flex items-center justify-center">
+        <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-secondary mb-3 bg-gray-100 flex items-center justify-center">
           {userData.profilePicture ? (
             <img 
               src={userData.profilePicture} 
@@ -142,12 +142,12 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
               className="object-cover w-full h-full"
             />
           ) : (
-            <FaUser className="text-pinegreen text-5xl opacity-50" />
+            <FaUser className="text-primary text-5xl opacity-50" />
           )}
         </div>
         <button 
           onClick={() => setShowProfilePictureModal(true)}
-          className="bg-mossgreen text-pinegreen px-4 py-2 rounded-md hover:bg-mossgreen/80 transition-all font-mabry"
+          className="bg-secondary text-primary px-4 py-2 rounded-md hover:bg-secondary/80 transition-all font-mabry"
         >
           {userData.profilePicture ? "Endre profilbilde" : "Last opp profilbilde"}
         </button>
@@ -158,10 +158,10 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-6 max-w-3xl w-full max-h-[90vh] overflow-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-mabry text-pinegreen">Last opp profilbilde</h2>
+              <h2 className="text-xl font-mabry text-primary">Last opp profilbilde</h2>
               <button 
                 onClick={closeModal}
-                className="text-gray-500 hover:text-pinegreen"
+                className="text-gray-500 hover:text-primary"
               >
                 <FaTimes size={24} />
               </button>
@@ -185,7 +185,7 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
                   />
                   <label
                     htmlFor="profilePicture"
-                    className="bg-mossgreen text-pinegreen py-3 px-6 rounded-md hover:bg-mossgreen/80 transition-all font-mabry cursor-pointer inline-block"
+                    className="bg-secondary text-primary py-3 px-6 rounded-md hover:bg-secondary/80 transition-all font-mabry cursor-pointer inline-block"
                   >
                     Velg bilde
                   </label>
@@ -216,13 +216,13 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
                       <div className="flex justify-between">
                         <button
                           onClick={resetImageEdit}
-                          className="flex items-center text-gray-600 hover:text-pinegreen"
+                          className="flex items-center text-gray-600 hover:text-primary"
                         >
                           Tilbakestill
                         </button>
                         <button
                           onClick={() => setCrop({ unit: '%', width: 100, aspect: 1 })}
-                          className="flex items-center text-gray-600 hover:text-pinegreen"
+                          className="flex items-center text-gray-600 hover:text-primary"
                         >
                           <FaCrop className="mr-1" /> Vis hele bildet
                         </button>
@@ -231,7 +231,7 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
                   </div>
 
                   <div className="md:w-64">
-                    <h3 className="text-pinegreen font-mabry mb-2">Forhåndsvisning</h3>
+                    <h3 className="text-primary font-mabry mb-2">Forhåndsvisning</h3>
                     {completedCrop && (
                       <div>
                         <div className="mb-4">
@@ -258,21 +258,21 @@ function ProfilePictureUploader({ userId, userData, onProfilePictureUpdate }) {
                     onClick={() => {
                       setUploadedImage(null);
                     }}
-                    className="bg-gray-200 text-pinegreen px-4 py-2 rounded-md hover:bg-gray-300 transition-all mr-2"
+                    className="bg-gray-200 text-primary px-4 py-2 rounded-md hover:bg-gray-300 transition-all mr-2"
                   >
                     Avbryt
                   </button>
                   <button
                     onClick={handleSaveProfilePicture}
                     disabled={!completedCrop || isSavingImage}
-                    className={`bg-mossgreen text-pinegreen px-4 py-2 rounded-md hover:bg-mossgreen/80 transition-all flex items-center ${
+                    className={`bg-secondary text-primary px-4 py-2 rounded-md hover:bg-secondary/80 transition-all flex items-center ${
                       !completedCrop || isSavingImage ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                   >
                     {isSavingImage ? (
                       <>
                         <span className="mr-2">Lagrer...</span>
-                        <div className="animate-spin h-4 w-4 border-2 border-pinegreen rounded-full border-t-transparent"></div>
+                        <div className="animate-spin h-4 w-4 border-2 border-primary rounded-full border-t-transparent"></div>
                       </>
                     ) : (
                       <>

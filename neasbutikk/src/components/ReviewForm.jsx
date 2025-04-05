@@ -55,7 +55,7 @@ function ReviewForm({
       onSubmit={handleSubmit}
       className="bg-white rounded-lg p-4 mb-6 shadow-sm"
     >
-      <h3 className="font-mabry text-pinegreen mb-4">Skriv en anmeldelse</h3>
+      <h3 className="font-mabry text-primary mb-4">Skriv en anmeldelse</h3>
 
       {error && (
         <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">
@@ -64,7 +64,7 @@ function ReviewForm({
       )}
 
       <div className="mb-4">
-        <label className="block font-mabrylight text-pinegreen mb-2">
+        <label className="block font-mabrylight text-primary mb-2">
           Rating
         </label>
         <div className="flex">
@@ -89,7 +89,7 @@ function ReviewForm({
       <div className="mb-4">
         <label
           htmlFor="reviewText"
-          className="block font-mabrylight text-pinegreen mb-2"
+          className="block font-mabrylight text-primary mb-2"
         >
           Anmeldelse
         </label>
@@ -98,7 +98,7 @@ function ReviewForm({
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows="4"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mossgreen"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
           placeholder="Del dine erfaringer med dette produktet..."
           required
         />
@@ -107,7 +107,7 @@ function ReviewForm({
       <button
         type="submit"
         disabled={submitting}
-        className={`bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-4 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-150 ${
+        className={`bg-secondary text-primary font-mabry rounded-lg py-2 px-4 hover:bg-primary hover:text-secondary-content transition-all duration-150 ${
           submitting ? "opacity-70 cursor-not-allowed" : ""
         }`}
       >

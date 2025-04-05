@@ -41,8 +41,8 @@ function FavoritesOverlay({ isVisible, onClose }) {
     >
       <div className="p-4 border-b border-gray-100">
         <div className="flex items-center justify-between">
-          <h3 className="font-mabry text-pinegreen text-lg">Dine favoritter</h3>
-          <span className="font-mabrylight text-pinegreen">
+          <h3 className="font-mabry text-primary text-lg">Dine favoritter</h3>
+          <span className="font-mabrylight text-primary">
             {favoriteProducts.length}{" "}
             {favoriteProducts.length === 1 ? "produkt" : "produkter"}
           </span>
@@ -52,10 +52,10 @@ function FavoritesOverlay({ isVisible, onClose }) {
       {!currentUser ? (
         <div className="p-6 text-center rounded-b-xl">
           <FaHeart size={24} className="text-gray-300 mx-auto mb-2" />
-          <p className="font-mabrylight text-pinegreen mb-2">
+          <p className="font-mabrylight text-primary mb-2">
             Logg inn for å legge til favoritter
           </p>
-          <Link to="/login" className="text-mossgreen text-sm hover:underline">
+          <Link to="/login" className="text-secondary text-sm hover:underline">
             Logg inn
           </Link>
         </div>
@@ -75,7 +75,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
                   />
                 </div>
                 <div className="flex-grow">
-                  <h4 className="font-mabrylight text-pinegreen text-sm line-clamp-1">
+                  <h4 className="font-mabrylight text-primary text-sm line-clamp-1">
                     {product.productName}
                   </h4>
                   <div className="flex justify-between items-center">
@@ -83,7 +83,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
                       {product.productDescription.substring(0, 30)}
                       {product.productDescription.length > 30 ? "..." : ""}
                     </span>
-                    <span className="font-mabry text-pinegreen text-sm">
+                    <span className="font-mabry text-primary text-sm">
                       {formatPrice(product.price)}
                     </span>
                   </div>
@@ -95,7 +95,7 @@ function FavoritesOverlay({ isVisible, onClose }) {
           <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
             <Link
               to="/favorites"
-              className="bg-mossgreen text-pinegreen font-mabry rounded-lg w-full py-2 text-center block hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
+              className="bg-secondary text-primary font-mabry rounded-lg w-full py-2 text-center block hover:bg-primary hover:text-secondary-content transition-all duration-200"
             >
               Se alle favoritter
             </Link>
@@ -104,10 +104,10 @@ function FavoritesOverlay({ isVisible, onClose }) {
       ) : (
         <div className="p-6 text-center rounded-b-xl">
           <FaHeart size={24} className="text-gray-300 mx-auto mb-2" />
-          <p className="font-mabrylight text-pinegreen mb-2">
+          <p className="font-mabrylight text-primary mb-2">
             Du har ingen favoritter enda
           </p>
-          <Link to="/" className="text-mossgreen text-sm hover:underline">
+          <Link to="/" className="text-secondary text-sm hover:underline">
             Utforsk produkter
           </Link>
         </div>
