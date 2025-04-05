@@ -11,7 +11,7 @@ function CartOverlay({ isVisible, onClose }) {
 
   return (
     <div
-      className={`absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
+      className={`absolute top-full right-0 mt-2 w-80 bg-base-100 rounded-xl shadow-xl border border-base-300 z-50 transition-all duration-200 ease-in-out ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none"
@@ -19,7 +19,7 @@ function CartOverlay({ isVisible, onClose }) {
       onMouseLeave={onClose}
     >
       {/* Fixed Header */}
-      <div className="p-4 border-b border-gray-100">
+      <div className="p-4 border-b border-base-300">
         <div className="flex items-center justify-between">
           <h3 className="font-mabry text-primary text-lg">Din handlekurv</h3>
           <span className="font-mabrylight text-primary">
@@ -35,7 +35,7 @@ function CartOverlay({ isVisible, onClose }) {
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="p-3 border-b border-gray-100 flex items-center gap-3"
+                className="p-3 border-b border-base-300 flex items-center gap-3"
               >
                 <div className="w-14 h-14 flex-shrink-0">
                   <img
@@ -61,7 +61,7 @@ function CartOverlay({ isVisible, onClose }) {
             ))}
           </div>
 
-          <div className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+          <div className="p-4 border-t border-base-300 bg-base-100 rounded-b-xl">
             <div className="flex justify-between items-center mb-3">
               <span className="font-mabrylight text-primary">
                 Sum totalt:

@@ -156,7 +156,7 @@ function Navbar() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <div
-              className="mr-5 relative"
+              className="mr-3 relative"
               onMouseEnter={() => setIsMouseOverFavorites(true)}
               onMouseLeave={() => setIsMouseOverFavorites(false)}
             >
@@ -180,7 +180,7 @@ function Navbar() {
               </div>
             </div>
             <div
-              className="mr-5 relative"
+              className="mr-3 relative"
               onMouseEnter={() => setIsMouseOverCart(true)}
               onMouseLeave={() => setIsMouseOverCart(false)}
             >
@@ -214,7 +214,7 @@ function Navbar() {
 
             {/* Profile icon - only show when logged in */}
             {currentUser && (
-              <div className="mr-5 relative">
+              <div className="mr-3 relative">
                 <Link to="/profile">
                   <BarIcon
                     icon={<FaUser size={28} className="text-primary" />}
@@ -234,7 +234,7 @@ function Navbar() {
               </a>
             </div>
             {!currentUser && (
-              <div className="ml-2 ">
+              <div className="ml-1">
                 <Link to="/login">
                   <NavbarButton
                     text={"Logg inn ->"}

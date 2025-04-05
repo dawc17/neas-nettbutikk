@@ -42,7 +42,7 @@ function App() {
             <button
               onClick={() => setActiveCategory(null)}
               className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
-                ${activeCategory === null ? "bg-secondary text-secondary-content font-bold" : "bg-white hover:bg-gray-100 text-primary font-medium"}`}
+                ${activeCategory === null ? "bg-secondary text-secondary-content font-bold" : "bg-neutral hover:bg-neutral/80 text-primary font-medium"}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@ function App() {
               <div
                 key={value}
                 className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
-                  ${activeCategory === value ? "bg-secondary text-secondary-content font-bold" : "bg-white hover:bg-gray-100 text-primary font-medium"}`}
+                  ${activeCategory === value ? "bg-secondary text-secondary-content font-bold" : "bg-neutral hover:bg-neutral/80 text-primary font-medium"}`}
               >
                 <div
                   className="flex flex-col items-center flex-grow"
