@@ -41,8 +41,8 @@ function App() {
             {/* All Products Button */}
             <button
               onClick={() => setActiveCategory(null)}
-              className={`category-btn border-1 border-mossgreen py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
-                ${activeCategory === null ? "bg-mossgreen text-pinegreen font-bold" : "bg-white hover:bg-gray-100 text-pinegreen font-medium"}`}
+              className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36
+                ${activeCategory === null ? "bg-secondary text-secondary-content font-bold" : "bg-white hover:bg-gray-100 text-primary font-medium"}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,8 +65,8 @@ function App() {
             {Object.entries(PRODUCT_CATEGORIES).map(([key, value]) => (
               <div
                 key={value}
-                className={`category-btn border-1 border-mossgreen py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
-                  ${activeCategory === value ? "bg-mossgreen text-pinegreen font-bold" : "bg-white hover:bg-gray-100 text-pinegreen font-medium"}`}
+                className={`category-btn border-1 border-secondary py-4 px-6 rounded-lg shadow-md transition-transform hover:scale-105 flex flex-col items-center w-36 h-36 cursor-pointer
+                  ${activeCategory === value ? "bg-secondary text-secondary-content font-bold" : "bg-white hover:bg-gray-100 text-primary font-medium"}`}
               >
                 <div
                   className="flex flex-col items-center flex-grow"
@@ -83,11 +83,11 @@ function App() {
         {/* Category title when filtering */}
         {activeCategory && (
           <div className="mx-10 mb-4">
-            <h2 className="text-xl font-mabry text-pinegreen">
+            <h2 className="text-xl font-mabry text-primary">
               {CATEGORY_NAMES[activeCategory]}
               <Link
                 to={`/category/${activeCategory}`}
-                className="ml-3 text-sm text-mossgreen hover:underline"
+                className="ml-3 text-sm text-secondary hover:underline"
               >
                 Vis alle produkter →
               </Link>
@@ -95,7 +95,7 @@ function App() {
           </div>
         )}
 
-        <div className="text-2xl text-pinegreen font-mabry m-10 flex justify-center">
+        <div className="text-2xl text-primary font-mabry m-10 flex justify-center">
           <h1>Populært denne uken</h1>
         </div>
         <section className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
-import ProductOverlay from "./ProductOverlay";
 import { formatPrice } from "../utils/priceFormatter";
 import { getDatabase, ref, onValue, off, set } from "firebase/database";
 import { useAuth } from "../context/AuthContext"; // Import Auth Context
@@ -9,7 +8,7 @@ import { useAuth } from "../context/AuthContext"; // Import Auth Context
 function Divider() {
   return (
     <div className="flex justify-center w-full">
-      <div className="divider bg-pinegreen h-0.5 mx-2 md:mx-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-mossgreen"></div>
+      <div className="divider bg-primary h-0.5 mx-2 md:mx-5 w-full transition-all duration-200 ease-in-out group-hover:w-1/2 group-hover:bg-primary-content"></div>
     </div>
   );
 }
@@ -124,24 +123,24 @@ function ProductCard({
       {/* Login Modal */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
-            <h2 className="text-xl text-pinegreen font-mabry mb-3">
+          <div className="bg-neutral rounded-xl p-6 max-w-md w-full mx-4">
+            <h2 className="text-xl text-primary font-mabry mb-3">
               Logg inn for å fortsette
             </h2>
-            <p className="font-mabrylight text-pinegreen mb-6">
+            <p className="font-mabrylight text-primary mb-6">
               Du må være logget inn for å kunne legge til favoritter. Logg inn
               for å samle dine favorittsprodukter.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={handleLoginRedirect}
-                className="bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200"
+                className="bg-secondary text-primary font-mabry rounded-lg py-2 px-4 flex-1 hover:bg-primary hover:text-secondary-content transition-all duration-200"
               >
                 Logg inn
               </button>
               <button
                 onClick={() => setShowLoginModal(false)}
-                className="border border-pinegreen text-pinegreen font-mabrylight rounded-lg py-2 px-4 flex-1 hover:bg-pinegreen/10 transition-all duration-200"
+                className="border border-primary text-primary font-mabrylight rounded-lg py-2 px-4 flex-1 hover:bg-primary/10 transition-all duration-200"
               >
                 Avbryt
               </button>
@@ -150,7 +149,7 @@ function ProductCard({
         </div>
       )}
 
-      <div className="product-card bg-lightgray border-1 border-mossgreen flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
+      <div className="product-card bg-neutral border-1 border-secondary flex flex-col items-center p-3 md:p-4 rounded-lg md:rounded-xl gap-2 md:gap-5 group hover:scale-102 h-full min-h-[24rem] sm:h-[28rem] md:h-[32rem] w-full shadow-md hover:shadow-lg transition-all duration-200">
         <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
           <button
             onClick={handleFavoriteClick}
@@ -162,7 +161,7 @@ function ProductCard({
             {isFavorite ? (
               <FaHeart className="text-red-500 text-xl mt-0.5" />
             ) : (
-              <FaRegHeart className="text-pinegreen text-xl hover:text-red-500 mt-0.5" />
+              <FaRegHeart className="text-primary text-xl hover:text-red-500 mt-0.5" />
             )}
           </button>
 
@@ -181,15 +180,15 @@ function ProductCard({
 
         <Link
           to={`/product/${id}`}
-          className="h-12 md:h-14 w-full px-1 md:px-2 hover:underline decoration-pinegreen/50"
+          className="h-12 md:h-14 w-full px-1 md:px-2 hover:underline decoration-primary/50"
         >
-          <h3 className="font-mabry text-pinegreen text-base md:text-md line-clamp-2 text-center">
+          <h3 className="font-mabry text-primary text-base md:text-md line-clamp-2 text-center">
             {productName}
           </h3>
         </Link>
 
         {/* Updated product description with better responsive height */}
-        <p className="font-mabrylight text-pinegreen text-sm md:text-md min-h-[4rem] h-auto max-h-24 line-clamp-3 sm:line-clamp-3 md:line-clamp-4 text-center w-full px-1 md:px-2 mb-auto">
+        <p className="font-mabrylight text-primary text-sm md:text-md min-h-[4rem] h-auto max-h-24 line-clamp-3 sm:line-clamp-3 md:line-clamp-4 text-center w-full px-1 md:px-2 mb-auto">
           {productDescription}
         </p>
 
@@ -208,14 +207,14 @@ function ProductCard({
               ))}
             </div>
             {reviewStats.count > 0 && (
-              <span className="text-xs text-pinegreen">
+              <span className="text-xs text-primary">
                 ({reviewStats.count})
               </span>
             )}
           </div>
         </div>
 
-        <p className="font-mabry text-pinegreen text-base md:text-lg mt-1 md:mt-2">
+        <p className="font-mabry text-primary text-base md:text-lg mt-1 md:mt-2">
           {formatPrice(price)}
         </p>
       </div>

@@ -4,12 +4,12 @@ import FooterLink from "./FooterLink";
 
 function FooterMain() {
   return (
-    <div className="m-1">
+    <div className="m-1 rounded-2xl" data-theme="light">
       <div className="footer-wrapper font-mabrylight">
-        <div className="bg-pinegreen text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-2">
+        <div className="bg-primary text-white flex flex-col rounded-xl gap-2 w-full items-center shadow-lg p-2">
           {/* kontakt */}
-          <div className="flex flex-col w-full justify-between items-center p-4 bg-pinegreen-footer rounded-xl">
-            <h2 className="text-mossgreen flex flex-col w-full mb-4 md:mb-15 p-2 text-xl md:text-2xl">
+          <div className="flex flex-col w-full justify-between items-center p-4 bg-accent-content rounded-xl">
+            <h2 className="text-secondary flex flex-col w-full mb-4 md:mb-15 p-2 text-xl md:text-2xl">
               Kontakt oss
             </h2>
             <div className="mobile-numbers grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 w-full ml-0 sm:ml-3 mb-2 gap-4">
@@ -31,7 +31,7 @@ function FooterMain() {
                         viewBox="0 0 24 24"
                         height="24"
                         width="24"
-                        className="t2-icon t2-icon-facebook fill-white hover:fill-mossgreen"
+                        className="t2-icon t2-icon-facebook fill-white hover:fill-secondary"
                         aria-hidden="true"
                         focusable="false"
                       >
@@ -46,7 +46,7 @@ function FooterMain() {
                         viewBox="0 0 24 24"
                         height="24"
                         width="24"
-                        className="t2-icon t2-icon-instagram fill-white hover:fill-mossgreen"
+                        className="t2-icon t2-icon-instagram fill-white hover:fill-secondary"
                         aria-hidden="true"
                         focusable="false"
                       >
@@ -61,7 +61,7 @@ function FooterMain() {
                         viewBox="0 0 24 24"
                         height="24"
                         width="24"
-                        className="t2-icon t2-icon-linkedin fill-white hover:fill-mossgreen"
+                        className="t2-icon t2-icon-linkedin fill-white hover:fill-secondary"
                         aria-hidden="true"
                         focusable="false"
                       >
@@ -76,7 +76,7 @@ function FooterMain() {
                         viewBox="0 0 24 24"
                         height="24"
                         width="24"
-                        className="t2-icon t2-icon-youtube fill-white hover:fill-mossgreen"
+                        className="t2-icon t2-icon-youtube fill-white hover:fill-secondary"
                         aria-hidden="true"
                         focusable="false"
                       >
@@ -90,8 +90,8 @@ function FooterMain() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text w-full">
-            <div className="md:col-span-2 flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+            <div className="md:col-span-2 flex flex-col p-4 bg-accent-content rounded-xl">
+              <h2 className="text-secondary mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Om oss
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 text-base md:text-xl gap-x-5 gap-y-3 md:gap-y-5 w-full ml-2 mt-4">
@@ -106,8 +106,8 @@ function FooterMain() {
               </div>
             </div>
 
-            <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+            <div className="flex flex-col p-4 bg-accent-content rounded-xl">
+              <h2 className="text-secondary mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Snarveier
               </h2>
               <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
@@ -119,8 +119,8 @@ function FooterMain() {
               </div>
             </div>
 
-            <div className="flex flex-col p-4 bg-pinegreen-footer rounded-xl">
-              <h2 className="text-mossgreen mb-4 md:mb-7 p-2 text-xl md:text-2xl">
+            <div className="flex flex-col p-4 bg-accent-content rounded-xl">
+              <h2 className="text-secondary mb-4 md:mb-7 p-2 text-xl md:text-2xl">
                 Annet
               </h2>
               <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
@@ -134,7 +134,7 @@ function FooterMain() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row w-full justify-between items-center p-4 bg-mossgreen rounded-xl">
+          <div className="flex flex-col sm:flex-row w-full justify-between items-center p-4 bg-secondary rounded-xl">
             <a href="https://neas.no" className="mb-4 sm:mb-0">
               <img
                 src="/neas.svg"
@@ -147,10 +147,10 @@ function FooterMain() {
               <a href="https://minside.neas.no/">
                 <NavbarButton
                   text={"Logg inn ->"}
-                  bg={"bg-pinegreen"}
+                  bg={"bg-primary"}
                   textcolor={"text-white"}
-                  bghover={"hover:bg-pinegreen/85"}
-                  texthover={"hover:text-sunlightyellow"}
+                  bghover={"hover:bg-primary/85"}
+                  texthover={"hover:text-secondary-content"}
                 />
               </a>
             </div>

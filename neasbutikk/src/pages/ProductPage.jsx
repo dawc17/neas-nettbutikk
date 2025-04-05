@@ -145,7 +145,7 @@ function ProductPage() {
       <main className="flex-grow p-4 md:p-8">
         {loading ? (
           <div className="text-center py-12">
-            <p className="font-mabrylight text-pinegreen">Laster produkt...</p>
+            <p className="font-mabrylight text-primary">Laster produkt...</p>
           </div>
         ) : error ? (
           <div className="text-center py-12">
@@ -155,12 +155,12 @@ function ProductPage() {
           </div>
         ) : !product ? (
           <div className="text-center py-12">
-            <p className="font-mabrylight text-pinegreen">
+            <p className="font-mabrylight text-primary">
               Produkt ikke funnet
             </p>
             <Link
               to="/"
-              className="text-mossgreen hover:underline mt-4 inline-block"
+              className="text-secondary hover:underline mt-4 inline-block"
             >
               Tilbake til butikken
             </Link>
@@ -174,7 +174,7 @@ function ProductPage() {
             >
               <ol className="inline-flex items-center space-x-1 md:space-x-2">
                 <li className="inline-flex items-center">
-                  <Link to="/" className="text-mossgreen hover:text-pinegreen">
+                  <Link to="/" className="text-secondary hover:text-primary">
                     Hjem
                   </Link>
                 </li>
@@ -183,7 +183,7 @@ function ProductPage() {
                     <span className="mx-2 text-gray-400">/</span>
                     <Link
                       to={`/category/${product.category}`}
-                      className="text-mossgreen hover:text-pinegreen"
+                      className="text-secondary hover:text-primary"
                     >
                       {CATEGORY_NAMES[product.category] || "Kategori"}
                     </Link>
@@ -192,7 +192,7 @@ function ProductPage() {
                 <li aria-current="page">
                   <div className="flex items-center">
                     <span className="mx-2 text-gray-400">/</span>
-                    <span className="text-pinegreen truncate max-w-[200px]">
+                    <span className="text-primary truncate max-w-[200px]">
                       {product.productName}
                     </span>
                   </div>
@@ -203,12 +203,12 @@ function ProductPage() {
             {/* Back button - you can keep or remove this now that you have breadcrumbs */}
             <Link
               to="/"
-              className="inline-flex items-center font-mabrylight text-pinegreen hover:text-mossgreen mb-6 transition-colors"
+              className="inline-flex items-center font-mabrylight text-primary hover:text-secondary mb-6 transition-colors"
             >
               <FaArrowLeft className="mr-2" /> Tilbake til butikken
             </Link>
 
-            <div className="bg-lightgray rounded-xl shadow-md overflow-hidden">
+            <div className="bg-neutral rounded-xl shadow-md overflow-hidden">
               <div className="md:flex">
                 {/* Product images */}
                 <div className="md:w-1/2 p-4 md:p-8">
@@ -228,7 +228,7 @@ function ProductPage() {
                           <>
                             <button
                               onClick={prevImage}
-                              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-full p-2 shadow-md transition-all duration-200"
+                              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Previous image"
                             >
                               <svg
@@ -248,7 +248,7 @@ function ProductPage() {
                             </button>
                             <button
                               onClick={nextImage}
-                              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-pinegreen rounded-full p-2 shadow-md transition-all duration-200"
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Next image"
                             >
                               <svg
@@ -281,8 +281,8 @@ function ProductPage() {
                           onClick={() => setCurrentImageIndex(index)}
                           className={`w-3 h-3 rounded-full transition-all duration-200 ${
                             currentImageIndex === index
-                              ? "bg-pinegreen scale-125"
-                              : "bg-pinegreen/40 hover:bg-pinegreen/70"
+                              ? "bg-primary scale-125"
+                              : "bg-primary/40 hover:bg-primary/70"
                           }`}
                           aria-label={`Go to image ${index + 1}`}
                         />
@@ -294,7 +294,7 @@ function ProductPage() {
                 {/* Product info */}
                 <div className="md:w-1/2 p-4 md:p-8">
                   <div className="flex justify-between items-start">
-                    <h1 className="font-mabry text-2xl text-pinegreen mb-2">
+                    <h1 className="font-mabry text-2xl text-primary mb-2">
                       {product.productName}
                     </h1>
                     <button
@@ -309,29 +309,29 @@ function ProductPage() {
                       {isFavorite ? (
                         <FaHeart className="text-red-500 text-xl" />
                       ) : (
-                        <FaRegHeart className="text-pinegreen text-xl hover:text-red-500" />
+                        <FaRegHeart className="text-primary text-xl hover:text-red-500" />
                       )}
                     </button>
                   </div>
 
-                  <div className="font-mabry text-2xl text-pinegreen my-4">
+                  <div className="font-mabry text-2xl text-primary my-4">
                     {formatPrice(product.price)}
                   </div>
 
-                  <div className="font-mabrylight text-pinegreen mb-6">
+                  <div className="font-mabrylight text-primary mb-6">
                     {product.productDescription}
                   </div>
 
                   {/* Add to cart section */}
                   <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
                     <div className="flex items-center mb-4">
-                      <span className="mr-4 font-mabry text-pinegreen">
+                      <span className="mr-4 font-mabry text-primary">
                         Antall:
                       </span>
-                      <div className="flex items-center border border-pinegreen/30 rounded-lg overflow-hidden">
+                      <div className="flex items-center border border-primary/30 rounded-lg overflow-hidden">
                         <button
                           onClick={() => handleQuantityChange(-1)}
-                          className="bg-gray-100 px-3 py-1 text-pinegreen hover:bg-gray-200 transition-colors"
+                          className="bg-gray-100 px-3 py-1 text-primary hover:bg-gray-200 transition-colors"
                         >
                           -
                         </button>
@@ -340,12 +340,12 @@ function ProductPage() {
                           value={quantity}
                           onChange={handleQuantityInput}
                           onBlur={handleQuantityBlur}
-                          className="px-2 py-1 font-mabry text-pinegreen w-16 text-center focus:outline-none"
+                          className="px-2 py-1 font-mabry text-primary w-16 text-center focus:outline-none"
                           aria-label="Quantity"
                         />
                         <button
                           onClick={() => handleQuantityChange(1)}
-                          className="bg-gray-100 px-3 py-1 text-pinegreen hover:bg-gray-200 transition-colors"
+                          className="bg-gray-100 px-3 py-1 text-primary hover:bg-gray-200 transition-colors"
                         >
                           +
                         </button>
@@ -354,7 +354,7 @@ function ProductPage() {
 
                     <button
                       onClick={handleAddToCart}
-                      className="bg-mossgreen text-pinegreen font-mabry rounded-lg w-full py-3 cursor-pointer hover:bg-pinegreen hover:text-sunlightyellow hover:scale-[0.98] transition-all duration-150"
+                      className="bg-secondary text-primary font-mabry rounded-lg w-full py-3 cursor-pointer hover:bg-primary hover:text-secondary-content hover:scale-[0.98] transition-all duration-150"
                     >
                       Legg til handlekurv
                     </button>
@@ -364,8 +364,8 @@ function ProductPage() {
 
               {/* Extended description */}
               {product.extendedDescription && (
-                <div className="border-t border-pinegreen/10 p-4 md:p-8">
-                  <h2 className="font-mabry text-xl text-pinegreen mb-4">
+                <div className="border-t border-primary/10 p-4 md:p-8">
+                  <h2 className="font-mabry text-xl text-primary mb-4">
                     Produktdetaljer
                   </h2>
                   <div className="product-extended-description font-mabrylight">

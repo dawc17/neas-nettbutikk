@@ -24,6 +24,20 @@
   --color-secondary: #95c672;
   --color-secondary-content: #003d2d;
   --color-accent: #f1e967;
+  --color-neutral: #efefef;
+  --color-accent-content: #1a4538;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  --color-primary: #95c672;
+  --color-primary-content: #003d2d;
+  --color-secondary: #003d2d;
+  --color-secondary-content: #95c672;
+  --color-accent: #f1e967;
+  --color-neutral: #efefef;
+  --color-accent-content: #1a4538;
 }
 
 .hide-scrollbar {

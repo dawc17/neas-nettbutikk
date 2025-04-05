@@ -18,18 +18,15 @@ function CategoryPage() {
   const [sortOption, setSortOption] = useState("featured");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  // Update the useEffect for filtering
   useEffect(() => {
     if (loading || error || !products.length) return;
 
     let filtered = products;
 
-    // Filter by category
     if (categoryId) {
       filtered = filtered.filter((product) => product.category === categoryId);
     }
 
-    // Sort products (keeping the price filter UI visible but not applying it)
     switch (sortOption) {
       case "price-asc":
         filtered.sort((a, b) => a.price - b.price);
@@ -48,14 +45,12 @@ function CategoryPage() {
         break;
       case "featured":
       default:
-        // Keep original order or implement your own featured logic
         break;
     }
 
     setFilteredProducts(filtered);
-  }, [categoryId, products, loading, error, sortOption]); // Remove priceRange from the dependency array
+  }, [categoryId, products, loading, error, sortOption]);
 
-  // Find max price for range slider
   const maxPrice =
     loading || !products.length
       ? 10000
@@ -77,35 +72,32 @@ function CategoryPage() {
         <Navbar />
       </header>
       <main className="flex-1 p-4 md:p-10 hide-scrollbar">
-        {/* Breadcrumb */}
         <div className="mb-6">
-          <Link to="/" className="text-mossgreen hover:underline">
+          <Link to="/" className="text-secondary hover:underline">
             Hjem
           </Link>
           <span className="mx-2 text-gray-500">/</span>
-          <span className="font-mabry text-pinegreen">
+          <span className="font-mabry text-primary">
             {CATEGORY_NAMES[categoryId] || "Kategori"}
           </span>
         </div>
 
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Mobile filter toggle */}
           <button
             onClick={toggleMobileFilters}
-            className="md:hidden flex items-center justify-center py-2 px-4 bg-mossgreen text-pinegreen rounded-lg shadow-sm mb-4"
+            className="md:hidden flex items-center justify-center py-2 px-4 bg-secondary text-primary rounded-lg shadow-sm mb-4"
           >
             <FaFilter className="mr-2" />
             {showMobileFilters ? "Skjul filtre" : "Vis filtre"}
           </button>
 
-          {/* Sidebar filters */}
           <div
             className={`${
               showMobileFilters ? "block" : "hidden"
-            } md:block md:w-1/4 lg:w-1/5 bg-lightgray p-4 rounded-lg shadow-md`}
+            } md:block md:w-1/4 lg:w-1/5 bg-neutral p-4 rounded-lg shadow-md`}
           >
             <div className="flex justify-between items-center md:hidden mb-2">
-              <h2 className="font-mabry text-lg text-pinegreen">Filtre</h2>
+              <h2 className="font-mabry text-lg text-primary">Filtre</h2>
               <button
                 onClick={toggleMobileFilters}
                 className="p-1 rounded-full hover:bg-gray-200"
@@ -114,19 +106,18 @@ function CategoryPage() {
               </button>
             </div>
 
-            <h2 className="font-mabry text-lg text-pinegreen hidden md:block mb-4">
+            <h2 className="font-mabry text-lg text-primary hidden md:block mb-4">
               Filtre
             </h2>
 
-            {/* Price range filter */}
             <div className="mb-6">
-              <h3 className="font-mabry text-pinegreen mb-2">Pris</h3>
+              <h3 className="font-mabry text-primary mb-2">Pris</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="font-mabrylight text-sm text-pinegreen">
+                  <span className="font-mabrylight text-sm text-primary">
                     {priceRange[0]} kr
                   </span>
-                  <span className="font-mabrylight text-sm text-pinegreen">
+                  <span className="font-mabrylight text-sm text-primary">
                     {priceRange[1]} kr
                   </span>
                 </div>
@@ -137,7 +128,7 @@ function CategoryPage() {
                   max={maxPrice}
                   value={priceRange[0]}
                   onChange={(e) => handlePriceChange(e, 0)}
-                  className="w-full accent-mossgreen"
+                  className="w-full accent-secondary"
                 />
 
                 <input
@@ -146,7 +137,7 @@ function CategoryPage() {
                   max={maxPrice}
                   value={priceRange[1]}
                   onChange={(e) => handlePriceChange(e, 1)}
-                  className="w-full accent-mossgreen"
+                  className="w-full accent-secondary"
                 />
 
                 <div className="flex gap-2 mt-2">
@@ -168,9 +159,8 @@ function CategoryPage() {
               </div>
             </div>
 
-            {/* Sort options */}
             <div>
-              <h3 className="font-mabry text-pinegreen mb-2">Sorter etter</h3>
+              <h3 className="font-mabry text-primary mb-2">Sorter etter</h3>
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
@@ -186,9 +176,8 @@ function CategoryPage() {
             </div>
           </div>
 
-          {/* Product grid */}
           <div className="md:w-3/4 lg:w-4/5">
-            <h1 className="text-2xl font-mabry text-pinegreen mb-6">
+            <h1 className="text-2xl font-mabry text-primary mb-6">
               {CATEGORY_NAMES[categoryId] || "Alle produkter"}
             </h1>
 
@@ -205,10 +194,10 @@ function CategoryPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 font-mabrylight text-pinegreen">
+              <div className="text-center py-12 font-mabrylight text-primary">
                 Ingen produkter funnet i denne kategorien.
                 <p className="mt-4">
-                  <Link to="/" className="text-mossgreen hover:underline">
+                  <Link to="/" className="text-secondary hover:underline">
                     Tilbake til butikken
                   </Link>
                 </p>

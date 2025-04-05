@@ -41,11 +41,11 @@ function Favorites() {
         </header>
         <main className="flex flex-col items-center justify-center flex-grow p-10">
           <div className="text-center max-w-md">
-            <h2 className="text-2xl text-pinegreen font-mabry mb-4">Logg inn for å se favoritter</h2>
+            <h2 className="text-2xl text-primary font-mabry mb-4">Logg inn for å se favoritter</h2>
             <p className="font-mabrylight mb-6">
               Du må være logget inn for å kunne lagre og se dine favoritter på tvers av enheter.
             </p>
-            <Link to="/login" className="bg-mossgreen text-pinegreen font-mabry rounded-lg py-2 px-6 hover:bg-pinegreen hover:text-sunlightyellow transition-all duration-200">
+            <Link to="/login" className="bg-secondary text-primary font-mabry rounded-lg py-2 px-6 hover:bg-primary hover:text-secondary-content transition-all duration-200">
               Logg inn
             </Link>
           </div>
@@ -63,7 +63,7 @@ function Favorites() {
         <Navbar />
       </header>
       <main className="hide-scrollbar">
-        <div className="text-2xl text-pinegreen font-mabry m-10 flex justify-center">
+        <div className="text-2xl text-primary font-mabry m-10 flex justify-center">
           <h1>Mine favoritter</h1>
         </div>
         <section className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">
@@ -87,7 +87,7 @@ function Favorites() {
             <div className="col-span-full text-center py-10 font-mabrylight">
               Du har ingen favoritter enda.
               <br />
-              <a href="/" className="text-mossgreen hover:underline">
+              <a href="/" className="text-secondary hover:underline">
                 Gå til butikken
               </a>
             </div>
