@@ -146,10 +146,11 @@ function Navbar() {
           />
         </a>
 
-        <div className="block lg:hidden z-20">
+        <div className="lg:hidden z-20 flex items-center">
+          <ThemeToggle />
           <button
             onClick={toggleMobileMenu}
-            className="text-primary hover:text-primary-content transition-all duration-200"
+            className="text-primary hover:text-primary-content transition-all duration-200 ml-2"
           >
             {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
