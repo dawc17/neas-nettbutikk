@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { getDatabase, ref, get } from "firebase/database"; // Add this import to fetch user data
 import CartOverlay from "./CartOverlay";
 import FavoritesOverlay from "./FavoritesOverlay";
 import SearchBar from "./SearchBar";
@@ -30,6 +31,9 @@ function Navbar() {
 
   // Add state for logout notification
   const [showLogoutNotification, setShowLogoutNotification] = useState(false);
+
+  // Add state for user data
+  const [userData, setUserData] = useState(null);
 
   // Rest of your existing states and refs
   const cartTimeoutRef = useRef(null);
@@ -51,6 +55,30 @@ function Navbar() {
         clearTimeout(logoutNotificationTimeoutRef.current);
     };
   }, []);
+
+  // Fetch user data when currentUser changes
+  useEffect(() => {
+    if (!currentUser) {
+      setUserData(null);
+      return;
+    }
+
+    const fetchUserData = async () => {
+      try {
+        const database = getDatabase();
+        const userRef = ref(database, `users/${currentUser.uid}`);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+          setUserData(snapshot.val());
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [currentUser]);
 
   // cart overlay
   useEffect(() => {
@@ -212,13 +240,23 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Profile icon - only show when logged in */}
+            {/* Profile icon - replace with profile picture if available */}
             {currentUser && (
               <div className="mr-3 relative">
                 <Link to="/profile">
-                  <BarIcon
-                    icon={<FaUser size={28} className="text-primary" />}
-                  />
+                  {userData && userData.profilePicture ? (
+                    <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-secondary hover:border-primary transition-all duration-200">
+                      <img
+                        src={userData.profilePicture}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <BarIcon
+                      icon={<FaUser size={28} className="text-primary" />}
+                    />
+                  )}
                 </Link>
               </div>
             )}
@@ -291,7 +329,7 @@ function Navbar() {
             )}
 
             {/* Cart link with hover overlay */}
-            <div 
+            <div
               className="w-full relative"
               onMouseEnter={() => setIsMouseOverCart(true)}
               onMouseLeave={() => setIsMouseOverCart(false)}
@@ -355,14 +393,24 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Profile link for mobile */}
+            {/* Profile link for mobile - update with profile picture */}
             {currentUser && (
               <Link
                 to="/profile"
                 className="flex items-center justify-center relative w-full"
               >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
-                  <FaUser size={20} className="text-primary mr-2" />
+                  {userData && userData.profilePicture ? (
+                    <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-secondary mr-2">
+                      <img
+                        src={userData.profilePicture}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <FaUser size={20} className="text-primary mr-2" />
+                  )}
                   <span className="text-primary">Min profil</span>
                 </div>
               </Link>
