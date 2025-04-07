@@ -153,7 +153,7 @@ function ProductCard({
         <div className="w-full h-32 sm:h-36 md:h-40 flex items-center justify-center relative">
           <button
             onClick={handleFavoriteClick}
-            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-white/80 rounded-full hover:bg-white"
+            className="absolute top-2 right-2 p-2 z-10 transition-all duration-200 hover:scale-110 bg-base-100/90 rounded-full hover:shadow-md"
             aria-label={
               isFavorite ? "Remove from favorites" : "Add to favorites"
             }

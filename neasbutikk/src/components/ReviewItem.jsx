@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { FaStar, FaReply, FaTrash, FaUser, FaEdit, FaTimes, FaCheck } from "react-icons/fa";
+import {
+  FaStar,
+  FaReply,
+  FaTrash,
+  FaUser,
+  FaEdit,
+  FaTimes,
+  FaCheck,
+} from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { getDatabase, ref, push, set, remove, get } from "firebase/database";
 import ReplyForm from "./ReplyForm";
@@ -115,7 +123,7 @@ function ReviewItem({ review, productId }) {
   const handleEditReply = async (replyId) => {
     setIsSubmittingEdit(true);
     try {
-      const reply = replies.find(r => r.id === replyId);
+      const reply = replies.find((r) => r.id === replyId);
       if (!reply) return;
 
       const replyRef = ref(
@@ -212,15 +220,15 @@ function ReviewItem({ review, productId }) {
   }, [isAdmin, replies, database]);
 
   return (
-    <div className="bg-white rounded-lg p-4 shadow-sm">
+    <div className="bg-base-100 rounded-lg p-4 shadow-sm">
       <div className="flex justify-between mb-2">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full overflow-hidden mr-3 bg-gray-100 flex items-center justify-center flex-shrink-0">
             {review.profilePicture ? (
-              <img 
-                src={review.profilePicture} 
-                alt="Profilbilde" 
-                className="object-cover w-full h-full" 
+              <img
+                src={review.profilePicture}
+                alt="Profilbilde"
+                className="object-cover w-full h-full"
               />
             ) : (
               <FaUser className="text-primary opacity-50" />
@@ -231,7 +239,8 @@ function ReviewItem({ review, productId }) {
               {review.userDisplayName || "Anonym bruker"}
               {isAdmin && userDetails && (
                 <span className="text-gray-400 text-sm ml-1">
-                  ({userDetails.name || "N/A"}, {userDetails.readableId || "N/A"})
+                  ({userDetails.name || "N/A"},{" "}
+                  {userDetails.readableId || "N/A"})
                 </span>
               )}
             </div>
@@ -244,7 +253,9 @@ function ReviewItem({ review, productId }) {
                   }
                 />
               ))}
-              <span className="text-xs text-gray-500 ml-2">{formattedDate}</span>
+              <span className="text-xs text-gray-500 ml-2">
+                {formattedDate}
+              </span>
               {review.edited && (
                 <span className="text-xs text-gray-500 ml-2">(redigert)</span>
               )}
@@ -264,18 +275,18 @@ function ReviewItem({ review, productId }) {
       </div>
       <p className="font-mabrylight text-primary mb-4">{review.text}</p>
       {replies.length > 0 && (
-        <div className="ml-6 pl-4 border-l-2 border-gray-200 mt-4 space-y-3">
+        <div className="ml-6 pl-4 border-l-2 border-base-300 mt-4 space-y-3">
           {replies.map((reply) => (
-            <div key={reply.id} className="bg-gray-50 p-3 rounded-lg">
+            <div key={reply.id} className="bg-base-300 p-3 rounded-lg">
               {editingReplyId === reply.id ? (
                 <div>
                   <div className="flex items-center mb-2">
-                    <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-base-100 flex items-center justify-center flex-shrink-0">
                       {editingProfilePicture ? (
-                        <img 
-                          src={editingProfilePicture} 
-                          alt="Profilbilde" 
-                          className="object-cover w-full h-full" 
+                        <img
+                          src={editingProfilePicture}
+                          alt="Profilbilde"
+                          className="object-cover w-full h-full"
                         />
                       ) : (
                         <FaUser className="text-primary opacity-50 text-xs" />
@@ -288,8 +299,10 @@ function ReviewItem({ review, productId }) {
                   <textarea
                     value={editReplyText}
                     onChange={(e) => setEditReplyText(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-secondary text-sm mb-2"
+                    className="w-full px-3 py-2 border border-base-300 rounded-md focus:outline-none focus:ring-1 focus:ring-secondary text-sm mb-2"
                     rows="2"
+                    placeholder="Skriv her..."
+                    style={{ color: editReplyText ? "inherit" : "gray" }}
                   />
                   <div className="flex justify-end space-x-2">
                     <button
@@ -320,10 +333,10 @@ function ReviewItem({ review, productId }) {
                     <div className="flex items-center">
                       <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-100 flex items-center justify-center flex-shrink-0">
                         {reply.profilePicture ? (
-                          <img 
-                            src={reply.profilePicture} 
-                            alt="Profilbilde" 
-                            className="object-cover w-full h-full" 
+                          <img
+                            src={reply.profilePicture}
+                            alt="Profilbilde"
+                            className="object-cover w-full h-full"
                           />
                         ) : (
                           <FaUser className="text-primary opacity-50 text-xs" />
@@ -335,7 +348,9 @@ function ReviewItem({ review, productId }) {
                           {isAdmin && replyUserDetails[reply.userId] && (
                             <span className="text-gray-400 text-xs ml-1">
                               ({replyUserDetails[reply.userId].name || "N/A"},{" "}
-                              {replyUserDetails[reply.userId].readableId || "N/A"})
+                              {replyUserDetails[reply.userId].readableId ||
+                                "N/A"}
+                              )
                             </span>
                           )}
                         </div>

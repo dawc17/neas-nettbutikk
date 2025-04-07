@@ -1,5 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useProducts } from "../data/ProductsData";
+import { useAuth } from "../context/AuthContext";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 const CartContext = createContext();
 
@@ -12,28 +14,46 @@ export function CartProvider({ children }) {
   const [showNotification, setShowNotification] = useState(false);
   const { products, loading } = useProducts();
   const [cartItems, setCartItems] = useState([]);
+  const { currentUser } = useAuth();
 
-  // load cart from localStorage 
+  // Load cart data when component mounts or user changes
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem("cart");
-      if (savedCart) {
-        setCartItemsMap(JSON.parse(savedCart));
+    if (currentUser) {
+      // User is logged in - set up Firebase listener
+      const db = getDatabase();
+      const userCartRef = ref(db, `users/${currentUser.uid}/cart`);
+
+      const unsubscribe = onValue(userCartRef, (snapshot) => {
+        const firebaseCart = snapshot.val() || {};
+        setCartItemsMap(firebaseCart);
+      });
+
+      return () => unsubscribe();
+    } else {
+      // No user - load from localStorage
+      try {
+        const savedCart = localStorage.getItem("cart");
+        if (savedCart) {
+          setCartItemsMap(JSON.parse(savedCart));
+        }
+      } catch (error) {
+        console.error("Error loading cart from localStorage:", error);
       }
-    } catch (error) {
-      console.error("Error loading cart from localStorage:", error);
     }
-  }, []);
+  }, [currentUser]);
 
-  // save cart to localStorage when it changes
+  // Save cart to localStorage when it changes (for non-logged in users)
   useEffect(() => {
-    try {
-      localStorage.setItem("cart", JSON.stringify(cartItemsMap));
-    } catch (error) {
-      console.error("Error saving cart to localStorage:", error);
+    if (!currentUser) {
+      try {
+        localStorage.setItem("cart", JSON.stringify(cartItemsMap));
+      } catch (error) {
+        console.error("Error saving cart to localStorage:", error);
+      }
     }
-  }, [cartItemsMap]);
+  }, [cartItemsMap, currentUser]);
 
+  // Convert cart items map to full product objects
   useEffect(() => {
     if (loading || !products.length) return;
 
@@ -52,16 +72,29 @@ export function CartProvider({ children }) {
     setCartItems(items);
   }, [cartItemsMap, products, loading]);
 
+  // Update cart in Firebase or localStorage
+  const updateCartData = (newCart) => {
+    setCartItemsMap(newCart);
+
+    if (currentUser) {
+      // Update in Firebase
+      const db = getDatabase();
+      const userCartRef = ref(db, `users/${currentUser.uid}/cart`);
+      set(userCartRef, newCart);
+    }
+  };
+
   const addToCart = (product) => {
     const quantityToAdd = product.quantity || 1;
 
-    setCartItemsMap((prev) => ({
-      ...prev,
-      [product.id]: (prev[product.id] || 0) + quantityToAdd,
-    }));
+    const newCart = {
+      ...cartItemsMap,
+      [product.id]: (cartItemsMap[product.id] || 0) + quantityToAdd,
+    };
+
+    updateCartData(newCart);
 
     setShowNotification(true);
-
     setTimeout(() => {
       setShowNotification(false);
     }, 3000);
@@ -70,22 +103,23 @@ export function CartProvider({ children }) {
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
 
-    setCartItemsMap((prev) => ({
-      ...prev,
+    const newCart = {
+      ...cartItemsMap,
       [productId]: newQuantity,
-    }));
+    };
+
+    updateCartData(newCart);
   };
 
   const removeFromCart = (productId) => {
-    setCartItemsMap((prev) => {
-      const newMap = { ...prev };
-      delete newMap[productId];
-      return newMap;
-    });
+    const newCart = { ...cartItemsMap };
+    delete newCart[productId];
+
+    updateCartData(newCart);
   };
 
   const clearCart = () => {
-    setCartItemsMap({});
+    updateCartData({});
   };
 
   const getCartTotal = () => {

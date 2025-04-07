@@ -145,14 +145,14 @@ function CategoryPage() {
                     type="number"
                     value={priceRange[0]}
                     onChange={(e) => handlePriceChange(e, 0)}
-                    className="w-full px-2 py-1 border rounded-md text-sm"
+                    className="w-full px-2 py-1 border border-base-300 rounded-md text-sm"
                     placeholder="Min"
                   />
                   <input
                     type="number"
                     value={priceRange[1]}
                     onChange={(e) => handlePriceChange(e, 1)}
-                    className="w-full px-2 py-1 border rounded-md text-sm"
+                    className="w-full px-2 py-1 border border-base-300 rounded-md text-sm"
                     placeholder="Max"
                   />
                 </div>
@@ -164,7 +164,7 @@ function CategoryPage() {
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md bg-white"
+                className="w-full p-2 border border-base-300 rounded-md bg-base-200"
               >
                 <option value="featured">Anbefalte</option>
                 <option value="price-asc">Pris (lav til høy)</option>

@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext"; // Add this import
 import { getDatabase, ref, get } from "firebase/database"; // Add this import to fetch user data
 import CartOverlay from "./CartOverlay";
 import FavoritesOverlay from "./FavoritesOverlay";
@@ -26,6 +27,7 @@ function Navbar() {
   const [showFavoritesOverlay, setShowFavoritesOverlay] = useState(false);
   const { getCartCount, showNotification } = useCart();
   const { currentUser, isAdmin, logout } = useAuth(); // Get auth state and logout function
+  const { theme } = useTheme(); // Get current theme
   const cartCount = getCartCount();
   const navigate = useNavigate();
 
@@ -140,7 +142,7 @@ function Navbar() {
       <div className="bg-navbargray text-black flex flex-wrap items-center justify-between rounded-2xl w-full shadow-lg px-4 md:px-6 py-3 md:py-4 mb-1 relative">
         <a href="/" className="z-10">
           <img
-            src="/neas.svg"
+            src={theme === "dark" ? "/neas2.svg" : "/neas.svg"}
             alt="Logo"
             className="h-auto w-16 sm:w-20 md:w-25 hover:scale-95 transition-all duration-300 ease-in-out cursor-pointer"
           />
@@ -339,7 +341,7 @@ function Navbar() {
                 to="/cart"
                 className="flex items-center justify-center relative w-full"
               >
-                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
+                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-base-300 w-full">
                   <FaShoppingCart size={20} className="text-primary" />
                   <span className="ml-2 text-primary">Handlekurv</span>
                   {cartCount > 0 && (
@@ -374,7 +376,7 @@ function Navbar() {
                 to="/favorites"
                 className="flex items-center justify-center relative w-full"
               >
-                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
+                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-base-300 w-full">
                   <FaHeart size={20} className="text-primary" />
                   <span className="ml-2 text-primary">Favoritter</span>
                 </div>
@@ -400,7 +402,7 @@ function Navbar() {
                 to="/profile"
                 className="flex items-center justify-center relative w-full"
               >
-                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-gray-100 w-full">
+                <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-base-300 w-full">
                   {userData && userData.profilePicture ? (
                     <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-secondary mr-2">
                       <img

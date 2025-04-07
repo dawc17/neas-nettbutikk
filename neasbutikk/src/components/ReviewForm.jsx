@@ -53,7 +53,7 @@ function ReviewForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-lg p-4 mb-6 shadow-sm"
+      className="bg-base-100 rounded-lg p-4 mb-6 shadow-sm"
     >
       <h3 className="font-mabry text-primary mb-4">Skriv en anmeldelse</h3>
 
@@ -98,7 +98,7 @@ function ReviewForm({
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows="4"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+          className="w-full px-3 py-2 border border-base-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
           placeholder="Del dine erfaringer med dette produktet..."
           required
         />

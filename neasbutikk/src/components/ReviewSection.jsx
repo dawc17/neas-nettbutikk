@@ -110,10 +110,10 @@ function ReviewSection({ productId }) {
 
     try {
       const reviewRef = ref(database, `reviews/${productId}/${userReview.id}`);
-      
+
       // Get fresh user data in case profile picture was updated
       let profilePicture = userReview.profilePicture;
-      
+
       try {
         const userRef = ref(database, `users/${currentUser.uid}`);
         const userSnapshot = await get(userRef);
@@ -124,7 +124,7 @@ function ReviewSection({ productId }) {
       } catch (err) {
         console.error("Error fetching updated user data:", err);
       }
-      
+
       await set(reviewRef, {
         ...userReview,
         profilePicture: profilePicture,
@@ -147,7 +147,7 @@ function ReviewSection({ productId }) {
       <h2 className="font-mabry text-xl text-primary mb-4">Anmeldelser</h2>
 
       {/* Summary section */}
-      <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
+      <div className="bg-base-100 rounded-lg p-4 mb-6 shadow-sm">
         <div className="flex items-center">
           <div className="flex items-center text-yellow-500 mr-2">
             {[...Array(5)].map((_, i) => (

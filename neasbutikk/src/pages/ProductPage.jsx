@@ -155,9 +155,7 @@ function ProductPage() {
           </div>
         ) : !product ? (
           <div className="text-center py-12">
-            <p className="font-mabrylight text-primary">
-              Produkt ikke funnet
-            </p>
+            <p className="font-mabrylight text-primary">Produkt ikke funnet</p>
             <Link
               to="/"
               className="text-secondary hover:underline mt-4 inline-block"
@@ -174,7 +172,7 @@ function ProductPage() {
             >
               <ol className="inline-flex items-center space-x-1 md:space-x-2">
                 <li className="inline-flex items-center">
-                  <Link to="/" className="text-secondary hover:text-primary">
+                  <Link to="/" className="text-primary hover:text-accent">
                     Hjem
                   </Link>
                 </li>
@@ -183,7 +181,7 @@ function ProductPage() {
                     <span className="mx-2 text-gray-400">/</span>
                     <Link
                       to={`/category/${product.category}`}
-                      className="text-secondary hover:text-primary"
+                      className="text-primary hover:text-accent"
                     >
                       {CATEGORY_NAMES[product.category] || "Kategori"}
                     </Link>
@@ -192,7 +190,7 @@ function ProductPage() {
                 <li aria-current="page">
                   <div className="flex items-center">
                     <span className="mx-2 text-gray-400">/</span>
-                    <span className="text-primary truncate max-w-[200px]">
+                    <span className="text-accent truncate max-w-[200px]">
                       {product.productName}
                     </span>
                   </div>
@@ -203,7 +201,7 @@ function ProductPage() {
             {/* Back button - you can keep or remove this now that you have breadcrumbs */}
             <Link
               to="/"
-              className="inline-flex items-center font-mabrylight text-primary hover:text-secondary mb-6 transition-colors"
+              className="inline-flex items-center font-mabrylight text-primary hover:text-accent mb-6 transition-colors"
             >
               <FaArrowLeft className="mr-2" /> Tilbake til butikken
             </Link>
@@ -212,7 +210,7 @@ function ProductPage() {
               <div className="md:flex">
                 {/* Product images */}
                 <div className="md:w-1/2 p-4 md:p-8">
-                  <div className="relative aspect-square bg-white rounded-lg overflow-hidden">
+                  <div className="relative aspect-square bg-base-100 rounded-lg overflow-hidden">
                     {allImages.length > 0 && (
                       <>
                         <img
@@ -228,7 +226,7 @@ function ProductPage() {
                           <>
                             <button
                               onClick={prevImage}
-                              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full p-2 shadow-md transition-all duration-200"
+                              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-base-300 hover:scale-90 text-primary rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Previous image"
                             >
                               <svg
@@ -248,7 +246,7 @@ function ProductPage() {
                             </button>
                             <button
                               onClick={nextImage}
-                              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white text-primary rounded-full p-2 shadow-md transition-all duration-200"
+                              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-base-300 hover:scale-90 text-primary rounded-full p-2 shadow-md transition-all duration-200"
                               aria-label="Next image"
                             >
                               <svg
@@ -299,7 +297,7 @@ function ProductPage() {
                     </h1>
                     <button
                       onClick={handleFavoriteToggle}
-                      className="p-2 transition-all duration-200 hover:scale-110 bg-white/90 rounded-full hover:bg-white"
+                      className="p-2 transition-all duration-200 hover:scale-110 bg-base-100/90 rounded-full hover:shadow-md"
                       aria-label={
                         isFavorite
                           ? "Remove from favorites"
@@ -323,15 +321,15 @@ function ProductPage() {
                   </div>
 
                   {/* Add to cart section */}
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-                    <div className="flex items-center mb-4">
+                  <div className="bg-base-100 p-4 rounded-lg shadow-sm mb-6">
+                    <div className="flex items-center mb-4 p-2 rounded-lg">
                       <span className="mr-4 font-mabry text-primary">
                         Antall:
                       </span>
                       <div className="flex items-center border border-primary/30 rounded-lg overflow-hidden">
                         <button
                           onClick={() => handleQuantityChange(-1)}
-                          className="bg-gray-100 px-3 py-1 text-primary hover:bg-gray-200 transition-colors"
+                          className="bg-base-300 px-3 py-1 text-primary hover:bg-secondary transition-colors"
                         >
                           -
                         </button>
@@ -345,7 +343,7 @@ function ProductPage() {
                         />
                         <button
                           onClick={() => handleQuantityChange(1)}
-                          className="bg-gray-100 px-3 py-1 text-primary hover:bg-gray-200 transition-colors"
+                          className="bg-base-300 px-3 py-1 text-primary hover:bg-secondary transition-colors"
                         >
                           +
                         </button>

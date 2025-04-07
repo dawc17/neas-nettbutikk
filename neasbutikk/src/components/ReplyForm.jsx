@@ -32,7 +32,7 @@ function ReplyForm({ onSubmit, onCancel, initialText = "" }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-50 p-3 rounded-lg">
+    <form onSubmit={handleSubmit} className="bg-base-300/50 p-3 rounded-lg">
       {error && (
         <div className="bg-red-100 text-red-700 p-2 rounded-md mb-2 text-sm">
           {error}
@@ -43,7 +43,7 @@ function ReplyForm({ onSubmit, onCancel, initialText = "" }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows="2"
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary mb-2"
+        className="w-full px-3 py-2 border border-base-200 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary mb-2"
         placeholder="Skriv et svar..."
         required
       />
@@ -52,7 +52,7 @@ function ReplyForm({ onSubmit, onCancel, initialText = "" }) {
         <button
           type="button"
           onClick={onCancel}
-          className="px-3 py-1 border border-gray-300 rounded text-sm"
+          className="px-3 py-1 border border-base-300 rounded text-sm"
         >
           Avbryt
         </button>
