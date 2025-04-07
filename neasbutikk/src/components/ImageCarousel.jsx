@@ -3,7 +3,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const images = [
   {
-    url: "/promotionalImages/simga1.png",
+    url: "/promotionalImages/simga1.jpg",
     alt: "Promotional banner 1",
     title: "Velkommen til NEAS nettbutikk",
   },
@@ -13,7 +13,7 @@ const images = [
     title: "Finn dine favoritter",
   },
   {
-    url: "/promotionalImages/simga3.png",
+    url: "/promotionalImages/simga3.jpg",
     alt: "Promotional banner 3",
     title: "Alltid gode tilbud",
   },
