@@ -27,7 +27,7 @@ function AdminSidebar({ activeSection, onSectionChange }) {
 
   const { logout } = useAuth(); // Get logout function from AuthContext
   const navigate = useNavigate(); // Initialize navigate
-  
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -49,7 +49,10 @@ function AdminSidebar({ activeSection, onSectionChange }) {
   };
 
   return (
-    <div className="h-full bg-primary text-white rounded-lg shadow-xl p-4 overflow-y-auto">
+    <div
+      className="h-full bg-primary text-white rounded-lg shadow-xl p-4 overflow-y-auto"
+      data-theme="light"
+    >
       <div className="mb-8">
         <h2 className="font-mabry text-2xl text-secondary mb-2">Admin Panel</h2>
         <p className="font-mabrylight text-sm text-gray-300">
@@ -197,7 +200,7 @@ function AdminSidebar({ activeSection, onSectionChange }) {
             </div>
           )}
         </div>
-        
+
         {/* Logout Button - Added at the bottom for easy access */}
         <div className="mt-8 pt-4 border-t border-accent-content">
           <button

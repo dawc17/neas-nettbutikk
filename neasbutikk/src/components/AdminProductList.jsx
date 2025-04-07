@@ -188,7 +188,7 @@ function AdminProductList({ onEditFullProduct }) {
       {/* Delete confirmation modal */}
       {isDeleting && productToDelete && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
+          <div className="bg-base-300 rounded-lg p-6 max-w-md mx-4">
             <h3 className="font-mabry text-lg text-pinegreen mb-4">
               Bekreft sletting
             </h3>
@@ -199,7 +199,7 @@ function AdminProductList({ onEditFullProduct }) {
             <div className="flex justify-end gap-3">
               <button
                 onClick={cancelDelete}
-                className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                className="px-4 py-2 border border-base-300 rounded-md hover:bg-gray-100"
               >
                 Avbryt
               </button>
@@ -216,48 +216,48 @@ function AdminProductList({ onEditFullProduct }) {
 
       {/* Product list */}
       {filteredProducts.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+        <div className="overflow-x-auto rounded-lg shadow-md">
+          <table className="min-w-full bg-base-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-mabry text-pinegreen uppercase">
+                <th className="py-2 px-4 border-b border-base-300 bg-base-300 text-left text-xs font-mabry text-pinegreen uppercase">
                   Produkt
                 </th>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-mabry text-pinegreen uppercase">
+                <th className="py-2 px-4 border-b border-base-300 bg-base-300 text-left text-xs font-mabry text-pinegreen uppercase">
                   Kategori
                 </th>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-mabry text-pinegreen uppercase">
+                <th className="py-2 px-4 border-b border-base-300 bg-base-300 text-left text-xs font-mabry text-pinegreen uppercase">
                   Pris
                 </th>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-mabry text-pinegreen uppercase">
+                <th className="py-2 px-4 border-b border-base-300 bg-base-300 text-left text-xs font-mabry text-pinegreen uppercase">
                   Lager
                 </th>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-mabry text-pinegreen uppercase">
+                <th className="py-2 px-4 border-b border-base-300 bg-base-300 text-left text-xs font-mabry text-pinegreen uppercase">
                   Handlinger
                 </th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
+                <tr key={product.id} className="">
                   {editingProduct === product.id ? (
                     // Editing mode
                     <>
-                      <td className="py-2 px-4 border-b border-gray-200">
+                      <td className="py-2 px-4 border-b border-base-300">
                         <input
                           type="text"
                           name="productName"
                           value={editFormData.productName}
                           onChange={handleEditFormChange}
-                          className="w-full px-2 py-1 border border-gray-300 rounded-md"
+                          className="w-full px-2 py-1 border border-base-300 rounded-md"
                         />
                       </td>
-                      <td className="py-2 px-4 border-b border-gray-200">
+                      <td className="py-2 px-4 border-b border-base-300">
                         <select
                           name="category"
                           value={editFormData.category}
                           onChange={handleEditFormChange}
-                          className="w-full px-2 py-1 border border-gray-300 rounded-md"
+                          className="w-full px-2 py-1 border border-base-300 rounded-md"
                         >
                           {Object.entries(CATEGORY_NAMES).map(
                             ([value, name]) => (

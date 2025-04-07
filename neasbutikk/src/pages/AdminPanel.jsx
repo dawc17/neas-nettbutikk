@@ -52,9 +52,7 @@ function AdminPanel() {
               </div>
 
               <div className="bg-secondary/20 rounded-lg p-4 text-center">
-                <h3 className="font-mabry text-primary text-lg mb-2">
-                  Ordrer
-                </h3>
+                <h3 className="font-mabry text-primary text-lg mb-2">Ordrer</h3>
                 <p className="font-mabrylight text-primary">
                   0 ventende ordrer
                 </p>
@@ -99,7 +97,7 @@ function AdminPanel() {
                     : "Admin Panel"}
           </h1>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="bg-base-100 rounded-lg p-6 shadow-sm">
             {renderContent()}
           </div>
         </div>
