@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 import { getDatabase, ref, get, update } from "firebase/database";
 import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
-import ProfilePictureUploader from "../components/ProfilePictureUploader";
 import { FaUser, FaEnvelope, FaIdCard, FaUserEdit } from "react-icons/fa";
 
 function Profile() {
@@ -102,67 +101,6 @@ function Profile() {
     }
   };
 
-  // Handle profile picture update
-  const handleProfilePictureUpdate = async (newProfilePicture) => {
-    setUserData({
-      ...userData,
-      profilePicture: newProfilePicture,
-    });
-
-    // Update profile picture in all reviews and replies
-    await updateProfilePictureInContent(newProfilePicture);
-  };
-
-  // New function to update profile picture in reviews and replies
-  const updateProfilePictureInContent = async (newProfilePicture) => {
-    try {
-      const database = getDatabase();
-
-      // First, get all reviews
-      const reviewsRef = ref(database, "reviews");
-      const reviewsSnapshot = await get(reviewsRef);
-
-      if (!reviewsSnapshot.exists()) return;
-
-      const updates = {};
-      const allProducts = reviewsSnapshot.val();
-
-      // Loop through all products
-      Object.entries(allProducts).forEach(([productId, productReviews]) => {
-        // Loop through all reviews for this product
-        Object.entries(productReviews).forEach(([reviewId, review]) => {
-          // If this review belongs to the current user, update the profilePicture
-          if (review.userId === currentUser.uid) {
-            updates[`reviews/${productId}/${reviewId}/profilePicture`] =
-              newProfilePicture;
-          }
-
-          // Check if there are replies and if any belong to this user
-          if (review.replies) {
-            Object.entries(review.replies).forEach(([replyId, reply]) => {
-              if (reply.userId === currentUser.uid) {
-                updates[
-                  `reviews/${productId}/${reviewId}/replies/${replyId}/profilePicture`
-                ] = newProfilePicture;
-              }
-            });
-          }
-        });
-      });
-
-      // Apply all updates in one batch
-      if (Object.keys(updates).length > 0) {
-        await update(ref(database), updates);
-        console.log(
-          `Updated profile picture in ${Object.keys(updates).length} places`
-        );
-      }
-    } catch (error) {
-      console.error("Error updating profile picture in content:", error);
-      // Don't throw - we don't want to prevent profile picture update if this fails
-    }
-  };
-
   useEffect(() => {
     // Redirect to login if not authenticated
     if (!currentUser) {
@@ -204,9 +142,7 @@ function Profile() {
       </header>
       <main className="flex-1 p-6 md:p-10">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-2xl font-mabry text-primary mb-6">
-            Min profil
-          </h1>
+          <h1 className="text-2xl font-mabry text-primary mb-6">Min profil</h1>
 
           {loading ? (
             <div className="bg-neutral rounded-xl p-6 shadow-md text-center">
@@ -221,13 +157,6 @@ function Profile() {
             </div>
           ) : userData ? (
             <div className="bg-neutral rounded-xl p-6 shadow-md">
-              {/* Profile Picture Uploader Component */}
-              <ProfilePictureUploader
-                userId={currentUser.uid}
-                userData={userData}
-                onProfilePictureUpdate={handleProfilePictureUpdate}
-              />
-
               <div className="space-y-6">
                 {/* Nickname section - moved to the top */}
                 <div className="flex items-center">

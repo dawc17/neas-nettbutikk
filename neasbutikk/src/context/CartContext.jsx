@@ -1,7 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useProducts } from "../data/ProductsData";
 import { useAuth } from "../context/AuthContext";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { ref, set, onValue } from "firebase/database";
+import { database } from "../utils/firebase";
 
 const CartContext = createContext();
 
@@ -20,8 +21,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     if (currentUser) {
       // User is logged in - set up Firebase listener
-      const db = getDatabase();
-      const userCartRef = ref(db, `users/${currentUser.uid}/cart`);
+      const userCartRef = ref(database, `users/${currentUser.uid}/cart`);
 
       const unsubscribe = onValue(userCartRef, (snapshot) => {
         const firebaseCart = snapshot.val() || {};
@@ -78,8 +78,7 @@ export function CartProvider({ children }) {
 
     if (currentUser) {
       // Update in Firebase
-      const db = getDatabase();
-      const userCartRef = ref(db, `users/${currentUser.uid}/cart`);
+      const userCartRef = ref(database, `users/${currentUser.uid}/cart`);
       set(userCartRef, newCart);
     }
   };
@@ -147,5 +146,9 @@ export function CartProvider({ children }) {
     showNotification,
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
 }

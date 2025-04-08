@@ -1,21 +1,6 @@
 import { useState, useEffect } from "react";
-import { getDatabase, ref, push, set, update, get } from "firebase/database";
-import { initializeApp } from "firebase/app";
-const firebaseConfig = {
-  apiKey: "AIzaSyDvyh73cj0xDmkVSMrfy8wD1V2C0nL9bzg",
-  authDomain: "neas-nettbutikk-cb665.firebaseapp.com",
-  projectId: "neas-nettbutikk-cb665",
-  storageBucket: "neas-nettbutikk-cb665.firebasestorage.app",
-  messagingSenderId: "401615206029",
-  appId: "1:401615206029:web:9fbb8df70c18f999f394c4",
-  measurementId: "G-404KWWNX03",
-  databaseURL:
-    "https://neas-nettbutikk-cb665-default-rtdb.europe-west1.firebasedatabase.app/",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+import { ref, push, set, update, get } from "firebase/database";
+import { database } from "../utils/firebase";
 
 export const PRODUCT_CATEGORIES = {
   MOBIL: "mobile",
@@ -208,7 +193,6 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
         throw new Error("Alle obligatoriske felter må fylles ut");
       }
 
-      const database = getDatabase();
       const productData = {
         ...product,
         price: Number(product.price),
@@ -399,10 +383,7 @@ function AdminProductForm({ productToEdit, onEditComplete }) {
 
         {/* Stock */}
         <div>
-          <label
-            htmlFor="stock"
-            className="block font-mabry text-primary mb-1"
-          >
+          <label htmlFor="stock" className="block font-mabry text-primary mb-1">
             Antall på lager
           </label>
           <input

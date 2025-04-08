@@ -72,7 +72,6 @@ function ReviewSection({ productId }) {
 
       // Get user's info from database
       let userDisplayName = "Anonym bruker"; // Default fallback
-      let profilePicture = null;
 
       if (currentUser) {
         try {
@@ -82,7 +81,6 @@ function ReviewSection({ productId }) {
             const userData = userSnapshot.val();
             userDisplayName =
               userData.nickname || userData.name || "Anonym bruker";
-            profilePicture = userData.profilePicture || null;
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
@@ -92,7 +90,6 @@ function ReviewSection({ productId }) {
       await set(newReviewRef, {
         userId: currentUser.uid,
         userDisplayName: userDisplayName,
-        profilePicture: profilePicture,
         rating: reviewData.rating,
         text: reviewData.text,
         createdAt: Date.now(),
@@ -111,23 +108,8 @@ function ReviewSection({ productId }) {
     try {
       const reviewRef = ref(database, `reviews/${productId}/${userReview.id}`);
 
-      // Get fresh user data in case profile picture was updated
-      let profilePicture = userReview.profilePicture;
-
-      try {
-        const userRef = ref(database, `users/${currentUser.uid}`);
-        const userSnapshot = await get(userRef);
-        if (userSnapshot.exists()) {
-          const userData = userSnapshot.val();
-          profilePicture = userData.profilePicture || profilePicture;
-        }
-      } catch (err) {
-        console.error("Error fetching updated user data:", err);
-      }
-
       await set(reviewRef, {
         ...userReview,
-        profilePicture: profilePicture,
         rating: reviewData.rating,
         text: reviewData.text,
         edited: true,

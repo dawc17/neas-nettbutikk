@@ -20,7 +20,6 @@ function ReviewItem({ review, productId }) {
   const [editingReplyId, setEditingReplyId] = useState(null);
   const [editReplyText, setEditReplyText] = useState("");
   const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
-  const [editingProfilePicture, setEditingProfilePicture] = useState(null);
   const { currentUser } = useAuth();
   const database = getDatabase();
 
@@ -66,7 +65,6 @@ function ReviewItem({ review, productId }) {
       const newReplyRef = push(replyRef);
 
       let userDisplayName = "Anonym bruker";
-      let profilePicture = null;
 
       if (currentUser) {
         try {
@@ -76,7 +74,6 @@ function ReviewItem({ review, productId }) {
             const userData = userSnapshot.val();
             userDisplayName =
               userData.nickname || userData.name || "Anonym bruker";
-            profilePicture = userData.profilePicture || null;
           }
         } catch (err) {
           console.error("Error fetching user data:", err);
@@ -86,7 +83,6 @@ function ReviewItem({ review, productId }) {
       await set(newReplyRef, {
         userId: currentUser.uid,
         userDisplayName: userDisplayName,
-        profilePicture: profilePicture,
         text: replyData.text,
         createdAt: Date.now(),
       });
@@ -102,22 +98,6 @@ function ReviewItem({ review, productId }) {
   const startEditingReply = async (reply) => {
     setEditingReplyId(reply.id);
     setEditReplyText(reply.text);
-    setEditingProfilePicture(reply.profilePicture);
-
-    if (currentUser) {
-      try {
-        const userRef = ref(database, `users/${currentUser.uid}`);
-        const userSnapshot = await get(userRef);
-        if (userSnapshot.exists()) {
-          const userData = userSnapshot.val();
-          if (userData.profilePicture) {
-            setEditingProfilePicture(userData.profilePicture);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching updated user data:", err);
-      }
-    }
   };
 
   const handleEditReply = async (replyId) => {
@@ -133,7 +113,6 @@ function ReviewItem({ review, productId }) {
 
       await set(replyRef, {
         ...reply,
-        profilePicture: editingProfilePicture,
         text: editReplyText,
         edited: true,
         editedAt: Date.now(),
@@ -141,7 +120,6 @@ function ReviewItem({ review, productId }) {
 
       setEditingReplyId(null);
       setEditReplyText("");
-      setEditingProfilePicture(null);
       return true;
     } catch (error) {
       console.error("Error updating reply:", error);
@@ -154,7 +132,6 @@ function ReviewItem({ review, productId }) {
   const cancelEditReply = () => {
     setEditingReplyId(null);
     setEditReplyText("");
-    setEditingProfilePicture(null);
   };
 
   const handleDeleteReply = async (replyId) => {
@@ -224,15 +201,7 @@ function ReviewItem({ review, productId }) {
       <div className="flex justify-between mb-2">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full overflow-hidden mr-3 bg-gray-100 flex items-center justify-center flex-shrink-0">
-            {review.profilePicture ? (
-              <img
-                src={review.profilePicture}
-                alt="Profilbilde"
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <FaUser className="text-primary opacity-50" />
-            )}
+            <FaUser className="text-primary opacity-50" />
           </div>
           <div>
             <div className="font-mabry text-primary">
@@ -282,15 +251,7 @@ function ReviewItem({ review, productId }) {
                 <div>
                   <div className="flex items-center mb-2">
                     <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-base-100 flex items-center justify-center flex-shrink-0">
-                      {editingProfilePicture ? (
-                        <img
-                          src={editingProfilePicture}
-                          alt="Profilbilde"
-                          className="object-cover w-full h-full"
-                        />
-                      ) : (
-                        <FaUser className="text-primary opacity-50 text-xs" />
-                      )}
+                      <FaUser className="text-primary opacity-50 text-xs" />
                     </div>
                     <div className="font-mabry text-primary text-sm">
                       {reply.userDisplayName || "Anonym bruker"}
@@ -332,15 +293,7 @@ function ReviewItem({ review, productId }) {
                   <div className="flex justify-between">
                     <div className="flex items-center">
                       <div className="w-6 h-6 rounded-full overflow-hidden mr-2 bg-gray-100 flex items-center justify-center flex-shrink-0">
-                        {reply.profilePicture ? (
-                          <img
-                            src={reply.profilePicture}
-                            alt="Profilbilde"
-                            className="object-cover w-full h-full"
-                          />
-                        ) : (
-                          <FaUser className="text-primary opacity-50 text-xs" />
-                        )}
+                        <FaUser className="text-primary opacity-50 text-xs" />
                       </div>
                       <div>
                         <div className="font-mabry text-primary text-sm">

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { formatPrice } from "../utils/priceFormatter";
-import { getDatabase, ref, onValue, off, set } from "firebase/database";
+import { ref, onValue, off, set } from "firebase/database";
 import { useAuth } from "../context/AuthContext"; // Import Auth Context
+import { database } from "../utils/firebase"; // Use centralized Firebase configuration
 
 function Divider() {
   return (
@@ -34,9 +35,8 @@ function ProductCard({
   useEffect(() => {
     if (!id || !currentUser) return;
 
-    const db = getDatabase();
     const userFavoritesRef = ref(
-      db,
+      database,
       `users/${currentUser.uid}/favorites/${id}`
     );
 
@@ -50,7 +50,6 @@ function ProductCard({
   useEffect(() => {
     if (!id) return;
 
-    const database = getDatabase();
     const reviewsRef = ref(database, `reviews/${id}`);
 
     onValue(reviewsRef, (snapshot) => {
@@ -90,9 +89,8 @@ function ProductCard({
     }
 
     try {
-      const db = getDatabase();
       const userFavoritesRef = ref(
-        db,
+        database,
         `users/${currentUser.uid}/favorites/${id}`
       );
 

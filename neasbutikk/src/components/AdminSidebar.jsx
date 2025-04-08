@@ -111,13 +111,6 @@ function AdminSidebar({ activeSection, onSectionChange }) {
                 <FaImages className="mr-2 text-sm" />
                 <span>Administrer bilder</span>
               </button>
-              <button
-                onClick={() => handleSectionClick("categories")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "categories" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
-              >
-                <FaTags className="mr-2 text-sm" />
-                <span>Kategorier</span>
-              </button>
             </div>
           )}
         </div>

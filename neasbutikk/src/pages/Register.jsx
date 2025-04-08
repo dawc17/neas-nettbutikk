@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { FaUserPlus, FaLock, FaEnvelope, FaArrowLeft, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { auth, database } from "../utils/firebase";
 
 function Register() {
   const [name, setName] = useState("");
@@ -14,8 +15,6 @@ function Register() {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   
   const navigate = useNavigate();
-  const auth = getAuth();
-  const database = getDatabase();
   
   // Generate a readable ID from email
   const generateReadableId = (email) => {

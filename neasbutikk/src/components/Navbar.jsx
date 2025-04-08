@@ -243,23 +243,13 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Profile icon - replace with profile picture if available */}
+            {/* Profile icon - always use the icon, no profile pictures */}
             {currentUser && (
               <div className="mr-3 relative">
                 <Link to="/profile">
-                  {userData && userData.profilePicture ? (
-                    <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-secondary hover:border-primary transition-all duration-200">
-                      <img
-                        src={userData.profilePicture}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <BarIcon
-                      icon={<FaUser size={28} className="text-primary" />}
-                    />
-                  )}
+                  <BarIcon
+                    icon={<FaUser size={28} className="text-primary" />}
+                  />
                 </Link>
               </div>
             )}
@@ -396,24 +386,14 @@ function Navbar() {
               </div>
             </div>
 
-            {/* Profile link for mobile - update with profile picture */}
+            {/* Profile link for mobile - always using icon, no profile pictures */}
             {currentUser && (
               <Link
                 to="/profile"
                 className="flex items-center justify-center relative w-full"
               >
                 <div className="flex items-center justify-center py-2 px-4 rounded-lg hover:bg-base-300 w-full">
-                  {userData && userData.profilePicture ? (
-                    <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-secondary mr-2">
-                      <img
-                        src={userData.profilePicture}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <FaUser size={20} className="text-primary mr-2" />
-                  )}
+                  <FaUser size={20} className="text-primary mr-2" />
                   <span className="text-primary">Min profil</span>
                 </div>
               </Link>
