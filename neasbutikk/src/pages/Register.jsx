@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { FaUserPlus, FaLock, FaEnvelope, FaArrowLeft, FaUser } from "react-icons/fa";
+import {
+  FaUserPlus,
+  FaLock,
+  FaEnvelope,
+  FaArrowLeft,
+  FaUser,
+} from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database";
@@ -13,20 +19,20 @@ function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  
+
   const navigate = useNavigate();
-  
+
   // Generate a readable ID from email
   const generateReadableId = (email) => {
     // Extract first part of email (before @)
-    const emailPrefix = email.split('@')[0];
-    
+    const emailPrefix = email.split("@")[0];
+
     // Take first 4 characters of the email prefix
     const prefixStart = emailPrefix.substring(0, 4).toLowerCase();
-    
+
     // Add a timestamp to ensure uniqueness
     const timestamp = new Date().getTime().toString().slice(-6);
-    
+
     return `${prefixStart}_${timestamp}`;
   };
 
@@ -47,9 +53,13 @@ function Register() {
       setLoading(true);
 
       // Create user with Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-      
+
       // Generate a readable ID
       const readableId = generateReadableId(email);
 
@@ -59,20 +69,19 @@ function Register() {
         email: email,
         readableId: readableId,
         role: "user", // Default role is regular user
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
 
       // Show success message
       setRegistrationSuccess(true);
-      
+
       // Redirect after short delay
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 2000);
-
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        setError('Denne e-postadressen er allerede i bruk.');
+      if (error.code === "auth/email-already-in-use") {
+        setError("Denne e-postadressen er allerede i bruk.");
       } else {
         setError(`Registrering feilet: ${error.message}`);
       }
@@ -83,17 +92,20 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-accent-content" data-theme="light">
+    <div
+      className="min-h-screen flex flex-col bg-accent-content"
+      data-theme="light"
+    >
       <div className="p-4">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="inline-flex items-center text-white bg-primary px-4 py-2 rounded-md hover:bg-secondary transition-all duration-200"
         >
           <FaArrowLeft className="mr-2" />
           Tilbake til butikk
         </Link>
       </div>
-      
+
       <div className="flex-grow flex items-center justify-center">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-xl">
           <div className="text-center mb-8">
@@ -108,7 +120,7 @@ function Register() {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
-          
+
           {registrationSuccess && (
             <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
               <span className="block sm:inline">
@@ -140,7 +152,7 @@ function Register() {
                 />
               </div>
             </div>
-            
+
             <div className="mb-6">
               <label
                 htmlFor="email"
@@ -187,7 +199,7 @@ function Register() {
               </div>
               <p className="text-xs text-gray-500 mt-1">Minst 6 tegn</p>
             </div>
-            
+
             <div className="mb-6">
               <label
                 htmlFor="confirmPassword"
@@ -225,11 +237,11 @@ function Register() {
                 </>
               )}
             </button>
-            
+
             <div className="text-center mt-6 pt-6 border-t border-gray-200">
               <p className="text-gray-600 mb-4">Har du allerede en konto?</p>
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="bg-secondary text-primary font-mabry py-2 px-4 rounded-md hover:bg-secondary/85 transition-all duration-200 flex items-center justify-center"
               >
                 <FaEnvelope className="mr-2" />
