@@ -1,15 +1,60 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
-import FooterMain from "../components/Footer";
-import AdminSidebar from "../components/AdminSidebar";
-import AdminProductForm from "../components/AdminProductForm";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useAuth } from "../context/AuthContext";
+
+import AdminProductForm, {
+  CATEGORY_NAMES,
+} from "../components/AdminProductForm";
 import AdminProductList from "../components/AdminProductList";
+import AdminSidebar from "../components/AdminSidebar";
+import AdminOrdersView from "../components/AdminOrdersView";
+import AdminUsersView from "../components/AdminUsersView";
+import AdminStatistics from "../components/AdminStatistics"; // Import the new component
+import FooterMain from "../components/Footer";
+import Navbar from "../components/Navbar";
 import { useProducts } from "../data/ProductsData";
 
 function AdminPanel() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [productToEdit, setProductToEdit] = useState(null);
   const { products, loading } = useProducts();
+  const [pendingOrders, setPendingOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+
+  // Fetch pending orders
+  useEffect(() => {
+    if (activeSection !== "dashboard" && activeSection !== "pendingOrders")
+      return;
+
+    setLoadingOrders(true);
+    const database = getDatabase();
+    const ordersRef = ref(database, "orders");
+
+    const unsubscribe = onValue(
+      ordersRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const ordersData = snapshot.val();
+          // Filter orders with status "pending"
+          const pendingOrdersArray = Object.values(ordersData).filter(
+            (order) => order.status === "pending"
+          );
+
+          setPendingOrders(pendingOrdersArray);
+        } else {
+          setPendingOrders([]);
+        }
+        setLoadingOrders(false);
+      },
+      (error) => {
+        console.error("Error fetching pending orders:", error);
+        setLoadingOrders(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [activeSection]);
 
   // Function to handle completion of product editing
   const handleEditComplete = () => {
@@ -31,6 +76,17 @@ function AdminPanel() {
         );
       case "editProducts":
         return <AdminProductList onEditFullProduct={handleEditFullProduct} />;
+      case "viewOrders":
+      case "pendingOrders":
+        return (
+          <AdminOrdersView
+            filterStatus={activeSection === "pendingOrders" ? "pending" : null}
+          />
+        );
+      case "viewUsers":
+        return <AdminUsersView />;
+      case "analytics":
+        return <AdminStatistics />;
       case "dashboard":
       default:
         return (
@@ -54,7 +110,9 @@ function AdminPanel() {
               <div className="bg-secondary/20 rounded-lg p-4 text-center">
                 <h3 className="font-mabry text-primary text-lg mb-2">Ordrer</h3>
                 <p className="font-mabrylight text-primary">
-                  0 ventende ordrer
+                  {loadingOrders
+                    ? "Laster..."
+                    : `${pendingOrders.length} ventende ordrer`}
                 </p>
               </div>
             </div>
@@ -94,7 +152,15 @@ function AdminPanel() {
                   ? "Rediger produkt"
                   : activeSection === "editProducts"
                     ? "Rediger produkter"
-                    : "Admin Panel"}
+                    : activeSection === "viewOrders"
+                      ? "Vis ordrer"
+                      : activeSection === "pendingOrders"
+                        ? "Ventende ordrer"
+                        : activeSection === "viewUsers"
+                          ? "Vis brukere"
+                          : activeSection === "analytics"
+                            ? "Analytics"
+                            : "Admin Panel"}
           </h1>
 
           <div className="bg-base-100 rounded-lg p-6 shadow-sm">

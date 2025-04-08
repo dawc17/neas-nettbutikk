@@ -104,13 +104,6 @@ function AdminSidebar({ activeSection, onSectionChange }) {
                 <FaEdit className="mr-2 text-sm" />
                 <span>Rediger produkter</span>
               </button>
-              <button
-                onClick={() => handleSectionClick("manageImages")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "manageImages" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
-              >
-                <FaImages className="mr-2 text-sm" />
-                <span>Administrer bilder</span>
-              </button>
             </div>
           )}
         </div>
@@ -179,14 +172,8 @@ function AdminSidebar({ activeSection, onSectionChange }) {
           {expandedMenus.settings && (
             <div className="pl-10 pr-2 py-2 space-y-1 font-mabrylight">
               <button
-                onClick={() => handleSectionClick("siteSettings")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "siteSettings" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
-              >
-                <span>Nettside innstillinger</span>
-              </button>
-              <button
-                onClick={() => handleSectionClick("users")}
-                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "users" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
+                onClick={() => handleSectionClick("viewUsers")}
+                className={`w-full flex items-center p-2 rounded-md transition-all duration-200 ${activeSection === "viewUsers" ? "bg-secondary text-primary" : "hover:bg-accent-content"}`}
               >
                 <span>Administrer brukere</span>
               </button>

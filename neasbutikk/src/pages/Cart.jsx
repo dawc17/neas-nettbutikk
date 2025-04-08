@@ -164,7 +164,7 @@ function Cart() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                   <button
                     onClick={() => navigate("/")}
-                    className="bg-secondary text-primary font-mabry rounded-lg py-3 px-6 hover:bg-primary hover:text-secondary-content transition-all duration-200"
+                    className="bg-secondary text-primary font-mabry rounded-lg py-3 px-6 hover:bg-primary hover:text-primary-content transition-all duration-200"
                   >
                     Fortsett å handle
                   </button>
