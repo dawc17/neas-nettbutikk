@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 
 function App() {
-  // Use the hook to fetch products from Firebase
+  // Use the hook to fetch products from Firebase!!!!!!!
   const { products, loading, error } = useProducts();
   const [activeCategory, setActiveCategory] = useState(null);
 
