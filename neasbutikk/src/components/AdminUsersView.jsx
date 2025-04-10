@@ -229,7 +229,7 @@ function AdminUsersView() {
                   filteredUsers.map((user) => (
                     <tr
                       key={user.id}
-                      className="border-t border-gray-200 hover:bg-gray-50"
+                      className="border-t border-gray-200 hover:bg-base-200"
                     >
                       {editingUser === user.id ? (
                         // Editing mode
