@@ -20,7 +20,7 @@ const rotatingImages = [
 ];
 
 const staticImage = {
-  url: "/promotionalImages/simga1.jpg", // You can change this to a different static image
+  url: "/promotionalImages/simga4.jpg", // You can change this to a different static image
   alt: "Static promotional banner",
   title: "Spesialtilbud",
 };
@@ -103,12 +103,14 @@ function ImageCarousel() {
 
       {/* Static Image Section */}
       <div className="relative w-1/3 h-[400px] overflow-hidden rounded-xl">
-        <img
-          src={staticImage.url}
-          alt={staticImage.alt}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent">
+        <div className="absolute inset-0">
+          <img
+            src={staticImage.url}
+            alt={staticImage.alt}
+            className="w-full h-full object-fill"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none">
           <div className="absolute bottom-8 left-8">
             <h2 className="text-white text-3xl font-mabry">{staticImage.title}</h2>
           </div>
