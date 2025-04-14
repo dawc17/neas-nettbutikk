@@ -8,6 +8,7 @@ import {
   CATEGORY_NAMES,
   PRODUCT_CATEGORIES,
 } from "../components/AdminProductForm";
+// Import only the specific icons we need
 import { FaArrowLeft, FaFilter, FaTimes, FaCheck } from "react-icons/fa";
 import { formatPrice } from "../utils/priceFormatter";
 
