@@ -8,7 +8,8 @@ import {
   CATEGORY_NAMES,
   PRODUCT_CATEGORIES,
 } from "../components/AdminProductForm";
-import { FaArrowLeft, FaFilter, FaTimes } from "react-icons/fa";
+import { FaArrowLeft, FaFilter, FaTimes, FaCheck } from "react-icons/fa";
+import { formatPrice } from "../utils/priceFormatter";
 
 function CategoryPage() {
   const { categoryId } = useParams();
@@ -17,16 +18,24 @@ function CategoryPage() {
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sortOption, setSortOption] = useState("featured");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState(false);
 
   useEffect(() => {
     if (loading || error || !products.length) return;
 
     let filtered = products;
 
+    // Filter by category
     if (categoryId) {
       filtered = filtered.filter((product) => product.category === categoryId);
     }
 
+    // Filter by price range
+    filtered = filtered.filter(
+      (product) => product.price >= priceRange[0] && product.price <= priceRange[1]
+    );
+
+    // Sort products
     switch (sortOption) {
       case "price-asc":
         filtered.sort((a, b) => a.price - b.price);
@@ -49,7 +58,16 @@ function CategoryPage() {
     }
 
     setFilteredProducts(filtered);
-  }, [categoryId, products, loading, error, sortOption]);
+    
+    // Check if any filter is active
+    const maxProductPrice = Math.max(...products.map((p) => p.price));
+    const isFilterActive = 
+      priceRange[0] > 0 || 
+      priceRange[1] < maxProductPrice || 
+      sortOption !== "featured";
+    
+    setActiveFilters(isFilterActive);
+  }, [categoryId, products, loading, error, sortOption, priceRange]);
 
   const maxPrice =
     loading || !products.length
@@ -59,11 +77,24 @@ function CategoryPage() {
   const handlePriceChange = (e, index) => {
     const newRange = [...priceRange];
     newRange[index] = parseInt(e.target.value);
+    
+    // Make sure min is not greater than max
+    if (index === 0 && newRange[0] > newRange[1]) {
+      newRange[0] = newRange[1];
+    } else if (index === 1 && newRange[1] < newRange[0]) {
+      newRange[1] = newRange[0];
+    }
+    
     setPriceRange(newRange);
   };
 
   const toggleMobileFilters = () => {
     setShowMobileFilters(!showMobileFilters);
+  };
+
+  const resetFilters = () => {
+    setPriceRange([0, maxPrice]);
+    setSortOption("featured");
   };
 
   return (
@@ -106,19 +137,29 @@ function CategoryPage() {
               </button>
             </div>
 
-            <h2 className="font-mabry text-lg text-primary hidden md:block mb-4">
-              Filtre
-            </h2>
+            <div className="flex justify-between items-center">
+              <h2 className="font-mabry text-lg text-primary md:block mb-4">
+                Filtre
+              </h2>
+              {activeFilters && (
+                <button 
+                  onClick={resetFilters}
+                  className="text-xs text-primary hover:underline flex items-center"
+                >
+                  Nullstill filtre
+                </button>
+              )}
+            </div>
 
             <div className="mb-6">
               <h3 className="font-mabry text-primary mb-2">Pris</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="font-mabrylight text-sm text-primary">
-                    {priceRange[0]} kr
+                    {formatPrice(priceRange[0])}
                   </span>
                   <span className="font-mabrylight text-sm text-primary">
-                    {priceRange[1]} kr
+                    {formatPrice(priceRange[1])}
                   </span>
                 </div>
 
@@ -177,9 +218,18 @@ function CategoryPage() {
           </div>
 
           <div className="md:w-3/4 lg:w-4/5">
-            <h1 className="text-2xl font-mabry text-primary mb-6">
-              {CATEGORY_NAMES[categoryId] || "Alle produkter"}
-            </h1>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-mabry text-primary">
+                {CATEGORY_NAMES[categoryId] || "Alle produkter"}
+              </h1>
+              
+              {activeFilters && (
+                <div className="hidden md:flex items-center text-sm text-primary font-mabrylight">
+                  <FaCheck className="text-secondary mr-1" /> 
+                  <span>Filtre aktive</span>
+                </div>
+              )}
+            </div>
 
             {loading ? (
               <div className="text-center py-12">Laster produkter...</div>
@@ -195,8 +245,15 @@ function CategoryPage() {
               </div>
             ) : (
               <div className="text-center py-12 font-mabrylight text-primary">
-                Ingen produkter funnet i denne kategorien.
+                Ingen produkter funnet med disse filtrene.
                 <p className="mt-4">
+                  <button 
+                    onClick={resetFilters}
+                    className="text-secondary hover:underline"
+                  >
+                    Nullstill filtre
+                  </button>
+                  <span className="mx-2">eller</span>
                   <Link to="/" className="text-secondary hover:underline">
                     Tilbake til butikken
                   </Link>

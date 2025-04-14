@@ -10,7 +10,7 @@ import { FaArrowLeft, FaHeart, FaRegHeart } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { CATEGORY_NAMES } from "../components/AdminProductForm";
 import ReviewSection from "../components/ReviewSection";
-import { getDatabase, ref, onValue, set } from "firebase/database"; // Import Firebase functions
+import { getDatabase, ref, onValue, set, serverTimestamp, increment, update } from "firebase/database"; // Added update, increment and serverTimestamp
 
 function ProductPage() {
   const { productId } = useParams();
@@ -34,6 +34,37 @@ function ProductPage() {
       setProduct(foundProduct);
     }
   }, [productId, products, loading]);
+
+  // Record product view when product is loaded
+  useEffect(() => {
+    if (productId && !loading) {
+      // Track product view in Firebase
+      const recordProductView = async () => {
+        try {
+          const database = getDatabase();
+          
+          // Update total view count for the product
+          const productViewsRef = ref(database, `productViews/${productId}/total`);
+          await update(productViewsRef, { count: increment(1) });
+          
+          // Record timestamp for this view
+          const viewTimestampRef = ref(database, `productViews/${productId}/timestamps/${Date.now()}`);
+          await set(viewTimestampRef, {
+            timestamp: serverTimestamp(),
+            userId: currentUser?.uid || 'anonymous',
+          });
+          
+          // Also update weekly views for "popular this week" functionality
+          const weeklyViewsRef = ref(database, `productViews/${productId}/weekly`);
+          await update(weeklyViewsRef, { count: increment(1) });
+        } catch (error) {
+          console.error("Error recording product view:", error);
+        }
+      };
+
+      recordProductView();
+    }
+  }, [productId, loading, currentUser]);
 
   // Check if product is favorited using Firebase
   useEffect(() => {

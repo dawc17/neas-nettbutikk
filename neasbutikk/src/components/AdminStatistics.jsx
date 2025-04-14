@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 import { formatPrice } from "../utils/priceFormatter";
 import {
   FaSort,
@@ -9,6 +9,9 @@ import {
   FaChartLine,
   FaTable,
   FaChartBar,
+  FaEye,
+  FaRedo,
+  FaShoppingCart,
 } from "react-icons/fa";
 import { useProducts } from "../data/ProductsData";
 // Import Chart.js components
@@ -39,8 +42,14 @@ ChartJS.register(
 function AdminStatistics() {
   // State variables
   const [orders, setOrders] = useState([]);
+  const [productViews, setProductViews] = useState({});
+  const [productOrders, setProductOrders] = useState({});
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [loadingViews, setLoadingViews] = useState(true);
+  const [loadingOrderCounts, setLoadingOrderCounts] = useState(true);
   const [error, setError] = useState(null);
+  const [isResetting, setIsResetting] = useState(false);
+  const [resetSuccess, setResetSuccess] = useState(false);
   const { products, loading: loadingProducts } = useProducts();
   const [activeView, setActiveView] = useState("productStats"); // "productStats" or "salesChart"
 
@@ -77,9 +86,101 @@ function AdminStatistics() {
     return () => unsubscribe();
   }, []);
 
+  // Fetch product views data
+  useEffect(() => {
+    const database = getDatabase();
+    const viewsRef = ref(database, "productViews");
+
+    const unsubscribe = onValue(
+      viewsRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const viewsData = snapshot.val();
+          setProductViews(viewsData);
+        } else {
+          setProductViews({});
+        }
+        setLoadingViews(false);
+      },
+      (error) => {
+        console.error("Error fetching product views:", error);
+        setError("Kunne ikke hente produktvisninger: " + error.message);
+        setLoadingViews(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch product order count data
+  useEffect(() => {
+    const database = getDatabase();
+    const ordersCountRef = ref(database, "productOrders");
+
+    const unsubscribe = onValue(
+      ordersCountRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const orderCountData = snapshot.val();
+          setProductOrders(orderCountData);
+        } else {
+          setProductOrders({});
+        }
+        setLoadingOrderCounts(false);
+      },
+      (error) => {
+        console.error("Error fetching product order counts:", error);
+        setError("Kunne ikke hente produktbestillinger: " + error.message);
+        setLoadingOrderCounts(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  // Function to reset weekly view and order counts
+  const handleResetWeeklyStats = async () => {
+    if (isResetting) return;
+
+    try {
+      setIsResetting(true);
+      const database = getDatabase();
+      const updates = {};
+
+      // Reset weekly view counts
+      Object.keys(productViews).forEach((productId) => {
+        updates[`productViews/${productId}/weekly/count`] = 0;
+      });
+
+      // Reset weekly order counts
+      Object.keys(productOrders).forEach((productId) => {
+        updates[`productOrders/${productId}/weekly/count`] = 0;
+      });
+
+      // Apply all updates in one batch operation
+      await update(ref(database), updates);
+
+      // Show success message
+      setResetSuccess(true);
+      setTimeout(() => setResetSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error resetting weekly stats:", error);
+      setError("Kunne ikke nullstille ukentlige statistikker: " + error.message);
+    } finally {
+      setIsResetting(false);
+    }
+  };
+
   // Calculate statistics per product
   const productStats = useMemo(() => {
-    if (loadingProducts || loadingOrders || !products || !orders.length) {
+    if (
+      loadingProducts ||
+      loadingOrders ||
+      loadingViews ||
+      loadingOrderCounts ||
+      !products ||
+      !orders.length
+    ) {
       return [];
     }
 
@@ -88,6 +189,9 @@ function AdminStatistics() {
 
     // Initialize stats object for all products
     products.forEach((product) => {
+      const productViewData = productViews[product.id];
+      const productOrderData = productOrders[product.id];
+
       stats[product.id] = {
         id: product.id,
         name: product.productName,
@@ -96,7 +200,12 @@ function AdminStatistics() {
         orderCount: 0,
         totalRevenue: 0,
         stock: product.stock || 0,
+        viewCount: productViewData?.total?.count || 0,
+        weeklyViewCount: productViewData?.weekly?.count || 0,
+        weeklyOrderCount: productOrderData?.weekly?.count || 0,
+        totalOrderCount: productOrderData?.total?.count || 0,
         lastOrderedTimestamp: null,
+        popularityScore: 0, // Will be calculated below
       };
     });
 
@@ -121,9 +230,26 @@ function AdminStatistics() {
       });
     });
 
+    // Calculate popularity score (combination of weekly views and orders)
+    // Formula: 1 × weekly views + 5 × weekly orders
+    // This gives orders 5× more weight than views
+    Object.values(stats).forEach((product) => {
+      product.popularityScore =
+        (product.weeklyViewCount || 0) + 5 * (product.weeklyOrderCount || 0);
+    });
+
     // Convert to array for easier sorting and rendering
     return Object.values(stats);
-  }, [products, orders, loadingProducts, loadingOrders]);
+  }, [
+    products,
+    orders,
+    loadingProducts,
+    loadingOrders,
+    productViews,
+    loadingViews,
+    productOrders,
+    loadingOrderCounts,
+  ]);
 
   // Generate time series data for sales chart
   const salesOverTimeData = useMemo(() => {
@@ -289,7 +415,8 @@ function AdminStatistics() {
     });
   };
 
-  const loading = loadingOrders || loadingProducts;
+  const loading =
+    loadingOrders || loadingProducts || loadingViews || loadingOrderCounts;
 
   // Render the statistics navigation
   const renderStatsNav = () => (
@@ -326,9 +453,32 @@ function AdminStatistics() {
   // Render product statistics table
   const renderProductStatsView = () => (
     <div>
-      <h3 className="font-mabry text-lg text-primary mb-3">
-        Produktstatistikk
-      </h3>
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="font-mabry text-lg text-primary">Produktstatistikk</h3>
+        <div>
+          <button
+            onClick={handleResetWeeklyStats}
+            disabled={isResetting}
+            className={`inline-flex items-center px-4 py-2 bg-secondary text-primary rounded-lg hover:bg-secondary/80 transition-all ${
+              isResetting ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {isResetting ? (
+              <FaSpinner className="animate-spin mr-2" />
+            ) : (
+              <FaRedo className="mr-2" />
+            )}
+            Nullstill ukentlige statistikker
+          </button>
+        </div>
+      </div>
+
+      {resetSuccess && (
+        <div className="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
+          Ukentlige statistikker er nullstilt!
+        </div>
+      )}
+
       <div className="overflow-x-auto rounded-lg shadow-md">
         <table className="min-w-full bg-base-300">
           <thead>
@@ -340,13 +490,13 @@ function AdminStatistics() {
                 className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
                 onClick={() => requestSort("orderCount")}
               >
-                Antall bestillinger {getSortIcon("orderCount")}
+                Bestillinger {getSortIcon("orderCount")}
               </th>
               <th
                 className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
                 onClick={() => requestSort("totalRevenue")}
               >
-                Total inntekt {getSortIcon("totalRevenue")}
+                Inntekt {getSortIcon("totalRevenue")}
               </th>
               <th
                 className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
@@ -362,9 +512,27 @@ function AdminStatistics() {
               </th>
               <th
                 className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
-                onClick={() => requestSort("lastOrderedTimestamp")}
+                onClick={() => requestSort("viewCount")}
               >
-                Sist bestilt {getSortIcon("lastOrderedTimestamp")}
+                Visn. {getSortIcon("viewCount")}
+              </th>
+              <th
+                className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
+                onClick={() => requestSort("weeklyViewCount")}
+              >
+                Ukentlige visn. {getSortIcon("weeklyViewCount")}
+              </th>
+              <th
+                className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
+                onClick={() => requestSort("weeklyOrderCount")}
+              >
+                Ukentlige best. {getSortIcon("weeklyOrderCount")}
+              </th>
+              <th
+                className="py-2 px-4 border-b border-base-300 bg-base-300 text-right text-xs font-mabry text-pinegreen uppercase cursor-pointer"
+                onClick={() => requestSort("popularityScore")}
+              >
+                Pop. score {getSortIcon("popularityScore")}
               </th>
             </tr>
           </thead>
@@ -401,14 +569,23 @@ function AdminStatistics() {
                     {product.stock}
                   </td>
                   <td className="py-3 px-4 border-b border-gray-200 font-mabrylight text-sm text-right">
-                    {formatDate(product.lastOrderedTimestamp)}
+                    {product.viewCount}
+                  </td>
+                  <td className="py-3 px-4 border-b border-gray-200 font-mabrylight text-sm text-right">
+                    {product.weeklyViewCount}
+                  </td>
+                  <td className="py-3 px-4 border-b border-gray-200 font-mabrylight text-sm text-right">
+                    {product.weeklyOrderCount}
+                  </td>
+                  <td className="py-3 px-4 border-b border-gray-200 font-mabry text-sm text-right">
+                    {product.popularityScore}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="py-4 text-center font-mabrylight">
-                  Ingen produktbestillinger funnet.
+                <td colSpan="9" className="py-4 text-center font-mabrylight">
+                  Ingen produktdata funnet.
                 </td>
               </tr>
             )}
@@ -417,7 +594,7 @@ function AdminStatistics() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
         <div className="bg-secondary/20 rounded-lg p-4">
           <h3 className="font-mabry text-primary text-lg mb-2">Bestselger</h3>
           {productStats.length > 0 ? (
@@ -477,6 +654,45 @@ function AdminStatistics() {
                       </div>
                       <div className="font-mabrylight text-sm text-gray-600">
                         {formatPrice(highestRevenue.totalRevenue)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          ) : (
+            <p className="font-mabrylight text-primary">Ingen data</p>
+          )}
+        </div>
+
+        <div className="bg-secondary/20 rounded-lg p-4">
+          <h3 className="font-mabry text-primary text-lg mb-2">Mest populært</h3>
+          {productStats.length > 0 ? (
+            <div>
+              {(() => {
+                const mostPopular = [...productStats].sort(
+                  (a, b) => b.popularityScore - a.popularityScore
+                )[0];
+                return (
+                  <div className="flex items-center">
+                    <div className="h-12 w-12 flex-shrink-0">
+                      <img
+                        src={mostPopular.image}
+                        alt={mostPopular.name}
+                        className="h-12 w-12 object-contain"
+                      />
+                    </div>
+                    <div className="ml-3">
+                      <div className="font-mabry text-primary">
+                        {mostPopular.name}
+                      </div>
+                      <div className="font-mabrylight text-sm text-gray-600">
+                        Score: {mostPopular.popularityScore}
+                      </div>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <FaEye className="mr-1" /> {mostPopular.weeklyViewCount}
+                        <FaShoppingCart className="ml-2 mr-1" />{" "}
+                        {mostPopular.weeklyOrderCount}
                       </div>
                     </div>
                   </div>

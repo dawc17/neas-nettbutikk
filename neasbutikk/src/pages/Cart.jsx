@@ -8,7 +8,7 @@ import { formatPrice } from "../utils/priceFormatter";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { generateOrderId } from "../utils/orderUtils";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, update, increment } from "firebase/database";
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } =
@@ -99,6 +99,16 @@ function Cart() {
         status: "pending",
         createdAt: Date.now(),
       });
+
+      // Update weekly order counts for each product
+      const updates = {};
+      for (const item of cartItems) {
+        updates[`productOrders/${item.id}/weekly/count`] = increment(item.quantity);
+        updates[`productOrders/${item.id}/total/count`] = increment(item.quantity);
+      }
+
+      // Apply all updates in a single operation
+      await update(ref(database), updates);
 
       // Order complete
       setOrderId(newOrderId);
