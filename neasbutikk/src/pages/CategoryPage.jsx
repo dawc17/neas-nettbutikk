@@ -20,6 +20,44 @@ function CategoryPage() {
   const [sortOption, setSortOption] = useState("featured");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState(false);
+  const [selectedGBFilter, setSelectedGBFilter] = useState("all"); // New state for GB filter
+
+  // Function to extract GB information from product name or description
+  const extractGBFromProduct = (product) => {
+    // Common formats: "128GB", "128 GB", "128 gb", etc.
+    const gbRegex = /(\d+)\s*(?:gb|GB)/i;
+
+    // First check product name
+    const nameMatch = product.productName.match(gbRegex);
+    if (nameMatch) return nameMatch[1];
+
+    // Then check product description
+    const descMatch = product.productDescription.match(gbRegex);
+    if (descMatch) return descMatch[1];
+
+    // Finally check product ID (if it contains GB info)
+    const idMatch = product.id && product.id.match(gbRegex);
+    if (idMatch) return idMatch[1];
+
+    return null; // No GB information found
+  };
+
+  // Available GB options for mobile products
+  const getAvailableGBOptions = () => {
+    if (!products || loading || categoryId !== PRODUCT_CATEGORIES.MOBIL)
+      return [];
+
+    const gbValues = new Set();
+
+    products
+      .filter((product) => product.category === categoryId)
+      .forEach((product) => {
+        const gbValue = extractGBFromProduct(product);
+        if (gbValue) gbValues.add(gbValue);
+      });
+
+    return Array.from(gbValues).sort((a, b) => parseInt(a) - parseInt(b));
+  };
 
   useEffect(() => {
     if (loading || error || !products.length) return;
@@ -33,8 +71,17 @@ function CategoryPage() {
 
     // Filter by price range
     filtered = filtered.filter(
-      (product) => product.price >= priceRange[0] && product.price <= priceRange[1]
+      (product) =>
+        product.price >= priceRange[0] && product.price <= priceRange[1]
     );
+
+    // Filter by GB for mobile products
+    if (categoryId === PRODUCT_CATEGORIES.MOBIL && selectedGBFilter !== "all") {
+      filtered = filtered.filter((product) => {
+        const productGB = extractGBFromProduct(product);
+        return productGB === selectedGBFilter;
+      });
+    }
 
     // Sort products
     switch (sortOption) {
@@ -59,16 +106,24 @@ function CategoryPage() {
     }
 
     setFilteredProducts(filtered);
-    
+
     // Check if any filter is active
     const maxProductPrice = Math.max(...products.map((p) => p.price));
-    const isFilterActive = 
-      priceRange[0] > 0 || 
-      priceRange[1] < maxProductPrice || 
+    const isFilterActive =
+      priceRange[0] > 0 ||
+      priceRange[1] < maxProductPrice ||
       sortOption !== "featured";
-    
+
     setActiveFilters(isFilterActive);
-  }, [categoryId, products, loading, error, sortOption, priceRange]);
+  }, [
+    categoryId,
+    products,
+    loading,
+    error,
+    sortOption,
+    priceRange,
+    selectedGBFilter,
+  ]);
 
   const maxPrice =
     loading || !products.length
@@ -78,14 +133,14 @@ function CategoryPage() {
   const handlePriceChange = (e, index) => {
     const newRange = [...priceRange];
     newRange[index] = parseInt(e.target.value);
-    
+
     // Make sure min is not greater than max
     if (index === 0 && newRange[0] > newRange[1]) {
       newRange[0] = newRange[1];
     } else if (index === 1 && newRange[1] < newRange[0]) {
       newRange[1] = newRange[0];
     }
-    
+
     setPriceRange(newRange);
   };
 
@@ -96,6 +151,7 @@ function CategoryPage() {
   const resetFilters = () => {
     setPriceRange([0, maxPrice]);
     setSortOption("featured");
+    setSelectedGBFilter("all"); // Reset GB filter as well
   };
 
   return (
@@ -143,7 +199,7 @@ function CategoryPage() {
                 Filtre
               </h2>
               {activeFilters && (
-                <button 
+                <button
                   onClick={resetFilters}
                   className="text-xs text-primary hover:underline flex items-center"
                 >
@@ -201,6 +257,52 @@ function CategoryPage() {
               </div>
             </div>
 
+            {/* GB filter for mobile products */}
+            {categoryId === PRODUCT_CATEGORIES.MOBIL && (
+              <div className="mb-6 mt-4">
+                <h3 className="font-mabry text-primary mb-2">Lagringsplass</h3>
+                <div className="space-y-1">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="gb-all"
+                      name="gb-filter"
+                      value="all"
+                      checked={selectedGBFilter === "all"}
+                      onChange={() => setSelectedGBFilter("all")}
+                      className="mr-2 accent-secondary"
+                    />
+                    <label
+                      htmlFor="gb-all"
+                      className="font-mabrylight text-primary cursor-pointer"
+                    >
+                      Alle størrelser
+                    </label>
+                  </div>
+
+                  {getAvailableGBOptions().map((gb) => (
+                    <div key={gb} className="flex items-center">
+                      <input
+                        type="radio"
+                        id={`gb-${gb}`}
+                        name="gb-filter"
+                        value={gb}
+                        checked={selectedGBFilter === gb}
+                        onChange={() => setSelectedGBFilter(gb)}
+                        className="mr-2 accent-secondary"
+                      />
+                      <label
+                        htmlFor={`gb-${gb}`}
+                        className="font-mabrylight text-primary cursor-pointer"
+                      >
+                        {gb} GB
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div>
               <h3 className="font-mabry text-primary mb-2">Sorter etter</h3>
               <select
@@ -223,10 +325,10 @@ function CategoryPage() {
               <h1 className="text-2xl font-mabry text-primary">
                 {CATEGORY_NAMES[categoryId] || "Alle produkter"}
               </h1>
-              
+
               {activeFilters && (
                 <div className="hidden md:flex items-center text-sm text-primary font-mabrylight">
-                  <FaCheck className="text-secondary mr-1" /> 
+                  <FaCheck className="text-secondary mr-1" />
                   <span>Filtre aktive</span>
                 </div>
               )}
@@ -248,7 +350,7 @@ function CategoryPage() {
               <div className="text-center py-12 font-mabrylight text-primary">
                 Ingen produkter funnet med disse filtrene.
                 <p className="mt-4">
-                  <button 
+                  <button
                     onClick={resetFilters}
                     className="text-secondary hover:underline"
                   >
