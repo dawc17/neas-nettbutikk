@@ -9,10 +9,8 @@ export function ThemeProvider({ children }) {
     if (savedTheme) {
       return savedTheme;
     }
-    // Check user preference
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    // Always default to light mode if no preference is set
+    return "light";
   });
 
   useEffect(() => {

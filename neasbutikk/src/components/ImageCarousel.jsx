@@ -53,7 +53,7 @@ function ImageCarousel() {
   return (
     <div className="flex gap-4 w-full">
       {/* Rotating Carousel Section */}
-      <div className="relative w-2/3 h-[400px] overflow-hidden rounded-xl">
+      <div className="relative w-full h-[400px] overflow-hidden rounded-xl">
         {rotatingImages.map((image, index) => (
           <div
             key={index}
@@ -68,7 +68,9 @@ function ImageCarousel() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent">
               <div className="absolute bottom-8 left-8">
-                <h2 className="text-white text-3xl font-mabry">{image.title}</h2>
+                <h2 className="text-white text-3xl font-mabry">
+                  {image.title}
+                </h2>
               </div>
             </div>
           </div>
@@ -98,22 +100,6 @@ function ImageCarousel() {
               }`}
             />
           ))}
-        </div>
-      </div>
-
-      {/* Static Image Section */}
-      <div className="relative w-1/3 h-[400px] overflow-hidden rounded-xl">
-        <div className="absolute inset-0">
-          <img
-            src={staticImage.url}
-            alt={staticImage.alt}
-            className="w-full h-full object-fill"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none">
-          <div className="absolute bottom-8 left-8">
-            <h2 className="text-white text-3xl font-mabry">{staticImage.title}</h2>
-          </div>
         </div>
       </div>
     </div>
