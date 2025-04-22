@@ -184,7 +184,7 @@ function Navbar() {
             </>
           )}
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
             <div
               className="mr-3 relative"
