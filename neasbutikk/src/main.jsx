@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedUserRoute from "./components/ProtectedUserRoute";
+import Loading from "./components/Loading";
 
 // Lazy load all pages to reduce initial bundle size
 const App = lazy(() => import("./pages/App"));
@@ -21,20 +22,7 @@ const UserLogin = lazy(() => import("./components/UserLogin"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/Profile"));
 
-// Loading component for Suspense fallback
-const Loading = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <div className="text-center">
-      <div
-        className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-        role="status"
-      >
-        <span className="visually-hidden">Loading...</span>
-      </div>
-      <p className="mt-2 text-primary">Laster inn...</p>
-    </div>
-  </div>
-);
+// Remove the old inline Loading component
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
