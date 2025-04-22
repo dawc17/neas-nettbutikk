@@ -1,3 +1,4 @@
+import "./index.css";
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -24,7 +25,10 @@ const Profile = lazy(() => import("./pages/Profile"));
 const Loading = () => (
   <div className="flex items-center justify-center min-h-screen">
     <div className="text-center">
-      <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+      <div
+        className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+        role="status"
+      >
         <span className="visually-hidden">Loading...</span>
       </div>
       <p className="mt-2 text-primary">Laster inn...</p>
@@ -47,18 +51,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<UserLogin />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/adminpanel" element={
-                  <ProtectedRoute>
-                    <AdminPanel />
-                  </ProtectedRoute>
-                } />
-                <Route path="/profile" element={
-                  <ProtectedUserRoute>
-                    <Profile />
-                  </ProtectedUserRoute>
-                } />
+                <Route
+                  path="/adminpanel"
+                  element={
+                    <ProtectedRoute>
+                      <AdminPanel />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedUserRoute>
+                      <Profile />
+                    </ProtectedUserRoute>
+                  }
+                />
                 <Route path="/product/:productId" element={<ProductPage />} />
-                <Route path="/category/:categoryId" element={<CategoryPage />} />
+                <Route
+                  path="/category/:categoryId"
+                  element={<CategoryPage />}
+                />
               </Routes>
             </Suspense>
           </Router>
