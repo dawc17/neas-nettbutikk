@@ -11,7 +11,7 @@ import ProtectedUserRoute from "./components/ProtectedUserRoute";
 import Loading from "./components/Loading";
 
 Sentry.init({
-  dsn: "https://b4004b4197d68c7d028f15410ce93f58@o4509252464738304.ingest.de.sentry.io/4509252483743824",
+  dsn: "https://07fdaf835242641a38416949dcfe318d@o4509252464738304.ingest.de.sentry.io/4509252523655248",
   // Setting this option to true will send default PII data to Sentry.
   // For example, automatic IP address collection on events
   sendDefaultPii: true

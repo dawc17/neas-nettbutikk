@@ -1,10 +1,14 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), sentryVitePlugin({
+    org: "dawid-krystian-czaplicki",
+    project: "neasnettbutikk"
+  })],
   server: {
     historyApiFallback: true,
   },
@@ -18,6 +22,8 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 500
+
+    chunkSizeWarningLimit: 500,
+    sourcemap: true
   }
 })

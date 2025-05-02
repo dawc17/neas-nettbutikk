@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@sentry/react": "^9.15.0",
+    "@sentry/vite-plugin": "^3.3.1",
     "@sentry/wizard": "^4.8.0",
     "@supabase/supabase-js": "^2.49.3",
     "@tailwindcss/vite": "^4.0.9",

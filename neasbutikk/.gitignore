@@ -32,3 +32,6 @@ neasbutikk/src/data/ProductsData.jsx
 *.njsproj
 *.sln
 *.sw?
+
+# Sentry Config File
+.env.sentry-build-plugin
