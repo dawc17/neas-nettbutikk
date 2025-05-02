@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Add useNavigate
+npm install appwriteimport { Link, useNavigate } from "react-router-dom"; // Add useNavigate
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { formatPrice } from "../utils/priceFormatter";
 import { ref, onValue, off, set } from "firebase/database";
