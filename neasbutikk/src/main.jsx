@@ -2,21 +2,12 @@ import "./index.css";
 import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import * as Sentry from "@sentry/react";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedUserRoute from "./components/ProtectedUserRoute";
 import Loading from "./components/Loading";
-
-Sentry.init({
-  dsn: "https://07fdaf835242641a38416949dcfe318d@o4509252464738304.ingest.de.sentry.io/4509252523655248",
-  // Setting this option to true will send default PII data to Sentry.
-  // For example, automatic IP address collection on events
-  sendDefaultPii: true
-});
-
 
 // Lazy load all pages to reduce initial bundle size
 const App = lazy(() => import("./pages/App"));
