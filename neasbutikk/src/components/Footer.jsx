@@ -95,14 +95,35 @@ function FooterMain() {
                 Om oss
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 text-base md:text-xl gap-x-5 gap-y-3 md:gap-y-5 w-full ml-2 mt-4">
-                <FooterLink text={"Kontakt"} />
-                <FooterLink text={"Hva skjer i nabolaget?"} />
-                <FooterLink text={"Om oss"} />
-                <FooterLink text={"Neas forklarer"} />
-                <FooterLink text={"Sponsorat"} />
-                <FooterLink text={"Bærekraft"} />
-                <FooterLink text={"Jobb hos oss"} />
-                <FooterLink text={"Logo og profil"} />
+                <FooterLink
+                  text={"Kontakt"}
+                  link={"https://neas.no/kontakt/"}
+                />
+                <FooterLink
+                  text={"Hva skjer i nabolaget?"}
+                  link={"https://neas.no/artikler/"}
+                />
+                <FooterLink text={"Om oss"} link={"https://neas.no/om-oss/"} />
+                <FooterLink
+                  text={"Neas forklarer"}
+                  link={"https://neas.no/category/neas-forklarer/"}
+                />
+                <FooterLink
+                  text={"Sponsorat"}
+                  link={"https://neas.no/om-oss/nabolaget/sponsorat/"}
+                />
+                <FooterLink
+                  text={"Bærekraft"}
+                  link={"https://neas.no/om-oss/baerekraft/"}
+                />
+                <FooterLink
+                  text={"Jobb hos oss"}
+                  link={"https://neas.no/om-oss/jobb-hos-oss/"}
+                />
+                <FooterLink
+                  text={"Logo og profil"}
+                  link={"https://brandpad.io/neas"}
+                />
               </div>
             </div>
 
@@ -111,11 +132,26 @@ function FooterMain() {
                 Snarveier
               </h2>
               <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
-                <FooterLink text={"Webmail Nordmøre"} />
-                <FooterLink text={"Webmail Oppdal"} />
-                <FooterLink text={"Live kamera og vær"} />
-                <FooterLink text={"Driftsmeldinger"} />
-                <FooterLink text={"Flytte?"} />
+                <FooterLink
+                  text={"Webmail Nordmøre"}
+                  link={"https://webmail.neasonline.no/"}
+                />
+                <FooterLink
+                  text={"Webmail Oppdal"}
+                  link={"http://webmail.vitnett.no/"}
+                />
+                <FooterLink
+                  text={"Live kamera og vær"}
+                  link={"https://neas.no/live-kamera-og-vaer/"}
+                />
+                <FooterLink
+                  text={"Driftsmeldinger"}
+                  link={"https://minside.neas.no/driftsmeldinger"}
+                />
+                <FooterLink
+                  text={"Flytte?"}
+                  link={"https://minside.neas.no/bestill/strom"}
+                />
               </div>
             </div>
 
@@ -124,12 +160,30 @@ function FooterMain() {
                 Annet
               </h2>
               <div className="flex flex-col text-base md:text-xl gap-3 md:gap-5 w-full ml-2 mt-4">
-                <FooterLink text={"Strømguiden"} />
-                <FooterLink text={"Historiske strømpriser"} />
-                <FooterLink text={"Personvern og Cookies"} />
-                <FooterLink text={"Vilkår og betingelser"} />
-                <FooterLink text={"Grossist"} />
-                <FooterLink text={"Hjelp"} />
+                <FooterLink
+                  text={"Strømguiden"}
+                  link={"https://neas.no/strom/stromguiden/"}
+                />
+                <FooterLink
+                  text={"Historiske strømpriser"}
+                  link={"https://neas.no/strom/historiske-strompriser/"}
+                />
+                <FooterLink
+                  text={"Personvern og Cookies"}
+                  link={"https://neas.no/personvern-og-cookies/"}
+                />
+                <FooterLink
+                  text={"Vilkår og betingelser"}
+                  link={"https://neas.no/vilkar-og-betingelser/"}
+                />
+                <FooterLink
+                  text={"Grossist"}
+                  link={"https://neas.no/grossist/"}
+                />
+                <FooterLink
+                  text={"Hjelp"}
+                  link={"https://neas.no/kontakt/hjelp/"}
+                />
               </div>
             </div>
           </div>

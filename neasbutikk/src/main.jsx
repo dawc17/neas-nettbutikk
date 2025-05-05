@@ -21,6 +21,7 @@ const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const UserLogin = lazy(() => import("./components/UserLogin"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/Profile"));
+const EasterEgg = lazy(() => import("./pages/EasterEgg")); // Lazy load the Easter Egg page
 
 // Remove the old inline Loading component
 
@@ -34,6 +35,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/search" element={<SearchResults />} />
+                <Route path="/easteregg" element={<EasterEgg />} />{" "}
+                {/* Easter Egg route */}
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/register" element={<Register />} />

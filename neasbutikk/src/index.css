@@ -122,6 +122,23 @@ body::-webkit-scrollbar {
   animation: colorCycle 9s infinite;
 }
 
+@keyframes rainbow-bg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-rainbow-bg {
+  background-size: 200% 200%; /* Make gradient large enough to shift */
+  animation: rainbow-bg 0.5s ease-in-out infinite;
+}
+
 .product-extended-description h1 {
   font-size: 1.8rem;
   margin-top: 1.5rem;
