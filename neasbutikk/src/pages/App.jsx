@@ -101,7 +101,14 @@ function App() {
       .slice(0, 5);
 
     setPopularProducts(sorted);
-  }, [products, productViews, productOrders, loading, loadingViews, loadingOrders]);
+  }, [
+    products,
+    productViews,
+    productOrders,
+    loading,
+    loadingViews,
+    loadingOrders,
+  ]);
 
   // Navigate to category page
   const navigateToCategory = (category) => {
@@ -110,6 +117,17 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col hide-scrollbar">
+      <meta property="og:type" content="website"></meta>
+      <meta property="og:url" content="https://neas-sigma.web.app"></meta>
+      <meta property="og:title" content="NEAS Nettbutikk"></meta>
+      <meta
+        property="og:description"
+        content="Velkommen til NEAS Nettbutikk! Her finner du et bredt utvalg av produkter og tjenester som tilbys av NEAS."
+      ></meta>
+      <meta
+        property="og:image"
+        content="https://images2.imgbox.com/4e/92/mhGqLPIM_o.png"
+      ></meta>
       <header>
         <Navbar />
       </header>
