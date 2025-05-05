@@ -383,7 +383,7 @@ function ProductPage() {
 
                     <button
                       onClick={handleAddToCart}
-                      className="bg-secondary text-primary font-mabry rounded-lg w-full py-3 cursor-pointer hover:bg-primary hover:text-secondary-content hover:scale-[0.98] transition-all duration-150"
+                      className="bg-secondary text-primary font-mabry rounded-lg w-full py-3 cursor-pointer hover:bg-primary hover:text-primary-content hover:scale-[0.98] transition-all duration-150"
                     >
                       Legg til handlekurv
                     </button>

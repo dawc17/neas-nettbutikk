@@ -8,7 +8,7 @@ const ThemeToggle = () => {
       onClick={toggleTheme}
       className="btn btn-sm btn-ghost bg-secondary text-primary mr-2"
       aria-label={
-        theme === "light" ? "Switch to dark mode" : "Switch to light mode"
+        theme === "horsenoodle" ? "Switch to dark mode" : "Switch to light mode"
       }
     >
       {theme === "light" ? (
