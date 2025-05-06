@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useProducts } from "../data/ProductsData";
 import Navbar from "../components/Navbar";
@@ -21,6 +21,7 @@ function CategoryPage() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState(false);
   const [selectedGBFilter, setSelectedGBFilter] = useState("all"); // New state for GB filter
+  const productsGridRef = useRef(null);
 
   // Function to extract GB information from product name or description
   const extractGBFromProduct = (product) => {
@@ -124,6 +125,30 @@ function CategoryPage() {
     priceRange,
     selectedGBFilter,
   ]);
+
+  // Effect for products animation
+  useEffect(() => {
+    if (!loading && !error && filteredProducts.length > 0 && productsGridRef.current) {
+      // Get all product card elements
+      const productItems = productsGridRef.current.querySelectorAll('.product-card-container');
+      
+      // Remove any existing 'animate' classes to ensure consistency
+      productItems.forEach(item => {
+        item.classList.remove('animate');
+        item.classList.add('search-result-item');
+      });
+      
+      // Force a reflow to ensure animations restart
+      void productsGridRef.current.offsetWidth;
+      
+      // Apply animations with staggered delays
+      productItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate');
+        }, index * 50);
+      });
+    }
+  }, [loading, error, filteredProducts]);
 
   const maxPrice =
     loading || !products.length
@@ -341,9 +366,14 @@ function CategoryPage() {
                 Feil ved lasting av produkter
               </div>
             ) : filteredProducts.length > 0 ? (
-              <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div 
+                ref={productsGridRef}
+                className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+              >
                 {filteredProducts.map((product, index) => (
-                  <ProductCard key={product.id || index} {...product} />
+                  <div key={product.id || index} className="product-card-container">
+                    <ProductCard {...product} />
+                  </div>
                 ))}
               </div>
             ) : (

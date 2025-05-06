@@ -8,6 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedUserRoute from "./components/ProtectedUserRoute";
 import Loading from "./components/Loading";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy load all pages to reduce initial bundle size
 const App = lazy(() => import("./pages/App"));
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <CartProvider>
           <Router>
+            <ScrollToTop />
             <Suspense fallback={<Loading />}>
               <Routes>
                 <Route path="/" element={<App />} />

@@ -3,11 +3,13 @@ import { useProducts } from "../data/ProductsData";
 import Navbar from "../components/Navbar";
 import ProductCard from "../components/ProductCard";
 import FooterMain from "../components/Footer";
+import { useEffect, useState, useRef } from "react";
 
 function SearchResults() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
-
+  const resultsRef = useRef(null);
+  
   const { products, loading, error } = useProducts();
 
   const filteredProducts =
@@ -16,6 +18,29 @@ function SearchResults() {
       : products.filter((product) =>
           product.productName.toLowerCase().includes(query)
         );
+        
+  // Handle animation of search results
+  useEffect(() => {
+    if (!loading && filteredProducts.length > 0 && resultsRef.current) {
+      // Get all items that need animation
+      const items = resultsRef.current.querySelectorAll('.search-result-item');
+      
+      // Remove any existing animation classes first
+      items.forEach(item => {
+        item.classList.remove('animate');
+      });
+      
+      // Force a reflow to ensure animations restart
+      void resultsRef.current.offsetWidth;
+      
+      // Apply animations with staggered delays
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate');
+        }, index * 50);
+      });
+    }
+  }, [loading, filteredProducts, query]);
 
   return (
     <div className="min-h-screen flex flex-col hide-scrollbar">
@@ -34,9 +59,11 @@ function SearchResults() {
             Feil ved lasting av produkter: {error}
           </p>
         ) : filteredProducts.length > 0 ? (
-          <div className="product-cards grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div ref={resultsRef} className="product-cards grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {filteredProducts.map((product, index) => (
-              <ProductCard key={index} {...product} />
+              <div key={index} className="search-result-item">
+                <ProductCard {...product} />
+              </div>
             ))}
           </div>
         ) : (

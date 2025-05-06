@@ -241,3 +241,22 @@ body::-webkit-scrollbar {
 .animate-fade-in-out {
   animation: fadeInOut 3s forwards;
 }
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-result-item {
+  opacity: 0;
+}
+
+.search-result-item.animate {
+  animation: fadeInDown 0.5s ease-out forwards;
+}

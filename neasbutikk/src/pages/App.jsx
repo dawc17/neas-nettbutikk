@@ -1,5 +1,5 @@
 import "../index.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useProducts } from "../data/ProductsData";
 import Navbar from "../components/Navbar";
 import FooterMain from "../components/Footer";
@@ -24,6 +24,7 @@ function App() {
   const [loadingViews, setLoadingViews] = useState(true);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [popularProducts, setPopularProducts] = useState([]);
+  const popularProductsRef = useRef(null);
   const navigate = useNavigate();
 
   // Fetch product views data
@@ -110,6 +111,29 @@ function App() {
     loadingOrders,
   ]);
 
+  // Animation effect for popular products
+  useEffect(() => {
+    if (!loading && !loadingViews && !loadingOrders && popularProducts.length > 0 && popularProductsRef.current) {
+      // Get all product card elements
+      const productItems = popularProductsRef.current.querySelectorAll('.popular-product-item');
+      
+      // Reset animations - remove any existing animation classes
+      productItems.forEach(item => {
+        item.classList.remove('animate');
+      });
+      
+      // Force a reflow to ensure animations restart properly
+      void popularProductsRef.current.offsetWidth;
+      
+      // Apply animations with staggered delays
+      productItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate');
+        }, index * 100); // Slightly longer delay (100ms) for a more dramatic effect
+      });
+    }
+  }, [popularProducts, loading, loadingViews, loadingOrders]);
+
   // Navigate to category page
   const navigateToCategory = (category) => {
     navigate(`/category/${category}`);
@@ -156,7 +180,7 @@ function App() {
         <div className="text-2xl text-primary font-mabry m-10 flex justify-center">
           <h1>Populært denne uken</h1>
         </div>
-        <section className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">
+        <section ref={popularProductsRef} className="product-cards flex-grow grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 m-10 hide-scrollbar">
           {loading || loadingViews || loadingOrders ? (
             <div className="col-span-full text-center py-10">
               Laster produkter...
@@ -167,7 +191,9 @@ function App() {
             </div>
           ) : popularProducts.length > 0 ? (
             popularProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
+              <div key={product.id} className="popular-product-item search-result-item">
+                <ProductCard {...product} />
+              </div>
             ))
           ) : (
             <div className="col-span-full text-center py-10">
