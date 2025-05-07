@@ -1,17 +1,19 @@
-# E-commerce website commissioned by Neas
+# Project has been completed. No further updates will be commited.
+
+## E-commerce website commissioned by Neas
 Neas is an electricity and TV provider in Møre og Romsdal, Norway. [Their official website is here.](https://neas.no/)
 
-## Why?
+### Why?
 Neas got in contact with the teachers in my class, saying they needed a shop website, as they will soon begin to sell electronic products.
 This lead to our teacher annoucing the project to us, and everyone is now making their own version. Our deadline is at the end of April 2025.
 (though i doubt they will actually use any of our projects, this is more to see who they can recruit in the future)
 
-## How?
+### How?
 - React (js)
 - Tailwind CSS
 - Firebase
 
-## What's in here?
+### What's in here?
 Overall it's a pretty feature-rich website. I integrated it with Firebase, which allows me to add products on the fly.
 Speaking of: 
 - There is fully functioning authentication, with separate roles (user, admin).
