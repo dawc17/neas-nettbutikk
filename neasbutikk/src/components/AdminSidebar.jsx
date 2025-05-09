@@ -1,15 +1,11 @@
 import { useState } from "react";
 import {
   FaBox,
-  FaTags,
   FaChartLine,
   FaCog,
-  FaUsers,
   FaClipboardList,
   FaEdit,
   FaPlus,
-  FaTrash,
-  FaImages,
   FaChevronDown,
   FaChevronRight,
   FaSignOutAlt, // Add this import for the logout icon
@@ -24,7 +20,6 @@ function AdminSidebar({ activeSection, onSectionChange }) {
     customers: false,
     settings: false,
   });
-
   const { logout } = useAuth(); // Get logout function from AuthContext
   const navigate = useNavigate(); // Initialize navigate
 
