@@ -1,4 +1,4 @@
-# Project has been completed. No further updates will be commited!!!
+# Project has been completed. No further updates will be commited!!!!
 
 ## E-commerce website commissioned by Neas
 Neas is an electricity and TV provider in Møre og Romsdal, Norway. [Their official website is here.](https://neas.no/)
